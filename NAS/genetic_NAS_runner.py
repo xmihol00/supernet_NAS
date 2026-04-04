@@ -317,6 +317,15 @@ def make_unique_run_dir(output_root: Path) -> Path:
     return run_dir
 
 
+def append_progress_event(run_dir: Path, event: Dict[str, object]) -> None:
+    payload = {
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        **event,
+    }
+    with (run_dir / "progress.jsonl").open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(as_jsonable(payload), ensure_ascii=False) + "\n")
+
+
 def load_initial_population(
     json_path: Path,
     population_size: int,
@@ -491,6 +500,7 @@ def print_population_table(population: Sequence[Dict[str, object]], title: str) 
 
 
 def main() -> None:
+    run_started_at = time.perf_counter()
     args = parse_args()
     set_seed(args.seed)
     rng = random.Random(args.seed)
@@ -502,6 +512,17 @@ def main() -> None:
     log(f"Run directory: {run_dir}")
     with (run_dir / "args.json").open("w", encoding="utf-8") as handle:
         json.dump(vars(args), handle, indent=2)
+    append_progress_event(
+        run_dir,
+        {
+            "event": "run_started",
+            "algorithm": args.algorithm,
+            "generations": args.generations,
+            "population_size": args.population_size,
+            "offspring_per_generation": args.offspring_per_generation,
+            "seed": args.seed,
+        },
+    )
 
     requested_device = torch.device(args.device)
     device = requested_device if (requested_device.type != "cuda" or torch.cuda.is_available()) else torch.device("cpu")
@@ -552,6 +573,13 @@ def main() -> None:
 
     population = load_initial_population(Path(args.initial_population_json), args.population_size)
     log(f"Loaded {len(population)} initial candidates from sampling results.")
+    append_progress_event(
+        run_dir,
+        {
+            "event": "initial_population_loaded",
+            "count": len(population),
+        },
+    )
 
     archive: Dict[str, Dict[str, object]] = {}
     for individual in population:
@@ -592,6 +620,17 @@ def main() -> None:
         }
         population.append(individual)
         archive[key] = individual
+        append_progress_event(
+            run_dir,
+            {
+                "event": "bootstrap_candidate_evaluated",
+                "candidate_id": candidate_id,
+                "compiled": result.compiled,
+                "fitness": result.fitness,
+                "quant_acc1": result.quant_acc1,
+                "population_size": len(population),
+            },
+        )
 
     search_space = build_search_space(supernet)
     if args.algorithm == "baseline_sga":
@@ -657,6 +696,18 @@ def main() -> None:
             }
             offspring_records.append(individual)
             archive[key] = individual
+            append_progress_event(
+                run_dir,
+                {
+                    "event": "offspring_evaluated",
+                    "generation": generation,
+                    "candidate_id": candidate_id,
+                    "compiled": result.compiled,
+                    "fitness": result.fitness,
+                    "quant_acc1": result.quant_acc1,
+                    "elapsed_seconds": elapsed,
+                },
+            )
 
         population = algorithm.select_next_population(
             population=population,
@@ -674,6 +725,16 @@ def main() -> None:
             "offspring_evaluated": len(offspring_records),
         }
         history.append(generation_record)
+        append_progress_event(
+            run_dir,
+            {
+                "event": "generation_completed",
+                "generation": generation,
+                "best_fitness": generation_record["best_fitness"],
+                "population_mean_fitness": generation_record["population_mean_fitness"],
+                "offspring_evaluated": generation_record["offspring_evaluated"],
+            },
+        )
 
         with (run_dir / "history.json").open("w", encoding="utf-8") as handle:
             json.dump(as_jsonable(history), handle, indent=2)
@@ -712,6 +773,16 @@ def main() -> None:
 
     with (run_dir / "summary.json").open("w", encoding="utf-8") as handle:
         json.dump(as_jsonable(summary), handle, indent=2)
+
+    append_progress_event(
+        run_dir,
+        {
+            "event": "run_completed",
+            "best_fitness": summary["best_fitness"],
+            "best_quant_acc1": summary["best_quant_acc1"],
+            "elapsed_seconds": time.perf_counter() - run_started_at,
+        },
+    )
 
     log("Genetic NAS search finished.")
     print(json.dumps(summary, indent=2), flush=True)
