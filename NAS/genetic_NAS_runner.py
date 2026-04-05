@@ -41,16 +41,6 @@ from space_sampling import (
     set_seed,
 )
 
-import safe_gpu
-while True:
-    try:
-        safe_gpu.claim_gpus(1)
-        break
-    except:
-        print("Waiting for free GPU")
-        time.sleep(5)
-        pass
-
 SUPPORTED_IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".bmp", ".webp")
 
 
@@ -97,7 +87,7 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument("--epochs-per-candidate", type=int, default=3)
     parser.add_argument("--train-batch-size", type=int, default=64)
-    parser.add_argument("--eval-batch-size", type=int, default=64)
+    parser.add_argument("--eval-batch-size", type=int, default=50)
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--lr", type=float, default=0.01)
     parser.add_argument("--weight-decay", type=float, default=5e-5)
@@ -112,9 +102,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--seed", type=int, default=42)
 
-    parser.add_argument("--calibration-dir", type=str, default=str(Path(__file__).resolve().parent / "images"))
-    parser.add_argument("--num-calibration-images", type=int, default=50)
-    parser.add_argument("--calibration-batch-size", type=int, default=8)
+    parser.add_argument("--calibration-dir", type=str, default=str(Path(__file__).resolve().parent / "calibration"))
+    parser.add_argument("--num-calibration-images", type=int, default=6*12)
+    parser.add_argument("--calibration-batch-size", type=int, default=12)
     parser.add_argument("--tpc-version", type=str, default="1.0")
     parser.add_argument("--opset-version", type=int, default=15)
     parser.add_argument("--compile-timeout-sec", type=int, default=1800)
@@ -499,6 +489,49 @@ def print_population_table(population: Sequence[Dict[str, object]], title: str) 
         )
 
 
+def candidate_to_json_record(candidate: Dict[str, object]) -> Dict[str, object]:
+    config = candidate.get("config")
+    config_to_dict = getattr(config, "to_dict", None)
+    config_dict = config_to_dict() if callable(config_to_dict) else {}
+    details = candidate.get("details")
+    details_dict = details if isinstance(details, dict) else {}
+
+    fitness_raw = candidate.get("fitness", float("nan"))
+    quant_raw = candidate.get("quant_acc1", float("nan"))
+    birth_raw = candidate.get("birth_id", 0)
+
+    fitness = float(fitness_raw) if isinstance(fitness_raw, (int, float)) else float("nan")
+    quant_acc1 = float(quant_raw) if isinstance(quant_raw, (int, float)) else float("nan")
+    birth_id = int(birth_raw) if isinstance(birth_raw, (int, float)) else 0
+
+    return {
+        "fitness": fitness,
+        "quant_acc1": quant_acc1,
+        "compiled": bool(candidate.get("compiled", False)),
+        "birth_id": birth_id,
+        "source": str(candidate.get("source", "")),
+        "sample_dir": str(candidate.get("sample_dir", "")),
+        "config": config_dict,
+        "candidate_id": str(details_dict.get("candidate_id", "")),
+    }
+
+
+def select_top_candidates(all_records: Sequence[Dict[str, object]], top_k: int = 3) -> List[Dict[str, object]]:
+    compiled_candidates = [item for item in all_records if bool(item.get("compiled", False))]
+    pool = compiled_candidates if compiled_candidates else list(all_records)
+
+    def fitness_key(item: Dict[str, object]) -> float:
+        fitness_raw = item.get("fitness")
+        return float(fitness_raw) if isinstance(fitness_raw, (int, float)) else float("-inf")
+
+    ranked = sorted(
+        pool,
+        key=fitness_key,
+        reverse=True,
+    )
+    return ranked[: max(1, top_k)]
+
+
 def main() -> None:
     run_started_at = time.perf_counter()
     args = parse_args()
@@ -528,6 +561,7 @@ def main() -> None:
     device = requested_device if (requested_device.type != "cuda" or torch.cuda.is_available()) else torch.device("cpu")
     if requested_device.type == "cuda" and device.type != "cuda":
         log("CUDA requested but unavailable; falling back to CPU.")
+    claim_gpu_if_needed(device)
 
     if args.checkpoint:
         state_dict = load_state_dict_for_args(args.checkpoint)
@@ -760,14 +794,46 @@ def main() -> None:
             )
 
     final_best = max(population, key=lambda item: float(item["fitness"]))
+    elapsed_seconds = time.perf_counter() - run_started_at
+    all_records = list(archive.values())
+    compiled_count = sum(1 for item in all_records if bool(item.get("compiled", False)))
+    total_evaluated = len(all_records)
+    top_3_candidates = select_top_candidates(all_records, top_k=3)
+    top_3_payload = [candidate_to_json_record(candidate) for candidate in top_3_candidates]
+
+    with (run_dir / "top_3_architectures.json").open("w", encoding="utf-8") as handle:
+        json.dump(
+            as_jsonable(
+                {
+                    "algorithm": args.algorithm,
+                    "seed": int(args.seed),
+                    "selection_policy": (
+                        "top fitness among compiled candidates, "
+                        "fallback to all candidates if none compiled"
+                    ),
+                    "top_k": 3,
+                    "architectures": top_3_payload,
+                }
+            ),
+            handle,
+            indent=2,
+        )
+
     summary = {
         "algorithm": args.algorithm,
+        "seed": int(args.seed),
         "generations": args.generations,
         "population_size": args.population_size,
         "offspring_per_generation": args.offspring_per_generation,
         "best_fitness": float(final_best["fitness"]),
         "best_quant_acc1": float(final_best["quant_acc1"]),
+        "total_candidates_evaluated": total_evaluated,
+        "compiled_candidates": compiled_count,
+        "compile_success_rate": float(compiled_count / max(1, total_evaluated)),
+        "elapsed_seconds": elapsed_seconds,
         "best_config": final_best["config"].to_dict(),
+        "top_3_architectures_file": str(run_dir / "top_3_architectures.json"),
+        "top_3_architectures": top_3_payload,
         "run_dir": str(run_dir),
     }
 
@@ -780,7 +846,7 @@ def main() -> None:
             "event": "run_completed",
             "best_fitness": summary["best_fitness"],
             "best_quant_acc1": summary["best_quant_acc1"],
-            "elapsed_seconds": time.perf_counter() - run_started_at,
+            "elapsed_seconds": elapsed_seconds,
         },
     )
 

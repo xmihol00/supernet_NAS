@@ -187,9 +187,9 @@ class IMX500ResNetSupernet(nn.Module):
     def __init__(
         self,
         num_classes: int = 1000,
-        resolution_candidates: Sequence[int] = (192, 224, 256),
+        resolution_candidates: Sequence[int] = (192, 224, 256, 288),
         stem_width_candidates: Sequence[int] = (24, 32, 40),
-        stage_depth_candidates: Sequence[Sequence[int]] = ((1, 2, 3), (1, 2, 3, 4), (1, 2, 3, 4, 5), (1, 2, 3)),
+        stage_depth_candidates: Sequence[Sequence[int]] = ((1, 2, 3), (1, 2, 3, 4), (1, 2, 3, 4, 5, 6), (1, 2, 3)),
         stage_width_candidates: Sequence[Sequence[int]] = ((48, 64), (96, 128), (160, 192, 224), (224, 256, 288)),
     ) -> None:
         super().__init__()
@@ -261,6 +261,8 @@ class IMX500ResNetSupernet(nn.Module):
         mode: str = "random",
         target_total_bytes: int | None = None,
         tolerance_ratio: float = 0.25,
+        tolerance_ratio_low: float | None = None,
+        tolerance_ratio_high: float | None = None,
         max_trials: int = 48,
         firmware_bytes: int = 1_572_864,
         activation_bytes: int = 1,
@@ -280,7 +282,16 @@ class IMX500ResNetSupernet(nn.Module):
             self.set_active_subnet(config)
             return config
 
-        tolerance = int(target_total_bytes * tolerance_ratio)
+        if tolerance_ratio_low is None:
+            tolerance_ratio_low = tolerance_ratio
+        if tolerance_ratio_high is None:
+            tolerance_ratio_high = tolerance_ratio
+
+        tolerance_low = int(target_total_bytes * tolerance_ratio_low)
+        tolerance_high = int(target_total_bytes * tolerance_ratio_high)
+        lower_bound = target_total_bytes - tolerance_low
+        upper_bound = target_total_bytes + tolerance_high
+
         best_config = None
         best_distance = float("inf")
 
@@ -292,11 +303,18 @@ class IMX500ResNetSupernet(nn.Module):
                 activation_bytes=activation_bytes,
                 working_memory_factor=working_memory_factor,
             )
-            distance = abs(resources["total_estimated_bytes"] - target_total_bytes)
+            candidate_total = int(resources["total_estimated_bytes"])
+            if candidate_total < lower_bound:
+                distance = float(lower_bound - candidate_total)
+            elif candidate_total > upper_bound:
+                distance = float(candidate_total - upper_bound)
+            else:
+                distance = 0.0
+
             if distance < best_distance:
                 best_distance = distance
                 best_config = candidate
-            if distance <= tolerance:
+            if distance == 0.0:
                 best_config = candidate
                 break
 

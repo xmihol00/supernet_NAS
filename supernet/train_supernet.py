@@ -54,7 +54,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--no-inplace-distill", dest="inplace_distill", action="store_false")
 
     parser.add_argument("--target-total-bytes", type=int, default=8_388_480)
-    parser.add_argument("--target-tolerance-ratio", type=float, default=0.25)
+    parser.add_argument("--target-tolerance-ratio", type=float, default=None)
+    parser.add_argument("--target-tolerance-ratio-low", type=float, default=0.20)
+    parser.add_argument("--target-tolerance-ratio-high", type=float, default=0.35)
     parser.add_argument("--firmware-bytes", type=int, default=1_572_864)
     parser.add_argument("--working-memory-factor", type=float, default=2.0)
 
@@ -263,10 +265,18 @@ def train_one_epoch(
             if args.sandwich_rule and arch_idx == (num_arches - 1):
                 model.sample_subnet(mode="min")
             else:
+                tolerance_ratio_low = args.target_tolerance_ratio_low
+                tolerance_ratio_high = args.target_tolerance_ratio_high
+                if args.target_tolerance_ratio is not None:
+                    tolerance_ratio_low = args.target_tolerance_ratio
+                    tolerance_ratio_high = args.target_tolerance_ratio
+
                 model.sample_subnet(
                     mode="random",
                     target_total_bytes=args.target_total_bytes,
                     tolerance_ratio=args.target_tolerance_ratio,
+                    tolerance_ratio_low=tolerance_ratio_low,
+                    tolerance_ratio_high=tolerance_ratio_high,
                     firmware_bytes=args.firmware_bytes,
                     working_memory_factor=args.working_memory_factor,
                 )
