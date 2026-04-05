@@ -134,6 +134,60 @@ Inside each per-run directory produced by `genetic_NAS_runner.py`, there is also
 
 - `top_3_architectures.json`: top-3 candidates for that run (ranked by fitness among compiled candidates; fallback to all candidates if none compiled), including configs and key metrics.
 
+### Parallel execution layout (new)
+
+`multi_run_nas_experiment.py` now stores artifacts in algorithm-specific subdirectories under the chosen `--output-root`:
+
+- `<output-root>/baseline_sga/...`
+- `<output-root>/regularized_evolution/...`
+
+Each algorithm subdirectory contains its own:
+
+- `run_records.json`, `run_records.csv`
+- `statistics.json`
+- `experiment_summary.json`
+- `visualizations/`
+- `runs_manifest.jsonl`, `experiment_events.jsonl`
+
+The root `<output-root>/` also stores merged artifacts if multiple algorithms are run in one process.
+
+## 10) Two-machine parallel workflow (SGA + Reg. Evolution)
+
+Use the dedicated PBS launchers (one per machine/GPU):
+
+- `sga_multi_run_nas_experiment.pbs`
+- `reg_evo_multi_run_nas_experiment.pbs`
+
+Both are configured to run one algorithm only and keep rich run-level logs/artifacts.
+
+### Merge two independent outputs into one comparison bundle
+
+When both jobs finish (possibly from different machines), run:
+
+```bash
+python NAS/merge_parallel_nas_experiments.py \
+  --sga-dir NAS/<path_to_sga_output>/baseline_sga \
+  --reg-evo-dir NAS/<path_to_reg_evo_output>/regularized_evolution \
+  --output-dir NAS/merged_parallel_comparison
+```
+
+This produces in `NAS/merged_parallel_comparison`:
+
+- merged `run_records.json` + `run_records.csv`
+- merged `statistics.json`
+- merged `experiment_summary.json`
+- `merge_sources.json` (provenance of source runs)
+- comparison `visualizations/*.png`
+
+Then generate publication report from merged results:
+
+```bash
+python NAS/generate_publication_report.py \
+  --experiment-dir NAS/merged_parallel_comparison \
+  --title "Baseline SGA vs Regularized Evolution (Parallel Runs)" \
+  --author "Your Name / Team"
+```
+
 ### Statistical analysis implemented
 
 For each metric (`best_quant_acc1`, `best_fitness`, `compile_success_rate`, `elapsed_seconds`, `total_candidates_evaluated`, `compiled_candidates`):

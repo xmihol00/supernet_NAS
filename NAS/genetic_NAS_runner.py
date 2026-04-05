@@ -31,7 +31,6 @@ from space_sampling import (
     RepresentativeDataGenerator,
     as_jsonable,
     build_static_subnet_model,
-    claim_gpu_if_needed,
     evaluate_onnx,
     export_to_onnx,
     load_supernet,
@@ -40,6 +39,16 @@ from space_sampling import (
     run_imx500_compile,
     set_seed,
 )
+
+import safe_gpu
+while True:
+    try:
+        safe_gpu.claim_gpus(1)
+        break
+    except:
+        print("Waiting for free GPU")
+        time.sleep(5)
+        pass
 
 SUPPORTED_IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".bmp", ".webp")
 
@@ -561,7 +570,6 @@ def main() -> None:
     device = requested_device if (requested_device.type != "cuda" or torch.cuda.is_available()) else torch.device("cpu")
     if requested_device.type == "cuda" and device.type != "cuda":
         log("CUDA requested but unavailable; falling back to CPU.")
-    claim_gpu_if_needed(device)
 
     if args.checkpoint:
         state_dict = load_state_dict_for_args(args.checkpoint)

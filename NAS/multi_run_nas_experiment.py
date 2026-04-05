@@ -466,8 +466,8 @@ def parse_args() -> argparse.Namespace:
         default="/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
     )
 
-    parser.add_argument("--generations", type=int, default=10)
-    parser.add_argument("--population-size", type=int, default=25)
+    parser.add_argument("--generations", type=int, default=25)
+    parser.add_argument("--population-size", type=int, default=20)
     parser.add_argument("--offspring-per-generation", type=int, default=8)
     parser.add_argument("--epochs-per-candidate", type=int, default=3)
 
@@ -533,17 +533,46 @@ def main() -> None:
         "args": {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(args).items()},
         "working_directory": os.getcwd(),
         "python_executable": sys.executable,
+        "algorithm_output_layout": "<output-root>/<algorithm>/...",
     }
     with (output_root / "experiment_config.json").open("w", encoding="utf-8") as handle:
         json.dump(config_payload, handle, indent=2)
 
-    manifest_path = output_root / "runs_manifest.jsonl"
-    event_log_path = output_root / "experiment_events.jsonl"
+    metric_names = [
+        "best_quant_acc1",
+        "best_fitness",
+        "compile_success_rate",
+        "elapsed_seconds",
+        "total_candidates_evaluated",
+        "compiled_candidates",
+    ]
 
-    run_records: List[Dict[str, object]] = []
-
+    all_run_records: List[Dict[str, object]] = []
+    algorithm_output_dirs: Dict[str, str] = {}
     launch_order = 0
+
     for algorithm_index, algorithm in enumerate(args.algorithms):
+        algorithm_output_root = output_root / algorithm
+        algorithm_output_root.mkdir(parents=True, exist_ok=True)
+        algorithm_output_dirs[algorithm] = str(algorithm_output_root)
+
+        manifest_path = algorithm_output_root / "runs_manifest.jsonl"
+        event_log_path = algorithm_output_root / "experiment_events.jsonl"
+        run_records: List[Dict[str, object]] = []
+        latest_algorithm_statistics: Dict[str, object] = {"scipy_available": False}
+
+        algorithm_config = {
+            "timestamp": utc_now(),
+            "algorithm": algorithm,
+            "args": {k: (str(v) if isinstance(v, Path) else v) for k, v in vars(args).items()},
+            "working_directory": os.getcwd(),
+            "python_executable": sys.executable,
+        }
+        with (algorithm_output_root / "experiment_config.json").open("w", encoding="utf-8") as handle:
+            json.dump(algorithm_config, handle, indent=2)
+
+        logger.info("Starting algorithm block: %s | output=%s", algorithm, algorithm_output_root)
+
         for run_index in range(args.runs_per_algorithm):
             launch_order += 1
             seed = args.base_seed + algorithm_index * 100000 + run_index * args.seed_stride
@@ -551,7 +580,7 @@ def main() -> None:
             run_record = run_single_search(
                 args=args,
                 logger=logger,
-                output_root=output_root,
+                output_root=algorithm_output_root,
                 algorithm=algorithm,
                 run_index=run_index,
                 seed=seed,
@@ -560,31 +589,25 @@ def main() -> None:
             )
             run_record["launch_order"] = launch_order
             run_records.append(run_record)
+            all_run_records.append(run_record)
 
-            metric_names = [
-                "best_quant_acc1",
-                "best_fitness",
-                "compile_success_rate",
-                "elapsed_seconds",
-                "total_candidates_evaluated",
-                "compiled_candidates",
-            ]
             statistics_payload = build_full_statistics(
                 run_records=run_records,
                 metric_names=metric_names,
-                algorithms=args.algorithms,
+                algorithms=[algorithm],
                 bootstrap_samples=args.bootstrap_samples,
                 confidence=args.confidence,
                 random_seed=args.base_seed,
             )
+            latest_algorithm_statistics = statistics_payload
 
-            write_run_records_json(output_root / "run_records.json", run_records)
-            write_run_records_csv(output_root / "run_records.csv", run_records)
-            with (output_root / "statistics.json").open("w", encoding="utf-8") as handle:
+            write_run_records_json(algorithm_output_root / "run_records.json", run_records)
+            write_run_records_csv(algorithm_output_root / "run_records.csv", run_records)
+            with (algorithm_output_root / "statistics.json").open("w", encoding="utf-8") as handle:
                 json.dump(statistics_payload, handle, indent=2)
 
             render_experiment_visualizations(
-                output_root=output_root,
+                output_root=algorithm_output_root,
                 run_records=run_records,
                 statistics_payload=statistics_payload,
             )
@@ -598,24 +621,28 @@ def main() -> None:
                     run_record.get("return_code"),
                 )
                 if not args.continue_on_failure:
-                    logger.error("Stopping because --continue-on-failure was not set.")
+                    logger.error("Stopping algorithm %s because --continue-on-failure was not set.", algorithm)
                     break
 
-        if run_records and run_records[-1].get("status") != "success" and not args.continue_on_failure:
-            break
+        algorithm_successful = sum(1 for item in run_records if str(item.get("status", "")) == "success")
+        algorithm_summary = {
+            "timestamp": utc_now(),
+            "algorithm": algorithm,
+            "total_runs_requested": args.runs_per_algorithm,
+            "total_runs_finished": len(run_records),
+            "successful_runs": algorithm_successful,
+            "failed_runs": len(run_records) - algorithm_successful,
+            "output_root": str(algorithm_output_root),
+            "scipy_available": bool(latest_algorithm_statistics.get("scipy_available", False)),
+        }
+        with (algorithm_output_root / "experiment_summary.json").open("w", encoding="utf-8") as handle:
+            json.dump(algorithm_summary, handle, indent=2)
 
-    final_metric_names = [
-        "best_quant_acc1",
-        "best_fitness",
-        "compile_success_rate",
-        "elapsed_seconds",
-        "total_candidates_evaluated",
-        "compiled_candidates",
-    ]
+    merged_algorithms = sorted({str(item.get("algorithm", "")) for item in all_run_records if item.get("algorithm")})
     final_statistics = build_full_statistics(
-        run_records=run_records,
-        metric_names=final_metric_names,
-        algorithms=args.algorithms,
+        run_records=all_run_records,
+        metric_names=metric_names,
+        algorithms=merged_algorithms,
         bootstrap_samples=args.bootstrap_samples,
         confidence=args.confidence,
         random_seed=args.base_seed,
@@ -623,27 +650,31 @@ def main() -> None:
     with (output_root / "statistics.json").open("w", encoding="utf-8") as handle:
         json.dump(final_statistics, handle, indent=2)
 
+    write_run_records_json(output_root / "run_records.json", all_run_records)
+    write_run_records_csv(output_root / "run_records.csv", all_run_records)
+
     render_experiment_visualizations(
         output_root=output_root,
-        run_records=run_records,
+        run_records=all_run_records,
         statistics_payload=final_statistics,
     )
 
-    successful = sum(1 for item in run_records if str(item.get("status", "")) == "success")
+    successful = sum(1 for item in all_run_records if str(item.get("status", "")) == "success")
     summary = {
         "timestamp": utc_now(),
         "total_runs_requested": len(args.algorithms) * args.runs_per_algorithm,
-        "total_runs_finished": len(run_records),
+        "total_runs_finished": len(all_run_records),
         "successful_runs": successful,
-        "failed_runs": len(run_records) - successful,
+        "failed_runs": len(all_run_records) - successful,
         "algorithms": args.algorithms,
         "output_root": str(output_root),
+        "algorithm_output_dirs": algorithm_output_dirs,
         "scipy_available": bool(final_statistics.get("scipy_available", False)),
     }
     with (output_root / "experiment_summary.json").open("w", encoding="utf-8") as handle:
         json.dump(summary, handle, indent=2)
 
-    logger.info("Experiment finished. Successful runs: %d/%d", successful, len(run_records))
+    logger.info("Experiment finished. Successful runs: %d/%d", successful, len(all_run_records))
     logger.info("Output directory: %s", output_root)
 
 

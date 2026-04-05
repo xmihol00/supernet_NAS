@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cd "/homes/eva/xm/xmihol00"
+source setup.sh
+conda activate cnnSearch
+cd "/mnt/matylda5/xmihol00/EUD/NAS"
+
+current_time=$(date +"%Y-%m-%d_%H-%M-%S")
+echo "SGA multi-run NAS experiment started at: $current_time"
+
+python -u multi_run_nas_experiment.py \
+  --algorithms baseline_sga \
+  --runs-per-algorithm 10 \
+  --base-seed 1200 \
+  --seed-stride 97 \
+  --continue-on-failure \
+  --output-root "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_$current_time" \
+  > ~/sga_multi_run_nas_$current_time.log 2>&1
+
+echo "SGA multi-run NAS experiment completed"
