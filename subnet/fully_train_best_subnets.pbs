@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cd "/homes/eva/xm/xmihol00"
+source setup.sh
+conda activate cnnSearch
+cd "/mnt/matylda5/xmihol00/EUD/subnet"
+
+current_time=$(date +"%Y-%m-%d_%H-%M-%S")
+echo "Full subnet training started at: $current_time"
+
+python -u fully_train_best_subnets.py \
+  --run-records-json "/mnt/matylda5/xmihol00/EUD/NAS/old_multi_run_parallel/reg_evo_2026-04-05_17-40-37/run_records.json" \
+  --top-k 3 \
+  --checkpoint "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt" \
+  --dataset-path "/mnt/matylda5/xmihol00/datasets/imagenet/train" \
+  --num-classes 1000 \
+  --epochs 120 \
+  --early-stop-patience 10 \
+  --batch-size 96 \
+  --num-workers 8 \
+  --output-dir "/mnt/matylda5/xmihol00/EUD/subnet/runs_full_subnet_training/full_train_$current_time" \
+  > ~/fully_train_best_subnets_$current_time.log 2>&1
+
+echo "Full subnet training completed"

@@ -277,7 +277,7 @@ def run_single_search(
     manifest_path: Path,
     event_log_path: Path,
 ) -> Dict[str, object]:
-    run_workspace = output_root / "raw_runs" / algorithm / f"run_{run_index:03d}_seed_{seed}"
+    run_workspace = output_root / "raw_runs" / f"run_{run_index:03d}_seed_{seed}"
     run_workspace.mkdir(parents=True, exist_ok=True)
 
     command = build_runner_command(args, algorithm=algorithm, seed=seed, run_workspace=run_workspace)
@@ -455,7 +455,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed-stride", type=int, default=97)
 
     parser.add_argument("--output-root", type=Path, default=Path(__file__).resolve().parent / "multi_run_experiments")
-    parser.add_argument("--poll-interval-sec", type=float, default=20.0)
+    parser.add_argument("--poll-interval-sec", type=float, default=100.0)
     parser.add_argument("--continue-on-failure", action="store_true")
 
     parser.add_argument("--train-dataset", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/subset/train")
@@ -467,7 +467,7 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument("--generations", type=int, default=25)
-    parser.add_argument("--population-size", type=int, default=20)
+    parser.add_argument("--population-size", type=int, default=25)
     parser.add_argument("--offspring-per-generation", type=int, default=8)
     parser.add_argument("--epochs-per-candidate", type=int, default=3)
 
@@ -552,7 +552,7 @@ def main() -> None:
     launch_order = 0
 
     for algorithm_index, algorithm in enumerate(args.algorithms):
-        algorithm_output_root = output_root / algorithm
+        algorithm_output_root = output_root 
         algorithm_output_root.mkdir(parents=True, exist_ok=True)
         algorithm_output_dirs[algorithm] = str(algorithm_output_root)
 

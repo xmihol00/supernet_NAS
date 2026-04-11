@@ -592,43 +592,75 @@ def evaluate_onnx(
     mean = np.array([0.485, 0.456, 0.406], dtype=np.float32).reshape(1, 1, 3)
     std = np.array([0.229, 0.224, 0.225], dtype=np.float32).reshape(1, 1, 3)
 
-    total = 0
-    correct = 0
-    num_batches = max(1, (len(dataset_entries) + max(1, batch_size) - 1) // max(1, batch_size))
+    current_batch_size = max(1, batch_size)
+    while True:
+        total = 0
+        correct = 0
+        num_batches = max(1, (len(dataset_entries) + current_batch_size - 1) // current_batch_size)
 
-    for batch_idx, batch_entries in enumerate(batched(dataset_entries, batch_size), start=1):
-        image_tensors = [
-            preprocess_image(
-                image_path=entry.image_path,
-                input_height=input_resolution,
-                input_width=input_resolution,
-                mean=mean,
-                std=std,
-            )
-            for entry in batch_entries
-        ]
-        inputs = np.stack(image_tensors, axis=0).astype(np.float32)
-        logits = session.run([output_name], {input_name: inputs})[0]
-        logits = np.asarray(logits).reshape(len(batch_entries), -1)
-        if logits.shape[1] > selected_num_classes:
-            logits = logits[:, :selected_num_classes]
-        predictions = np.argmax(logits, axis=1)
+        try:
+            for batch_idx, batch_entries in enumerate(batched(dataset_entries, current_batch_size), start=1):
+                image_tensors = [
+                    preprocess_image(
+                        image_path=entry.image_path,
+                        input_height=input_resolution,
+                        input_width=input_resolution,
+                        mean=mean,
+                        std=std,
+                    )
+                    for entry in batch_entries
+                ]
+                inputs = np.stack(image_tensors, axis=0).astype(np.float32)
+                logits = session.run([output_name], {input_name: inputs})[0]
+                logits = np.asarray(logits).reshape(len(batch_entries), -1)
+                if logits.shape[1] > selected_num_classes:
+                    logits = logits[:, :selected_num_classes]
+                predictions = np.argmax(logits, axis=1)
 
-        for entry, pred in zip(batch_entries, predictions):
-            total += 1
-            if int(pred) == entry.class_index:
-                correct += 1
+                for entry, pred in zip(batch_entries, predictions):
+                    total += 1
+                    if int(pred) == entry.class_index:
+                        correct += 1
 
-        if eval_log_every > 0 and (batch_idx % eval_log_every == 0 or batch_idx == num_batches):
-            partial_acc = (100.0 * correct / total) if total else 0.0
+                if eval_log_every > 0 and (batch_idx % eval_log_every == 0 or batch_idx == num_batches):
+                    partial_acc = (100.0 * correct / total) if total else 0.0
+                    log(
+                        f"Eval progress {onnx_path.name}: batch {batch_idx}/{num_batches}, "
+                        f"images={total}/{len(dataset_entries)}, acc1={partial_acc:.2f}% "
+                        f"(batch_size={current_batch_size})"
+                    )
+
+            acc1 = (100.0 * correct / total) if total else 0.0
+            log_duration(f"Evaluation ({onnx_path.name})", eval_start)
+            return {
+                "acc1": acc1,
+                "correct": float(correct),
+                "total": float(total),
+                "evaluated": 1.0,
+                "used_batch_size": float(current_batch_size),
+            }
+        except Exception as exc:
+            if current_batch_size > 1:
+                next_batch_size = max(1, current_batch_size // 2)
+                log(
+                    f"Evaluation failed for {onnx_path.name} with batch_size={current_batch_size}: {exc}. "
+                    f"Retrying with batch_size={next_batch_size}."
+                )
+                current_batch_size = next_batch_size
+                continue
+
             log(
-                f"Eval progress {onnx_path.name}: batch {batch_idx}/{num_batches}, "
-                f"images={total}/{len(dataset_entries)}, acc1={partial_acc:.2f}%"
+                f"Evaluation failed for {onnx_path.name} even with batch_size=1: {exc}. "
+                "Returning zero metrics and continuing run."
             )
-
-    acc1 = (100.0 * correct / total) if total else 0.0
-    log_duration(f"Evaluation ({onnx_path.name})", eval_start)
-    return {"acc1": acc1, "correct": float(correct), "total": float(total)}
+            log_duration(f"Evaluation ({onnx_path.name})", eval_start)
+            return {
+                "acc1": 0.0,
+                "correct": 0.0,
+                "total": 0.0,
+                "evaluated": 0.0,
+                "used_batch_size": float(current_batch_size),
+            }
 
 
 def as_jsonable(obj: object) -> object:

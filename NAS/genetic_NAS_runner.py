@@ -451,15 +451,29 @@ def evaluate_candidate(
     quant_eval = {"acc1": 0.0, "correct": 0.0, "total": 0.0}
     fitness = -1e9
     if compiled:
-        quant_eval = evaluate_onnx(
-            onnx_path=quant_onnx,
-            dataset_entries=eval_entries,
-            input_resolution=config.resolution,
-            batch_size=args.eval_batch_size,
-            selected_num_classes=train_num_classes,
-            eval_log_every=args.eval_log_every,
-        )
-        fitness = float(quant_eval["acc1"])
+        try:
+            quant_eval = evaluate_onnx(
+                onnx_path=quant_onnx,
+                dataset_entries=eval_entries,
+                input_resolution=config.resolution,
+                batch_size=args.eval_batch_size,
+                selected_num_classes=train_num_classes,
+                eval_log_every=args.eval_log_every,
+            )
+            evaluated = bool(float(quant_eval.get("evaluated", 1.0)) > 0.0)
+            if evaluated:
+                fitness = float(quant_eval["acc1"])
+            else:
+                log(
+                    f"[{candidate_id}] ONNX evaluation did not complete successfully; "
+                    "treating candidate as not evaluated (compile-failure-like fitness)."
+                )
+        except Exception as exc:
+            quant_eval = {"acc1": 0.0, "correct": 0.0, "total": 0.0, "evaluated": 0.0}
+            log(
+                f"[{candidate_id}] ONNX evaluation crashed unexpectedly: {exc}. "
+                "Treating candidate as not evaluated and continuing run."
+            )
 
     details = {
         "candidate_id": candidate_id,
