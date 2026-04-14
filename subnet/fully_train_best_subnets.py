@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import json
 import logging
@@ -136,16 +137,24 @@ def parse_args() -> argparse.Namespace:
 	parser.add_argument("--val-split", type=float, default=0.15)
 
 	parser.add_argument("--epochs", type=int, default=120)
-	parser.add_argument("--early-stop-patience", type=int, default=10)
+	parser.add_argument("--early-stop-patience", type=int, default=5)
 	parser.add_argument("--batch-size", type=int, default=96)
 	parser.add_argument("--num-workers", type=int, default=8)
-	parser.add_argument("--lr", type=float, default=0.1)
+	parser.add_argument("--lr", type=float, default=0.02)
+	parser.add_argument("--min-lr", type=float, default=1e-4)
 	parser.add_argument("--weight-decay", type=float, default=5e-5)
 	parser.add_argument("--momentum", type=float, default=0.9)
 	parser.add_argument("--label-smoothing", type=float, default=0.1)
 	parser.add_argument("--grad-clip", type=float, default=1.0)
 	parser.add_argument("--warmup-epochs", type=int, default=5)
 	parser.add_argument("--mixup-alpha", type=float, default=0.2)
+	parser.add_argument("--mixup-prob", type=float, default=0.5)
+	parser.add_argument("--cutmix-alpha", type=float, default=1.0)
+	parser.add_argument("--cutmix-prob", type=float, default=0.2)
+	parser.add_argument("--mix-reg-off-epoch", type=int, default=0)
+	parser.add_argument("--freeze-backbone-epochs", type=int, default=1)
+	parser.add_argument("--ema-decay", type=float, default=0.9998)
+	parser.add_argument("--randaugment-magnitude", type=int, default=7)
 
 	parser.add_argument("--checkpoint", type=str, default="/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt")
 	parser.add_argument("--seed", type=int, default=42)
@@ -274,12 +283,18 @@ def create_loaders(args: argparse.Namespace, max_resolution: int) -> Tuple[DataL
 
 	train_transform = transforms.Compose(
 		[
-			transforms.RandomResizedCrop(max_resolution, scale=(0.08, 1.0), interpolation=transforms.InterpolationMode.BILINEAR),
+			transforms.RandomResizedCrop(
+				max_resolution,
+				scale=(0.2, 1.0),
+				ratio=(0.75, 1.3333333333),
+				interpolation=transforms.InterpolationMode.BILINEAR,
+			),
 			transforms.RandomHorizontalFlip(),
-			transforms.AutoAugment(policy=transforms.AutoAugmentPolicy.IMAGENET),
+			transforms.RandAugment(num_ops=2, magnitude=args.randaugment_magnitude),
+			transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.05),
 			transforms.ToTensor(),
 			normalize,
-			transforms.RandomErasing(p=0.25, scale=(0.02, 0.2), ratio=(0.3, 3.3)),
+			transforms.RandomErasing(p=0.15, scale=(0.02, 0.12), ratio=(0.3, 3.3)),
 		]
 	)
 
@@ -333,21 +348,90 @@ def accuracy_topk(logits: torch.Tensor, target: torch.Tensor, topk: Tuple[int, .
 	return result
 
 
-def cosine_with_warmup(step: int, total_steps: int, warmup_steps: int, base_lr: float) -> float:
+def cosine_with_warmup(step: int, total_steps: int, warmup_steps: int, base_lr: float, min_lr: float) -> float:
 	if step < warmup_steps:
-		return base_lr * float(step + 1) / float(max(1, warmup_steps))
+		warmup_lr = base_lr * float(step + 1) / float(max(1, warmup_steps))
+		return max(min_lr, warmup_lr)
 	progress = float(step - warmup_steps) / float(max(1, total_steps - warmup_steps))
-	return base_lr * 0.5 * (1.0 + math.cos(math.pi * progress))
+	return min_lr + (base_lr - min_lr) * 0.5 * (1.0 + math.cos(math.pi * progress))
 
 
-def apply_mixup(images: torch.Tensor, target: torch.Tensor, alpha: float) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, float]:
-	if alpha <= 0.0:
-		return images, target, target, 1.0
-	lam = float(np.random.beta(alpha, alpha))
-	index = torch.randperm(images.size(0), device=images.device)
-	mixed_images = lam * images + (1.0 - lam) * images[index]
-	target_a, target_b = target, target[index]
-	return mixed_images, target_a, target_b, lam
+def _rand_bbox(size: torch.Size, lam: float) -> Tuple[int, int, int, int]:
+	_, _, h, w = size
+	cut_ratio = math.sqrt(max(0.0, 1.0 - lam))
+	cut_w = int(w * cut_ratio)
+	cut_h = int(h * cut_ratio)
+
+	cx = np.random.randint(0, w)
+	cy = np.random.randint(0, h)
+
+	x1 = int(np.clip(cx - cut_w // 2, 0, w))
+	y1 = int(np.clip(cy - cut_h // 2, 0, h))
+	x2 = int(np.clip(cx + cut_w // 2, 0, w))
+	y2 = int(np.clip(cy + cut_h // 2, 0, h))
+	return x1, y1, x2, y2
+
+
+def apply_batch_regularization(
+	images: torch.Tensor,
+	target: torch.Tensor,
+	args: argparse.Namespace,
+	epoch: int,
+) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, float, str]:
+	if args.mix_reg_off_epoch > 0 and epoch >= args.mix_reg_off_epoch:
+		return images, target, target, 1.0, "none"
+
+	apply_cutmix = args.cutmix_alpha > 0.0 and random.random() < args.cutmix_prob
+	if apply_cutmix:
+		lam = float(np.random.beta(args.cutmix_alpha, args.cutmix_alpha))
+		index = torch.randperm(images.size(0), device=images.device)
+		target_a, target_b = target, target[index]
+		x1, y1, x2, y2 = _rand_bbox(images.size(), lam)
+		images[:, :, y1:y2, x1:x2] = images[index, :, y1:y2, x1:x2]
+		box_area = float((x2 - x1) * (y2 - y1))
+		lam = 1.0 - box_area / float(images.size(-1) * images.size(-2))
+		return images, target_a, target_b, lam, "cutmix"
+
+	apply_mixup = args.mixup_alpha > 0.0 and random.random() < args.mixup_prob
+	if apply_mixup:
+		lam = float(np.random.beta(args.mixup_alpha, args.mixup_alpha))
+		index = torch.randperm(images.size(0), device=images.device)
+		mixed_images = lam * images + (1.0 - lam) * images[index]
+		target_a, target_b = target, target[index]
+		return mixed_images, target_a, target_b, lam, "mixup"
+
+	return images, target, target, 1.0, "none"
+
+
+def set_backbone_trainable(model: StaticSubnetModel, trainable: bool) -> None:
+	for parameter in model.stem_conv.parameters():
+		parameter.requires_grad = trainable
+	for parameter in model.stem_bn.parameters():
+		parameter.requires_grad = trainable
+	for stage in model.stages:
+		for parameter in stage.parameters():
+			parameter.requires_grad = trainable
+	for parameter in model.classifier.parameters():
+		parameter.requires_grad = True
+
+
+class ModelEMA:
+	def __init__(self, model: nn.Module, decay: float) -> None:
+		self.decay = decay
+		self.ema = copy.deepcopy(model).eval()
+		for parameter in self.ema.parameters():
+			parameter.requires_grad_(False)
+
+	@torch.no_grad()
+	def update(self, model: nn.Module) -> None:
+		ema_state = self.ema.state_dict()
+		model_state = model.state_dict()
+		for key, ema_value in ema_state.items():
+			model_value = model_state[key].detach()
+			if torch.is_floating_point(ema_value):
+				ema_value.mul_(self.decay).add_(model_value, alpha=(1.0 - self.decay))
+			else:
+				ema_value.copy_(model_value)
 
 
 def train_one_epoch(
@@ -359,6 +443,7 @@ def train_one_epoch(
 	scaler: torch.cuda.amp.GradScaler,
 	args: argparse.Namespace,
 	device: torch.device,
+	ema: ModelEMA | None,
 	logger: logging.Logger,
 ) -> Dict[str, float]:
 	model.train()
@@ -369,17 +454,19 @@ def train_one_epoch(
 	loss_meter = 0.0
 	acc1_meter = 0.0
 	acc5_meter = 0.0
+	lr = args.lr
+	reg_mode = "none"
 
 	for batch_idx, (images, target) in enumerate(train_loader):
 		global_step = epoch * num_steps + batch_idx
-		lr = cosine_with_warmup(global_step, total_steps, warmup_steps, args.lr)
+		lr = cosine_with_warmup(global_step, total_steps, warmup_steps, args.lr, args.min_lr)
 		for group in optimizer.param_groups:
 			group["lr"] = lr
 
 		images = images.to(device, non_blocking=True)
 		target = target.to(device, non_blocking=True)
 
-		mixed_images, target_a, target_b, lam = apply_mixup(images, target, args.mixup_alpha)
+		mixed_images, target_a, target_b, lam, reg_mode = apply_batch_regularization(images, target, args, epoch)
 
 		optimizer.zero_grad(set_to_none=True)
 		with torch.autocast(device_type=device.type, enabled=args.amp and device.type == "cuda"):
@@ -397,6 +484,8 @@ def train_one_epoch(
 
 		scaler.step(optimizer)
 		scaler.update()
+		if ema is not None:
+			ema.update(model)
 
 		with torch.no_grad():
 			metrics = accuracy_topk(logits, target, topk=(1, 5))
@@ -409,13 +498,17 @@ def train_one_epoch(
 		"loss": loss_meter / max(1, num_steps),
 		"acc1": acc1_meter / max(1, num_steps),
 		"acc5": acc5_meter / max(1, num_steps),
+		"last_lr": lr,
+		"reg_mode": reg_mode,
 	}
 	logger.info(
-		"epoch=%d train loss=%.5f acc1=%.3f acc5=%.3f",
+		"epoch=%d train loss=%.5f acc1=%.3f acc5=%.3f lr=%.6f reg=%s",
 		epoch,
 		stats["loss"],
 		stats["acc1"],
 		stats["acc5"],
+		stats["last_lr"],
+		stats["reg_mode"],
 	)
 	return stats
 
@@ -428,6 +521,7 @@ def evaluate(
 	criterion: nn.Module,
 	device: torch.device,
 	logger: logging.Logger,
+	prefix: str = "val",
 ) -> Dict[str, float]:
 	model.eval()
 
@@ -455,8 +549,9 @@ def evaluate(
 		"acc5": acc5_meter / max(1, steps),
 	}
 	logger.info(
-		"epoch=%d val loss=%.5f acc1=%.3f acc5=%.3f",
+		"epoch=%d %s loss=%.5f acc1=%.3f acc5=%.3f",
 		epoch,
+		prefix,
 		stats["loss"],
 		stats["acc1"],
 		stats["acc5"],
@@ -493,13 +588,16 @@ def update_plots(history: List[Dict[str, Any]], out_png: Path) -> None:
 	epochs = [int(record["epoch"]) for record in history]
 	train_loss = [float(record["train"]["loss"]) for record in history]
 	val_loss = [float(record["val"]["loss"]) for record in history]
+	val_ema_loss = [float(record.get("val_ema", {}).get("loss", record["val"]["loss"])) for record in history]
 	train_acc1 = [float(record["train"]["acc1"]) for record in history]
 	val_acc1 = [float(record["val"]["acc1"]) for record in history]
+	val_ema_acc1 = [float(record.get("val_ema", {}).get("acc1", record["val"]["acc1"])) for record in history]
 
 	fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
 	axes[0].plot(epochs, train_loss, label="train_loss", color="tab:blue")
 	axes[0].plot(epochs, val_loss, label="val_loss", color="tab:orange")
+	axes[0].plot(epochs, val_ema_loss, label="val_ema_loss", color="tab:purple")
 	axes[0].set_xlabel("Epoch")
 	axes[0].set_ylabel("Loss")
 	axes[0].set_title("Loss")
@@ -508,6 +606,7 @@ def update_plots(history: List[Dict[str, Any]], out_png: Path) -> None:
 
 	axes[1].plot(epochs, train_acc1, label="train_acc1", color="tab:green")
 	axes[1].plot(epochs, val_acc1, label="val_acc1", color="tab:red")
+	axes[1].plot(epochs, val_ema_acc1, label="val_ema_acc1", color="tab:brown")
 	axes[1].set_xlabel("Epoch")
 	axes[1].set_ylabel("Top-1 Accuracy (%)")
 	axes[1].set_title("Accuracy")
@@ -526,15 +625,35 @@ def _try_load_json(path: Path) -> object:
 
 
 def _as_int(value: object, default: int = -1) -> int:
-	try:
+	if isinstance(value, bool):
 		return int(value)
+	if isinstance(value, int):
+		return value
+	if isinstance(value, float):
+		return int(value)
+	if isinstance(value, str):
+		try:
+			return int(value)
+		except ValueError:
+			return default
+	try:
+		return int(str(value))
 	except (TypeError, ValueError):
 		return default
 
 
 def _as_float(value: object, default: float = 0.0) -> float:
-	try:
+	if isinstance(value, bool):
 		return float(value)
+	if isinstance(value, (int, float)):
+		return float(value)
+	if isinstance(value, str):
+		try:
+			return float(value)
+		except ValueError:
+			return default
+	try:
+		return float(str(value))
 	except (TypeError, ValueError):
 		return default
 
@@ -695,11 +814,26 @@ def train_single_architecture(
 		nesterov=True,
 	)
 	scaler = torch.cuda.amp.GradScaler(enabled=args.amp and device.type == "cuda")
+	ema = ModelEMA(model, decay=args.ema_decay)
 
 	history: List[Dict[str, Any]] = []
 	metrics_csv = run_dir / "metrics.csv"
 	with metrics_csv.open("w", encoding="utf-8", newline="") as handle:
-		writer = csv.DictWriter(handle, fieldnames=["epoch", "train_loss", "train_acc1", "train_acc5", "val_loss", "val_acc1", "val_acc5"])
+		writer = csv.DictWriter(
+			handle,
+			fieldnames=[
+				"epoch",
+				"train_loss",
+				"train_acc1",
+				"train_acc5",
+				"val_loss",
+				"val_acc1",
+				"val_acc5",
+				"val_ema_loss",
+				"val_ema_acc1",
+				"val_ema_acc5",
+			],
+		)
 		writer.writeheader()
 
 	best_acc1 = -1.0
@@ -707,13 +841,20 @@ def train_single_architecture(
 	epochs_without_improvement = 0
 
 	for epoch in range(args.epochs):
-		train_stats = train_one_epoch(epoch, model, train_loader, optimizer, criterion, scaler, args, device, logger)
-		val_stats = evaluate(epoch, model, val_loader, criterion, device, logger)
+		backbone_trainable = epoch >= args.freeze_backbone_epochs
+		set_backbone_trainable(cast(StaticSubnetModel, model), trainable=backbone_trainable)
+		logger.info("epoch=%d backbone_trainable=%s", epoch, str(backbone_trainable).lower())
+
+		train_stats = train_one_epoch(epoch, model, train_loader, optimizer, criterion, scaler, args, device, ema, logger)
+		val_stats = evaluate(epoch, model, val_loader, criterion, device, logger, prefix="val")
+		ema_val_stats = evaluate(epoch, ema.ema, val_loader, criterion, device, logger, prefix="val_ema")
+		selection_stats = ema_val_stats
 
 		record = {
 			"epoch": epoch,
 			"train": train_stats,
 			"val": val_stats,
+			"val_ema": ema_val_stats,
 		}
 		history.append(record)
 
@@ -721,7 +862,21 @@ def train_single_architecture(
 			json.dump(history, handle, indent=2)
 
 		with metrics_csv.open("a", encoding="utf-8", newline="") as handle:
-			writer = csv.DictWriter(handle, fieldnames=["epoch", "train_loss", "train_acc1", "train_acc5", "val_loss", "val_acc1", "val_acc5"])
+			writer = csv.DictWriter(
+				handle,
+				fieldnames=[
+					"epoch",
+					"train_loss",
+					"train_acc1",
+					"train_acc5",
+					"val_loss",
+					"val_acc1",
+					"val_acc5",
+					"val_ema_loss",
+					"val_ema_acc1",
+					"val_ema_acc5",
+				],
+			)
 			writer.writerow(
 				{
 					"epoch": epoch,
@@ -731,18 +886,22 @@ def train_single_architecture(
 					"val_loss": val_stats["loss"],
 					"val_acc1": val_stats["acc1"],
 					"val_acc5": val_stats["acc5"],
+					"val_ema_loss": ema_val_stats["loss"],
+					"val_ema_acc1": ema_val_stats["acc1"],
+					"val_ema_acc5": ema_val_stats["acc5"],
 				}
 			)
 
 		if args.plot_every > 0 and (epoch % args.plot_every == 0 or epoch == args.epochs - 1):
 			update_plots(history, run_dir / "training_curves.png")
 
-		if val_stats["acc1"] > best_acc1:
-			best_acc1 = val_stats["acc1"]
+		if selection_stats["acc1"] > best_acc1:
+			best_acc1 = selection_stats["acc1"]
 			best_epoch = epoch
 			epochs_without_improvement = 0
 			save_checkpoint(run_dir / "best.pt", epoch, model, optimizer, scaler, best_acc1, arch.config, args)
-			logger.info("Saved new best checkpoint at epoch %d with val_acc1=%.4f", epoch, best_acc1)
+			torch.save({"epoch": epoch, "model": ema.ema.state_dict(), "best_acc1": best_acc1}, run_dir / "best_ema.pt")
+			logger.info("Saved new best checkpoint at epoch %d with val_ema_acc1=%.4f", epoch, best_acc1)
 		else:
 			epochs_without_improvement += 1
 
