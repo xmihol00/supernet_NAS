@@ -1,0 +1,48 @@
+{
+  "candidate_id": "gen015_child007_000187",
+  "config": {
+    "resolution": 256,
+    "stem_width": 32,
+    "stage_depths": [
+      3,
+      4,
+      4,
+      2
+    ],
+    "stage_widths": [
+      48,
+      128,
+      224,
+      288
+    ]
+  },
+  "compiled": false,
+  "compile_log": "2026-04-17 06:08:25,306 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 06:08:25,306 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen015_child007_000187/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 06:08:32,822 INFO : Wrote outputs to /tmp/1343060.1.long.q/tmpfb_5mmri/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 06:08:32,822 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 06:08:33.410 INFO : CODE: [START] Starting SDSPconv\n2026-04-17 06:08:53.909 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 10.35MB \n2026-04-17 06:08:54.226 INFO : CODE: [IMCF] ConvFe failed with insufficient memory, trying to run Tiling Advisor\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Caught exception while converting'model_quant': requirement failed: ShapesVerifier: shapes verification failed: \n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_4_/Add: Layer Add: TiledLayer_4_/Add: Input shapes (48,91,128) and (48,93,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_3_/Add: Layer Add: TiledLayer_3_/Add: Input shapes (48,111,128) and (48,113,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_2_/Add: Layer Add: TiledLayer_2_/Add: Input shapes (48,108,128) and (48,110,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add: Layer Add: TiledLayer_1_/Add: Input shapes (48,84,128) and (48,86,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_4_/Add_1: Layer Add: TiledLayer_4_/Add_1: Input shapes (48,89,128) and (48,91,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_3_/Add_1: Layer Add: TiledLayer_3_/Add_1: Input shapes (48,109,128) and (48,111,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_2_/Add_1: Layer Add: TiledLayer_2_/Add_1: Input shapes (48,106,128) and (48,108,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_1: Layer Add: TiledLayer_1_/Add_1: Input shapes (48,82,128) and (48,84,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_4_/Add_2: Layer Add: TiledLayer_4_/Add_2: Input shapes (48,87,128) and (48,89,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_2_/Add_2: Layer Add: TiledLayer_2_/Add_2: Input shapes (48,104,128) and (48,106,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_2: Layer Add: TiledLayer_1_/Add_2: Input shapes (48,80,128) and (48,82,128) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_4_/Add_3: Layer Add: TiledLayer_4_/Add_3: Input shapes (128,42,64) and (128,43,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_2_/Add_3: Layer Add: TiledLayer_2_/Add_3: Input shapes (128,50,64) and (128,52,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_3: Layer Add: TiledLayer_1_/Add_3: Input shapes (128,38,64) and (128,40,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_4_/Add_4: Layer Add: TiledLayer_4_/Add_4: Input shapes (128,39,64) and (128,41,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_2_/Add_4: Layer Add: TiledLayer_2_/Add_4: Input shapes (128,48,64) and (128,49,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_4: Layer Add: TiledLayer_1_/Add_4: Input shapes (128,36,64) and (128,38,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_4_/Add_5: Layer Add: TiledLayer_4_/Add_5: Input shapes (128,37,64) and (128,39,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_5: Layer Add: TiledLayer_1_/Add_5: Input shapes (128,34,64) and (128,36,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_4_/Add_6: Layer Add: TiledLayer_4_/Add_6: Input shapes (128,35,64) and (128,37,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_6: Layer Add: TiledLayer_1_/Add_6: Input shapes (128,32,64) and (128,34,64) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_4_/Add_7: Layer Add: TiledLayer_4_/Add_7: Input shapes (224,16,32) and (224,17,32) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_7: Layer Add: TiledLayer_1_/Add_7: Input shapes (224,14,32) and (224,16,32) are not compatible, cannot broadcast\n2026-04-17 06:09:11.946 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_8: Layer Add: TiledLayer_1_/Add_8: Input shapes (224,12,32) and (224,13,32) are not compatible, cannot broadcast \n2026-04-17 06:09:12.345 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 10.35MB \n2026-04-17 06:09:12,440 ERROR : sdspconv exited with error code: 1, uni files can be found in /tmp/1343060.1.long.q/tmpfb_5mmri [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/imx500_converter/converter/converter.py:60]\n\nException in thread \"main\" sdsp.app.logging.FailureInSubRunningHideErrorException: ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 10.35MB \n\tat sdsp.app.state.machine.ConvFePhase.nextPhase(ConvFePhase.kt:165)\n\tat sdsp.app.StateMachine.run(StateMachine.kt:43)\n\tat sdsp.app.ConvMain.run(ConvMain.kt:310)\n\tat com.github.ajalt.clikt.parsers.Parser.finalizeAndRun(Parser.kt:348)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:218)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:42)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse(CliktCommand.kt:457)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse$default(CliktCommand.kt:454)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:474)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:481)\n\tat sdsp.app.ConvMain.fixedMain(ConvMain.kt:272)\n\tat sdsp.app.AppKt.main(App.kt:26)",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7f7f2b48be20>"
+  },
+  "quant_eval": {
+    "acc1": 0.0,
+    "correct": 0.0,
+    "total": 0.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 0.41479742841150774,
+      "acc1": 82.56603773584905
+    },
+    {
+      "epoch": 2.0,
+      "loss": 0.3221306888262431,
+      "acc1": 85.66037735849056
+    },
+    {
+      "epoch": 3.0,
+      "loss": 0.2765156872504912,
+      "acc1": 87.69811320754717
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen015_child007_000187/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen015_child007_000187/model_quant.onnx"
+}

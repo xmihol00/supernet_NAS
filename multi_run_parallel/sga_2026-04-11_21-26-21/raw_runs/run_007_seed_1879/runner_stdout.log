@@ -1,0 +1,1519 @@
+[2026-04-17 12:22:29] Run directory: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748
+[2026-04-17 12:22:30] Checkpoint classes (1000) differ from --num-classes (6); model will use checkpoint classes, evaluation classes still follow --num-classes datasets.
+[2026-04-17 12:22:30] Loading checkpoint: /mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt
+[2026-04-17 12:22:30] Detected checkpoint classifier class count mismatch: --num-classes=6, checkpoint=1000. Using checkpoint class count for model loading.
+[2026-04-17 12:22:30] Loaded checkpoint: /mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt
+[2026-04-17 12:22:30] Missing keys count: 15
+[2026-04-17 12:22:30] Checkpoint loading finished in 0.17s
+[2026-04-17 12:22:30] Using 6 classes (alphabetically, overlap of train/eval). First classes: ['281', '282', '283', '404', '530']
+[2026-04-17 12:22:30] Train samples: 7950 | Eval images: 150
+[2026-04-17 12:22:30] Loaded 25 initial candidates from sampling results.
+[2026-04-17 12:22:30] Generation 0 population summary
+[2026-04-17 12:22:30] rank | fitness | resolution stem | depths | widths
+[2026-04-17 12:22:30]    1 |   47.00 | 256  40 | (3, 2, 3, 2) | (48, 128, 224, 256)
+[2026-04-17 12:22:30]    2 |   45.90 | 224  24 | (3, 2, 3, 2) | (64, 128, 224, 256)
+[2026-04-17 12:22:30]    3 |   44.30 | 256  24 | (2, 2, 4, 1) | (48, 128, 192, 224)
+[2026-04-17 12:22:30]    4 |   43.70 | 256  32 | (3, 4, 2, 3) | (64, 128, 192, 224)
+[2026-04-17 12:22:30]    5 |   43.10 | 256  24 | (1, 3, 2, 3) | (48, 128, 192, 224)
+[2026-04-17 12:22:30]    6 |   42.90 | 256  24 | (3, 3, 2, 3) | (64, 128, 192, 224)
+[2026-04-17 12:22:30]    7 |   42.60 | 256  32 | (3, 1, 4, 2) | (64, 128, 224, 224)
+[2026-04-17 12:22:30]    8 |   42.30 | 192  40 | (3, 3, 5, 1) | (48, 128, 224, 288)
+[2026-04-17 12:22:30]    9 |   42.20 | 256  32 | (1, 3, 3, 1) | (64, 96, 224, 288)
+[2026-04-17 12:22:30]   10 |   42.00 | 256  24 | (2, 1, 5, 2) | (64, 96, 224, 224)
+[2026-04-17 12:22:30] Evaluating offspring gen000_child000_000061
+[2026-04-17 12:22:30] [gen000_child000_000061] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 12:22:30] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 12:22:49] Train epoch 1/3 | loss=0.4262 acc1=81.74%
+[2026-04-17 12:22:49] Unfroze backbone after adaptation epoch.
+[2026-04-17 12:23:53] Train epoch 2/3 | loss=0.3356 acc1=85.32%
+[2026-04-17 12:24:57] Train epoch 3/3 | loss=0.3094 acc1=86.92%
+[2026-04-17 12:24:57] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child000_000061/model_float.onnx
+[2026-04-17 12:24:57] Float ONNX export finished in 0.39s
+[2026-04-17 12:24:57] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child000_000061/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.32s/it]
+Statistics Collection: 1it [00:01,  1.32s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/65 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 40/65 [00:00<00:00, 261.13it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:10<00:00,  6.14it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 12:25:10] PTQ + quantized ONNX export finished in 12.59s
+[2026-04-17 12:25:10] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child000_000061/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child000_000061/imx500_output timeout=1800s
+[2026-04-17 12:25:59] IMX500 compilation finished in 48.95s
+[2026-04-17 12:25:59] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 12:25:59.415059374 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 108 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 12:27:47] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=86.00% (batch_size=50)
+[2026-04-17 12:27:47] Evaluation (model_quant.onnx) finished in 107.84s
+[2026-04-17 12:27:47] Finished gen000_child000_000061 | compiled=True quant_acc1=86.00 fitness=86.00 time=316.8s
+[2026-04-17 12:27:47] Evaluating offspring gen000_child001_000062
+[2026-04-17 12:27:47] [gen000_child001_000062] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 12:27:47] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 12:28:02] Train epoch 1/3 | loss=0.4284 acc1=82.21%
+[2026-04-17 12:28:02] Unfroze backbone after adaptation epoch.
+[2026-04-17 12:28:53] Train epoch 2/3 | loss=0.3522 acc1=84.73%
+[2026-04-17 12:29:44] Train epoch 3/3 | loss=0.2884 acc1=87.01%
+[2026-04-17 12:29:44] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child001_000062/model_float.onnx
+[2026-04-17 12:29:44] Float ONNX export finished in 0.25s
+[2026-04-17 12:29:44] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child001_000062/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:00,  1.02it/s]
+Statistics Collection: 1it [00:00,  1.02it/s]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 265.06it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:12<00:00,  4.29it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 12:29:59] PTQ + quantized ONNX export finished in 14.41s
+[2026-04-17 12:29:59] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child001_000062/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child001_000062/imx500_output timeout=1800s
+[2026-04-17 12:30:50] IMX500 compilation finished in 51.05s
+[2026-04-17 12:30:50] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 12:30:50.276804747 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 12:32:12] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=82.00% (batch_size=50)
+[2026-04-17 12:32:12] Evaluation (model_quant.onnx) finished in 81.90s
+[2026-04-17 12:32:12] Finished gen000_child001_000062 | compiled=True quant_acc1=82.00 fitness=82.00 time=265.1s
+[2026-04-17 12:32:12] Evaluating offspring gen000_child002_000063
+[2026-04-17 12:32:12] [gen000_child002_000063] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 12:32:12] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 12:32:29] Train epoch 1/3 | loss=0.4206 acc1=82.77%
+[2026-04-17 12:32:29] Unfroze backbone after adaptation epoch.
+[2026-04-17 12:33:20] Train epoch 2/3 | loss=0.3525 acc1=84.55%
+[2026-04-17 12:34:12] Train epoch 3/3 | loss=0.3013 acc1=86.64%
+[2026-04-17 12:34:12] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child002_000063/model_float.onnx
+[2026-04-17 12:34:12] Float ONNX export finished in 0.29s
+[2026-04-17 12:34:12] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child002_000063/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.01s/it]
+Statistics Collection: 1it [00:01,  1.01s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/60 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 37/60 [00:00<00:00, 279.00it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 60/60 [00:10<00:00,  5.49it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 12:34:25] PTQ + quantized ONNX export finished in 12.59s
+[2026-04-17 12:34:25] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child002_000063/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child002_000063/imx500_output timeout=1800s
+[2026-04-17 12:35:10] IMX500 compilation finished in 44.92s
+[2026-04-17 12:35:10] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 12:35:10.062779236 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 100 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 12:36:35] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=81.33% (batch_size=50)
+[2026-04-17 12:36:35] Evaluation (model_quant.onnx) finished in 85.12s
+[2026-04-17 12:36:35] Finished gen000_child002_000063 | compiled=True quant_acc1=81.33 fitness=81.33 time=263.0s
+[2026-04-17 12:36:35] Evaluating offspring gen000_child003_000064
+[2026-04-17 12:36:35] [gen000_child003_000064] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 12:36:35] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 12:36:49] Train epoch 1/3 | loss=0.4223 acc1=82.78%
+[2026-04-17 12:36:49] Unfroze backbone after adaptation epoch.
+[2026-04-17 12:37:33] Train epoch 2/3 | loss=0.3463 acc1=84.99%
+[2026-04-17 12:38:16] Train epoch 3/3 | loss=0.3028 acc1=86.63%
+[2026-04-17 12:38:16] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child003_000064/model_float.onnx
+[2026-04-17 12:38:16] Float ONNX export finished in 0.23s
+[2026-04-17 12:38:16] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child003_000064/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.22s/it]
+Statistics Collection: 1it [00:01,  1.22s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 260.45it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:10<00:00,  5.42it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 12:38:28] PTQ + quantized ONNX export finished in 11.96s
+[2026-04-17 12:38:28] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child003_000064/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child003_000064/imx500_output timeout=1800s
+[2026-04-17 12:39:18] IMX500 compilation finished in 50.01s
+[2026-04-17 12:39:18] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 12:39:18.581825175 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 12:40:59] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=84.00% (batch_size=50)
+[2026-04-17 12:40:59] Evaluation (model_quant.onnx) finished in 100.75s
+[2026-04-17 12:40:59] Finished gen000_child003_000064 | compiled=True quant_acc1=84.00 fitness=84.00 time=264.1s
+[2026-04-17 12:40:59] Evaluating offspring gen000_child004_000065
+[2026-04-17 12:40:59] [gen000_child004_000065] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 12:40:59] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 12:41:15] Train epoch 1/3 | loss=0.4285 acc1=82.05%
+[2026-04-17 12:41:15] Unfroze backbone after adaptation epoch.
+[2026-04-17 12:42:11] Train epoch 2/3 | loss=0.3328 acc1=85.14%
+[2026-04-17 12:43:06] Train epoch 3/3 | loss=0.3046 acc1=87.12%
+[2026-04-17 12:43:06] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child004_000065/model_float.onnx
+[2026-04-17 12:43:07] Float ONNX export finished in 0.19s
+[2026-04-17 12:43:07] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child004_000065/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.35s/it]
+Statistics Collection: 1it [00:02,  2.35s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 211.42it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:09<00:00,  5.13it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 12:43:20] PTQ + quantized ONNX export finished in 13.05s
+[2026-04-17 12:43:20] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child004_000065/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child004_000065/imx500_output timeout=1800s
+[2026-04-17 12:44:06] IMX500 compilation finished in 46.89s
+[2026-04-17 12:44:06] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 12:44:06.995413220 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 12:46:51] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=88.67% (batch_size=50)
+[2026-04-17 12:46:51] Evaluation (model_quant.onnx) finished in 164.73s
+[2026-04-17 12:46:51] Finished gen000_child004_000065 | compiled=True quant_acc1=88.67 fitness=88.67 time=352.4s
+[2026-04-17 12:46:51] Evaluating offspring gen000_child006_000066
+[2026-04-17 12:46:51] [gen000_child006_000066] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 12:46:51] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 12:47:09] Train epoch 1/3 | loss=0.4389 acc1=82.01%
+[2026-04-17 12:47:09] Unfroze backbone after adaptation epoch.
+[2026-04-17 12:48:22] Train epoch 2/3 | loss=0.3233 acc1=85.62%
+[2026-04-17 12:49:34] Train epoch 3/3 | loss=0.2873 acc1=87.38%
+[2026-04-17 12:49:34] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child006_000066/model_float.onnx
+[2026-04-17 12:49:34] Float ONNX export finished in 0.22s
+[2026-04-17 12:49:34] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child006_000066/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.16s/it]
+Statistics Collection: 1it [00:01,  1.16s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/60 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 37/60 [00:00<00:00, 278.27it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 60/60 [00:14<00:00,  4.08it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 12:49:51] PTQ + quantized ONNX export finished in 16.48s
+[2026-04-17 12:49:51] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child006_000066/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child006_000066/imx500_output timeout=1800s
+[2026-04-17 12:50:40] IMX500 compilation finished in 49.46s
+[2026-04-17 12:50:40] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 12:50:40.516396830 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 100 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 12:52:17] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=84.67% (batch_size=50)
+[2026-04-17 12:52:17] Evaluation (model_quant.onnx) finished in 96.65s
+[2026-04-17 12:52:17] Finished gen000_child006_000066 | compiled=True quant_acc1=84.67 fitness=84.67 time=325.4s
+[2026-04-17 12:52:17] Evaluating offspring gen000_child007_000067
+[2026-04-17 12:52:17] [gen000_child007_000067] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 12:52:17] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 12:52:34] Train epoch 1/3 | loss=0.4323 acc1=82.18%
+[2026-04-17 12:52:34] Unfroze backbone after adaptation epoch.
+[2026-04-17 12:53:36] Train epoch 2/3 | loss=0.3380 acc1=84.99%
+[2026-04-17 12:54:39] Train epoch 3/3 | loss=0.3130 acc1=86.49%
+[2026-04-17 12:54:39] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child007_000067/model_float.onnx
+[2026-04-17 12:54:39] Float ONNX export finished in 0.28s
+[2026-04-17 12:54:39] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child007_000067/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.59s/it]
+Statistics Collection: 1it [00:02,  2.60s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/60 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 37/60 [00:00<00:00, 221.92it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 60/60 [00:09<00:00,  5.27it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 60/60 [00:09<00:00,  6.44it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 12:54:52] PTQ + quantized ONNX export finished in 12.66s
+[2026-04-17 12:54:52] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child007_000067/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen000_child007_000067/imx500_output timeout=1800s
+[2026-04-17 12:55:38] IMX500 compilation finished in 46.57s
+[2026-04-17 12:55:38] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 12:55:38.792065150 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 100 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 12:58:49] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=76.67% (batch_size=50)
+[2026-04-17 12:58:49] Evaluation (model_quant.onnx) finished in 190.80s
+[2026-04-17 12:58:49] Finished gen000_child007_000067 | compiled=True quant_acc1=76.67 fitness=76.67 time=392.5s
+[2026-04-17 12:58:49] Generation 1 population summary
+[2026-04-17 12:58:49] rank | fitness | resolution stem | depths | widths
+[2026-04-17 12:58:49]    1 |   88.67 | 256  32 | (2, 2, 2, 2) | (64, 128, 224, 224)
+[2026-04-17 12:58:49]    2 |   86.00 | 192  40 | (3, 3, 3, 2) | (48, 128, 160, 256)
+[2026-04-17 12:58:49]    3 |   84.67 | 192  24 | (3, 1, 5, 1) | (48, 128, 224, 224)
+[2026-04-17 12:58:49]    4 |   84.00 | 224  24 | (1, 3, 2, 3) | (48, 128, 192, 224)
+[2026-04-17 12:58:49]    5 |   82.00 | 192  24 | (2, 2, 2, 3) | (48, 128, 224, 256)
+[2026-04-17 12:58:49]    6 |   81.33 | 192  24 | (1, 4, 3, 2) | (48, 128, 160, 256)
+[2026-04-17 12:58:49]    7 |   76.67 | 256  40 | (3, 1, 4, 2) | (64, 128, 160, 224)
+[2026-04-17 12:58:49]    8 |   47.00 | 256  40 | (3, 2, 3, 2) | (48, 128, 224, 256)
+[2026-04-17 12:58:49]    9 |   45.90 | 224  24 | (3, 2, 3, 2) | (64, 128, 224, 256)
+[2026-04-17 12:58:49]   10 |   44.30 | 256  24 | (2, 2, 4, 1) | (48, 128, 192, 224)
+[2026-04-17 12:58:49] Evaluating offspring gen001_child000_000068
+[2026-04-17 12:58:49] [gen001_child000_000068] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 12:58:49] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 12:59:07] Train epoch 1/3 | loss=0.4207 acc1=82.60%
+[2026-04-17 12:59:07] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:00:09] Train epoch 2/3 | loss=0.3279 acc1=85.47%
+[2026-04-17 13:01:12] Train epoch 3/3 | loss=0.2918 acc1=87.25%
+[2026-04-17 13:01:12] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child000_000068/model_float.onnx
+[2026-04-17 13:01:12] Float ONNX export finished in 0.21s
+[2026-04-17 13:01:12] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child000_000068/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.64s/it]
+Statistics Collection: 1it [00:01,  1.64s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 209.62it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:13<00:00,  3.24it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:13<00:00,  3.97it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:01:28] PTQ + quantized ONNX export finished in 16.18s
+[2026-04-17 13:01:28] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child000_000068/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child000_000068/imx500_output timeout=1800s
+[2026-04-17 13:02:23] IMX500 compilation finished in 55.18s
+[2026-04-17 13:02:23] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:02:23.855256214 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:04:38] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=84.00% (batch_size=50)
+[2026-04-17 13:04:38] Evaluation (model_quant.onnx) finished in 134.34s
+[2026-04-17 13:04:38] Finished gen001_child000_000068 | compiled=True quant_acc1=84.00 fitness=84.00 time=348.6s
+[2026-04-17 13:04:38] Evaluating offspring gen001_child001_000069
+[2026-04-17 13:04:38] [gen001_child001_000069] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:04:38] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:04:59] Train epoch 1/3 | loss=0.4115 acc1=82.78%
+[2026-04-17 13:04:59] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:06:10] Train epoch 2/3 | loss=0.3293 acc1=85.80%
+[2026-04-17 13:07:20] Train epoch 3/3 | loss=0.2852 acc1=87.41%
+[2026-04-17 13:07:20] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child001_000069/model_float.onnx
+[2026-04-17 13:07:20] Float ONNX export finished in 0.19s
+[2026-04-17 13:07:20] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child001_000069/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:03,  3.34s/it]
+Statistics Collection: 1it [00:03,  3.34s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/65 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 40/65 [00:00<00:00, 236.34it/s]
+Calculating quantization parameters:  98%|████████████████████████████████████████████████████▏| 64/65 [00:08<00:00,  6.12it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:09<00:00,  6.72it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:07:34] PTQ + quantized ONNX export finished in 13.66s
+[2026-04-17 13:07:34] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child001_000069/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child001_000069/imx500_output timeout=1800s
+[2026-04-17 13:08:24] IMX500 compilation finished in 49.53s
+[2026-04-17 13:08:24] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:08:24.141728811 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 108 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:12:05] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=80.67% (batch_size=50)
+[2026-04-17 13:12:05] Evaluation (model_quant.onnx) finished in 221.62s
+[2026-04-17 13:12:05] Finished gen001_child001_000069 | compiled=True quant_acc1=80.67 fitness=80.67 time=447.5s
+[2026-04-17 13:12:05] Evaluating offspring gen001_child002_000070
+[2026-04-17 13:12:05] [gen001_child002_000070] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:12:05] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:12:21] Train epoch 1/3 | loss=0.4230 acc1=82.28%
+[2026-04-17 13:12:21] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:13:15] Train epoch 2/3 | loss=0.3561 acc1=84.91%
+[2026-04-17 13:14:08] Train epoch 3/3 | loss=0.3014 acc1=86.94%
+[2026-04-17 13:14:08] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child002_000070/model_float.onnx
+[2026-04-17 13:14:08] Float ONNX export finished in 0.23s
+[2026-04-17 13:14:08] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child002_000070/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.25s/it]
+Statistics Collection: 1it [00:01,  1.25s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 246.63it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:09<00:00,  5.96it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:14:19] PTQ + quantized ONNX export finished in 11.20s
+[2026-04-17 13:14:19] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child002_000070/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child002_000070/imx500_output timeout=1800s
+[2026-04-17 13:14:57] IMX500 compilation finished in 37.94s
+[2026-04-17 13:14:57] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:14:57.869970754 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:16:38] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=82.00% (batch_size=50)
+[2026-04-17 13:16:38] Evaluation (model_quant.onnx) finished in 100.63s
+[2026-04-17 13:16:38] Finished gen001_child002_000070 | compiled=True quant_acc1=82.00 fitness=82.00 time=272.7s
+[2026-04-17 13:16:38] Evaluating offspring gen001_child003_000071
+[2026-04-17 13:16:38] [gen001_child003_000071] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:16:38] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:16:55] Train epoch 1/3 | loss=0.4172 acc1=81.94%
+[2026-04-17 13:16:55] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:17:51] Train epoch 2/3 | loss=0.3254 acc1=85.77%
+[2026-04-17 13:18:46] Train epoch 3/3 | loss=0.2838 acc1=87.57%
+[2026-04-17 13:18:46] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child003_000071/model_float.onnx
+[2026-04-17 13:18:47] Float ONNX export finished in 0.25s
+[2026-04-17 13:18:47] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child003_000071/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.78s/it]
+Statistics Collection: 1it [00:01,  1.78s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/60 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 37/60 [00:00<00:00, 277.39it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 37/60 [00:12<00:00, 277.39it/s]
+Calculating quantization parameters:  92%|████████████████████████████████████████████████▌    | 55/60 [00:12<00:01,  3.42it/s]
+Calculating quantization parameters:  93%|█████████████████████████████████████████████████▍   | 56/60 [00:13<00:01,  3.47it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 60/60 [00:16<00:00,  3.63it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:19:06] PTQ + quantized ONNX export finished in 18.99s
+[2026-04-17 13:19:06] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child003_000071/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child003_000071/imx500_output timeout=1800s
+[2026-04-17 13:19:59] IMX500 compilation finished in 53.74s
+[2026-04-17 13:19:59] Finished gen001_child003_000071 | compiled=False quant_acc1=0.00 fitness=-1000000000.00 time=201.3s
+[2026-04-17 13:19:59] Evaluating offspring gen001_child004_000072
+[2026-04-17 13:19:59] [gen001_child004_000072] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:19:59] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:20:11] Train epoch 1/3 | loss=0.4480 acc1=81.47%
+[2026-04-17 13:20:11] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:20:49] Train epoch 2/3 | loss=0.3701 acc1=83.95%
+[2026-04-17 13:21:27] Train epoch 3/3 | loss=0.3148 acc1=86.00%
+[2026-04-17 13:21:27] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child004_000072/model_float.onnx
+[2026-04-17 13:21:27] Float ONNX export finished in 0.33s
+[2026-04-17 13:21:27] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child004_000072/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:00,  1.24it/s]
+Statistics Collection: 1it [00:00,  1.24it/s]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 246.96it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:10<00:00,  4.57it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:21:40] PTQ + quantized ONNX export finished in 12.54s
+[2026-04-17 13:21:40] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child004_000072/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child004_000072/imx500_output timeout=1800s
+[2026-04-17 13:22:26] IMX500 compilation finished in 46.08s
+[2026-04-17 13:22:26] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:22:26.427060141 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:23:34] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=86.67% (batch_size=50)
+[2026-04-17 13:23:34] Evaluation (model_quant.onnx) finished in 68.37s
+[2026-04-17 13:23:34] Finished gen001_child004_000072 | compiled=True quant_acc1=86.67 fitness=86.67 time=215.0s
+[2026-04-17 13:23:34] Evaluating offspring gen001_child005_000073
+[2026-04-17 13:23:34] [gen001_child005_000073] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:23:34] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:23:48] Train epoch 1/3 | loss=0.4433 acc1=81.67%
+[2026-04-17 13:23:48] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:24:39] Train epoch 2/3 | loss=0.3617 acc1=84.40%
+[2026-04-17 13:25:30] Train epoch 3/3 | loss=0.3312 acc1=86.01%
+[2026-04-17 13:25:30] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child005_000073/model_float.onnx
+[2026-04-17 13:25:30] Float ONNX export finished in 0.24s
+[2026-04-17 13:25:30] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child005_000073/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.91s/it]
+Statistics Collection: 1it [00:01,  1.91s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 231.59it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:07<00:00,  6.95it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:25:40] PTQ + quantized ONNX export finished in 10.40s
+[2026-04-17 13:25:40] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child005_000073/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child005_000073/imx500_output timeout=1800s
+[2026-04-17 13:26:27] IMX500 compilation finished in 46.36s
+[2026-04-17 13:26:27] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:26:27.296198893 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:28:54] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=86.67% (batch_size=50)
+[2026-04-17 13:28:54] Evaluation (model_quant.onnx) finished in 147.66s
+[2026-04-17 13:28:55] Finished gen001_child005_000073 | compiled=True quant_acc1=86.67 fitness=86.67 time=320.2s
+[2026-04-17 13:28:55] Evaluating offspring gen001_child006_000074
+[2026-04-17 13:28:55] [gen001_child006_000074] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:28:55] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:29:13] Train epoch 1/3 | loss=0.4343 acc1=81.84%
+[2026-04-17 13:29:13] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:30:09] Train epoch 2/3 | loss=0.3359 acc1=85.21%
+[2026-04-17 13:31:06] Train epoch 3/3 | loss=0.2867 acc1=87.52%
+[2026-04-17 13:31:06] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child006_000074/model_float.onnx
+[2026-04-17 13:31:06] Float ONNX export finished in 0.16s
+[2026-04-17 13:31:06] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child006_000074/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.33s/it]
+Statistics Collection: 1it [00:02,  2.33s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 246.72it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:08<00:00,  6.41it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:31:17] PTQ + quantized ONNX export finished in 11.46s
+[2026-04-17 13:31:17] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child006_000074/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child006_000074/imx500_output timeout=1800s
+[2026-04-17 13:32:01] IMX500 compilation finished in 43.62s
+[2026-04-17 13:32:01] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:32:01.617663903 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:35:02] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=73.33% (batch_size=50)
+[2026-04-17 13:35:02] Evaluation (model_quant.onnx) finished in 181.16s
+[2026-04-17 13:35:02] Finished gen001_child006_000074 | compiled=True quant_acc1=73.33 fitness=73.33 time=367.9s
+[2026-04-17 13:35:02] Evaluating offspring gen001_child007_000075
+[2026-04-17 13:35:02] [gen001_child007_000075] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:35:02] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:35:19] Train epoch 1/3 | loss=0.4273 acc1=82.57%
+[2026-04-17 13:35:19] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:36:09] Train epoch 2/3 | loss=0.3350 acc1=85.33%
+[2026-04-17 13:36:59] Train epoch 3/3 | loss=0.2862 acc1=87.60%
+[2026-04-17 13:36:59] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child007_000075/model_float.onnx
+[2026-04-17 13:36:59] Float ONNX export finished in 0.22s
+[2026-04-17 13:36:59] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child007_000075/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.13s/it]
+Statistics Collection: 1it [00:02,  2.13s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/60 [00:00<?, ?it/s]
+Calculating quantization parameters:  60%|███████████████████████████████▏                    | 36/60 [00:00<00:00, 254.54it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 60/60 [00:14<00:00,  4.15it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:37:16] PTQ + quantized ONNX export finished in 17.44s
+[2026-04-17 13:37:16] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child007_000075/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen001_child007_000075/imx500_output timeout=1800s
+[2026-04-17 13:38:11] IMX500 compilation finished in 54.66s
+[2026-04-17 13:38:11] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:38:11.539480410 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 100 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:40:47] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=81.33% (batch_size=50)
+[2026-04-17 13:40:47] Evaluation (model_quant.onnx) finished in 155.75s
+[2026-04-17 13:40:47] Finished gen001_child007_000075 | compiled=True quant_acc1=81.33 fitness=81.33 time=344.5s
+[2026-04-17 13:40:47] Generation 2 population summary
+[2026-04-17 13:40:47] rank | fitness | resolution stem | depths | widths
+[2026-04-17 13:40:47]    1 |   88.67 | 256  32 | (2, 2, 2, 2) | (64, 128, 224, 224)
+[2026-04-17 13:40:47]    2 |   86.67 | 192  24 | (2, 1, 2, 3) | (48, 128, 192, 256)
+[2026-04-17 13:40:47]    3 |   86.67 | 256  40 | (3, 1, 2, 3) | (48, 128, 160, 224)
+[2026-04-17 13:40:47]    4 |   86.00 | 192  40 | (3, 3, 3, 2) | (48, 128, 160, 256)
+[2026-04-17 13:40:47]    5 |   84.67 | 192  24 | (3, 1, 5, 1) | (48, 128, 224, 224)
+[2026-04-17 13:40:47]    6 |   84.00 | 224  24 | (1, 3, 2, 3) | (48, 128, 192, 224)
+[2026-04-17 13:40:47]    7 |   84.00 | 224  40 | (2, 2, 3, 2) | (64, 128, 224, 256)
+[2026-04-17 13:40:47]    8 |   82.00 | 192  24 | (2, 2, 2, 3) | (48, 128, 224, 256)
+[2026-04-17 13:40:47]    9 |   82.00 | 192  24 | (3, 1, 3, 2) | (64, 96, 192, 224)
+[2026-04-17 13:40:47]   10 |   81.33 | 192  24 | (1, 4, 3, 2) | (48, 128, 160, 256)
+[2026-04-17 13:40:47] Evaluating offspring gen002_child000_000076
+[2026-04-17 13:40:47] [gen002_child000_000076] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:40:47] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:41:03] Train epoch 1/3 | loss=0.4468 acc1=80.68%
+[2026-04-17 13:41:03] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:41:59] Train epoch 2/3 | loss=0.3578 acc1=84.50%
+[2026-04-17 13:42:56] Train epoch 3/3 | loss=0.3246 acc1=85.57%
+[2026-04-17 13:42:56] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child000_000076/model_float.onnx
+[2026-04-17 13:42:56] Float ONNX export finished in 0.17s
+[2026-04-17 13:42:56] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child000_000076/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.24s/it]
+Statistics Collection: 1it [00:02,  2.24s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 207.64it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:08<00:00,  5.18it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:08<00:00,  6.32it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:43:09] PTQ + quantized ONNX export finished in 12.21s
+[2026-04-17 13:43:09] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child000_000076/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child000_000076/imx500_output timeout=1800s
+[2026-04-17 13:43:56] IMX500 compilation finished in 47.61s
+[2026-04-17 13:43:56] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:43:56.711872172 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:46:53] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=89.33% (batch_size=50)
+[2026-04-17 13:46:53] Evaluation (model_quant.onnx) finished in 176.93s
+[2026-04-17 13:46:53] Finished gen002_child000_000076 | compiled=True quant_acc1=89.33 fitness=89.33 time=366.4s
+[2026-04-17 13:46:53] Evaluating offspring gen002_child001_000077
+[2026-04-17 13:46:53] [gen002_child001_000077] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:46:53] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:47:12] Train epoch 1/3 | loss=0.4216 acc1=82.48%
+[2026-04-17 13:47:12] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:48:24] Train epoch 2/3 | loss=0.3300 acc1=85.35%
+[2026-04-17 13:49:36] Train epoch 3/3 | loss=0.2847 acc1=87.60%
+[2026-04-17 13:49:36] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child001_000077/model_float.onnx
+[2026-04-17 13:49:36] Float ONNX export finished in 0.25s
+[2026-04-17 13:49:36] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child001_000077/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.09s/it]
+Statistics Collection: 1it [00:01,  1.09s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/65 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 40/65 [00:00<00:00, 293.46it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 40/65 [00:13<00:00, 293.46it/s]
+Calculating quantization parameters:  92%|████████████████████████████████████████████████▉    | 60/65 [00:13<00:01,  3.52it/s]
+Calculating quantization parameters:  94%|█████████████████████████████████████████████████▋   | 61/65 [00:14<00:01,  3.21it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:17<00:00,  3.69it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:49:55] PTQ + quantized ONNX export finished in 19.52s
+[2026-04-17 13:49:55] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child001_000077/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child001_000077/imx500_output timeout=1800s
+[2026-04-17 13:51:11] IMX500 compilation finished in 75.32s
+[2026-04-17 13:51:11] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:51:11.297307879 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 108 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:52:42] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=82.67% (batch_size=50)
+[2026-04-17 13:52:42] Evaluation (model_quant.onnx) finished in 91.09s
+[2026-04-17 13:52:42] Finished gen002_child001_000077 | compiled=True quant_acc1=82.67 fitness=82.67 time=348.7s
+[2026-04-17 13:52:42] Evaluating offspring gen002_child002_000078
+[2026-04-17 13:52:42] [gen002_child002_000078] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:52:42] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:52:54] Train epoch 1/3 | loss=0.4191 acc1=83.08%
+[2026-04-17 13:52:54] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:53:38] Train epoch 2/3 | loss=0.3834 acc1=83.70%
+[2026-04-17 13:54:22] Train epoch 3/3 | loss=0.3043 acc1=86.73%
+[2026-04-17 13:54:22] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child002_000078/model_float.onnx
+[2026-04-17 13:54:23] Float ONNX export finished in 0.28s
+[2026-04-17 13:54:23] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child002_000078/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.21s/it]
+Statistics Collection: 1it [00:01,  1.21s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 244.12it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:14<00:00,  3.88it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:54:39] PTQ + quantized ONNX export finished in 16.06s
+[2026-04-17 13:54:39] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child002_000078/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child002_000078/imx500_output timeout=1800s
+[2026-04-17 13:55:53] IMX500 compilation finished in 74.30s
+[2026-04-17 13:55:53] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 13:55:53.459394332 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 13:57:27] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=83.33% (batch_size=50)
+[2026-04-17 13:57:27] Evaluation (model_quant.onnx) finished in 94.03s
+[2026-04-17 13:57:27] Finished gen002_child002_000078 | compiled=True quant_acc1=83.33 fitness=83.33 time=285.1s
+[2026-04-17 13:57:27] Evaluating offspring gen002_child003_000079
+[2026-04-17 13:57:27] [gen002_child003_000079] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 13:57:27] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 13:57:43] Train epoch 1/3 | loss=0.4225 acc1=82.28%
+[2026-04-17 13:57:43] Unfroze backbone after adaptation epoch.
+[2026-04-17 13:58:38] Train epoch 2/3 | loss=0.3418 acc1=85.33%
+[2026-04-17 13:59:32] Train epoch 3/3 | loss=0.3015 acc1=86.73%
+[2026-04-17 13:59:32] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child003_000079/model_float.onnx
+[2026-04-17 13:59:32] Float ONNX export finished in 0.22s
+[2026-04-17 13:59:32] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child003_000079/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.08s/it]
+Statistics Collection: 1it [00:02,  2.08s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/65 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 40/65 [00:00<00:00, 296.69it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 40/65 [00:10<00:00, 296.69it/s]
+Calculating quantization parameters:  97%|███████████████████████████████████████████████████▎ | 63/65 [00:11<00:00,  4.46it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:12<00:00,  4.09it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:12<00:00,  5.12it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 13:59:48] PTQ + quantized ONNX export finished in 15.44s
+[2026-04-17 13:59:48] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child003_000079/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child003_000079/imx500_output timeout=1800s
+[2026-04-17 14:01:08] IMX500 compilation finished in 80.44s
+[2026-04-17 14:01:08] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:01:08.507155734 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 108 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:03:51] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=83.33% (batch_size=50)
+[2026-04-17 14:03:51] Evaluation (model_quant.onnx) finished in 163.13s
+[2026-04-17 14:03:51] Finished gen002_child003_000079 | compiled=True quant_acc1=83.33 fitness=83.33 time=384.2s
+[2026-04-17 14:03:51] Evaluating offspring gen002_child004_000080
+[2026-04-17 14:03:51] [gen002_child004_000080] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:03:51] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:04:10] Train epoch 1/3 | loss=0.4233 acc1=82.34%
+[2026-04-17 14:04:10] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:05:11] Train epoch 2/3 | loss=0.3464 acc1=84.67%
+[2026-04-17 14:06:13] Train epoch 3/3 | loss=0.2916 acc1=86.89%
+[2026-04-17 14:06:13] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child004_000080/model_float.onnx
+[2026-04-17 14:06:13] Float ONNX export finished in 0.21s
+[2026-04-17 14:06:13] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child004_000080/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.06s/it]
+Statistics Collection: 1it [00:01,  1.06s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/60 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 37/60 [00:00<00:00, 279.23it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 37/60 [00:10<00:00, 279.23it/s]
+Calculating quantization parameters:  95%|██████████████████████████████████████████████████▎  | 57/60 [00:11<00:00,  3.88it/s]
+Calculating quantization parameters:  97%|███████████████████████████████████████████████████▏ | 58/60 [00:12<00:00,  3.93it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 60/60 [00:13<00:00,  4.54it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:06:28] PTQ + quantized ONNX export finished in 15.10s
+[2026-04-17 14:06:28] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child004_000080/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child004_000080/imx500_output timeout=1800s
+[2026-04-17 14:07:20] IMX500 compilation finished in 51.42s
+[2026-04-17 14:07:20] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:07:20.133334229 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 100 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:08:46] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=80.00% (batch_size=50)
+[2026-04-17 14:08:46] Evaluation (model_quant.onnx) finished in 86.20s
+[2026-04-17 14:08:46] Finished gen002_child004_000080 | compiled=True quant_acc1=80.00 fitness=80.00 time=294.7s
+[2026-04-17 14:08:46] Evaluating offspring gen002_child005_000081
+[2026-04-17 14:08:46] [gen002_child005_000081] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:08:46] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:08:55] Train epoch 1/3 | loss=0.4428 acc1=81.71%
+[2026-04-17 14:08:55] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:09:28] Train epoch 2/3 | loss=0.3935 acc1=83.32%
+[2026-04-17 14:10:00] Train epoch 3/3 | loss=0.3231 acc1=85.91%
+[2026-04-17 14:10:00] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child005_000081/model_float.onnx
+[2026-04-17 14:10:01] Float ONNX export finished in 0.25s
+[2026-04-17 14:10:01] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child005_000081/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:00,  1.64it/s]
+Statistics Collection: 1it [00:00,  1.64it/s]
+
+Calculating quantization parameters:   0%|                                                              | 0/45 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▎                   | 28/45 [00:00<00:00, 228.04it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 45/45 [00:07<00:00,  5.90it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:10:09] PTQ + quantized ONNX export finished in 8.72s
+[2026-04-17 14:10:09] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child005_000081/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child005_000081/imx500_output timeout=1800s
+[2026-04-17 14:10:46] IMX500 compilation finished in 37.06s
+[2026-04-17 14:10:46] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:10:46.842675303 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 76 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:11:36] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=78.67% (batch_size=50)
+[2026-04-17 14:11:36] Evaluation (model_quant.onnx) finished in 49.30s
+[2026-04-17 14:11:36] Finished gen002_child005_000081 | compiled=True quant_acc1=78.67 fitness=78.67 time=169.8s
+[2026-04-17 14:11:36] Evaluating offspring gen002_child006_000082
+[2026-04-17 14:11:36] [gen002_child006_000082] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:11:36] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:11:48] Train epoch 1/3 | loss=0.4806 acc1=80.16%
+[2026-04-17 14:11:48] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:12:34] Train epoch 2/3 | loss=0.3970 acc1=82.83%
+[2026-04-17 14:13:20] Train epoch 3/3 | loss=0.3342 acc1=85.40%
+[2026-04-17 14:13:20] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child006_000082/model_float.onnx
+[2026-04-17 14:13:20] Float ONNX export finished in 0.15s
+[2026-04-17 14:13:20] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child006_000082/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:00,  1.05it/s]
+Statistics Collection: 1it [00:00,  1.05it/s]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 245.21it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:07<00:00,  6.85it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:13:28] PTQ + quantized ONNX export finished in 8.75s
+[2026-04-17 14:13:28] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child006_000082/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child006_000082/imx500_output timeout=1800s
+[2026-04-17 14:14:05] IMX500 compilation finished in 36.80s
+[2026-04-17 14:14:05] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:14:05.812029997 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:15:22] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=78.00% (batch_size=50)
+[2026-04-17 14:15:22] Evaluation (model_quant.onnx) finished in 76.69s
+[2026-04-17 14:15:22] Finished gen002_child006_000082 | compiled=True quant_acc1=78.00 fitness=78.00 time=226.3s
+[2026-04-17 14:15:22] Evaluating offspring gen002_child007_000083
+[2026-04-17 14:15:22] [gen002_child007_000083] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:15:22] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:15:37] Train epoch 1/3 | loss=0.4288 acc1=82.29%
+[2026-04-17 14:15:37] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:16:32] Train epoch 2/3 | loss=0.3341 acc1=84.87%
+[2026-04-17 14:17:28] Train epoch 3/3 | loss=0.2842 acc1=87.04%
+[2026-04-17 14:17:28] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child007_000083/model_float.onnx
+[2026-04-17 14:17:28] Float ONNX export finished in 0.27s
+[2026-04-17 14:17:28] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child007_000083/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.58s/it]
+Statistics Collection: 1it [00:01,  1.58s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 242.21it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:10<00:00, 242.21it/s]
+Calculating quantization parameters:  94%|█████████████████████████████████████████████████▊   | 47/50 [00:10<00:00,  3.71it/s]
+Calculating quantization parameters:  96%|██████████████████████████████████████████████████▉  | 48/50 [00:11<00:00,  3.15it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:14<00:00,  3.55it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:17:44] PTQ + quantized ONNX export finished in 16.28s
+[2026-04-17 14:17:44] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child007_000083/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen002_child007_000083/imx500_output timeout=1800s
+[2026-04-17 14:18:42] IMX500 compilation finished in 57.36s
+[2026-04-17 14:18:42] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:18:42.208101280 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:20:47] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=84.00% (batch_size=50)
+[2026-04-17 14:20:47] Evaluation (model_quant.onnx) finished in 125.79s
+[2026-04-17 14:20:48] Finished gen002_child007_000083 | compiled=True quant_acc1=84.00 fitness=84.00 time=325.5s
+[2026-04-17 14:20:48] Generation 3 population summary
+[2026-04-17 14:20:48] rank | fitness | resolution stem | depths | widths
+[2026-04-17 14:20:48]    1 |   89.33 | 256  40 | (3, 1, 2, 3) | (64, 128, 160, 224)
+[2026-04-17 14:20:48]    2 |   88.67 | 256  32 | (2, 2, 2, 2) | (64, 128, 224, 224)
+[2026-04-17 14:20:48]    3 |   86.67 | 192  24 | (2, 1, 2, 3) | (48, 128, 192, 256)
+[2026-04-17 14:20:48]    4 |   86.67 | 256  40 | (3, 1, 2, 3) | (48, 128, 160, 224)
+[2026-04-17 14:20:48]    5 |   86.00 | 192  40 | (3, 3, 3, 2) | (48, 128, 160, 256)
+[2026-04-17 14:20:48]    6 |   84.67 | 192  24 | (3, 1, 5, 1) | (48, 128, 224, 224)
+[2026-04-17 14:20:48]    7 |   84.00 | 224  24 | (1, 3, 2, 3) | (48, 128, 192, 224)
+[2026-04-17 14:20:48]    8 |   84.00 | 224  40 | (2, 2, 3, 2) | (64, 128, 224, 256)
+[2026-04-17 14:20:48]    9 |   84.00 | 256  24 | (1, 2, 4, 1) | (48, 128, 224, 288)
+[2026-04-17 14:20:48]   10 |   83.33 | 224  32 | (2, 1, 3, 3) | (48, 96, 192, 288)
+[2026-04-17 14:20:48] Evaluating offspring gen003_child000_000084
+[2026-04-17 14:20:48] [gen003_child000_000084] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:20:48] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:21:00] Train epoch 1/3 | loss=0.4401 acc1=81.52%
+[2026-04-17 14:21:00] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:21:48] Train epoch 2/3 | loss=0.3800 acc1=84.13%
+[2026-04-17 14:22:36] Train epoch 3/3 | loss=0.3218 acc1=85.99%
+[2026-04-17 14:22:36] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child000_000084/model_float.onnx
+[2026-04-17 14:22:36] Float ONNX export finished in 0.17s
+[2026-04-17 14:22:36] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child000_000084/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:00,  1.06it/s]
+Statistics Collection: 1it [00:00,  1.06it/s]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 215.59it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:06<00:00,  7.80it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:22:44] PTQ + quantized ONNX export finished in 7.85s
+[2026-04-17 14:22:44] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child000_000084/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child000_000084/imx500_output timeout=1800s
+[2026-04-17 14:23:16] IMX500 compilation finished in 32.45s
+[2026-04-17 14:23:16] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:23:16.547478788 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:24:33] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=80.67% (batch_size=50)
+[2026-04-17 14:24:33] Evaluation (model_quant.onnx) finished in 76.71s
+[2026-04-17 14:24:33] Finished gen003_child000_000084 | compiled=True quant_acc1=80.67 fitness=80.67 time=225.2s
+[2026-04-17 14:24:33] Evaluating offspring gen003_child001_000085
+[2026-04-17 14:24:33] [gen003_child001_000085] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:24:33] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:24:50] Train epoch 1/3 | loss=0.4325 acc1=81.84%
+[2026-04-17 14:24:50] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:25:48] Train epoch 2/3 | loss=0.3682 acc1=84.24%
+[2026-04-17 14:26:45] Train epoch 3/3 | loss=0.2969 acc1=87.32%
+[2026-04-17 14:26:45] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child001_000085/model_float.onnx
+[2026-04-17 14:26:45] Float ONNX export finished in 0.24s
+[2026-04-17 14:26:45] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child001_000085/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.36s/it]
+Statistics Collection: 1it [00:01,  1.36s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/65 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 40/65 [00:00<00:00, 235.52it/s]
+Calculating quantization parameters:  98%|████████████████████████████████████████████████████▏| 64/65 [00:12<00:00,  4.17it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:14<00:00,  3.58it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:14<00:00,  4.56it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:27:02] PTQ + quantized ONNX export finished in 16.49s
+[2026-04-17 14:27:02] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child001_000085/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child001_000085/imx500_output timeout=1800s
+[2026-04-17 14:27:57] IMX500 compilation finished in 54.74s
+[2026-04-17 14:27:57] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:27:57.048064844 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 108 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:29:41] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=86.67% (batch_size=50)
+[2026-04-17 14:29:41] Evaluation (model_quant.onnx) finished in 104.80s
+[2026-04-17 14:29:41] Finished gen003_child001_000085 | compiled=True quant_acc1=86.67 fitness=86.67 time=308.6s
+[2026-04-17 14:29:41] Evaluating offspring gen003_child002_000086
+[2026-04-17 14:29:41] [gen003_child002_000086] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:29:41] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:29:57] Train epoch 1/3 | loss=0.4435 acc1=81.45%
+[2026-04-17 14:29:57] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:30:57] Train epoch 2/3 | loss=0.3654 acc1=84.00%
+[2026-04-17 14:31:56] Train epoch 3/3 | loss=0.3052 acc1=86.68%
+[2026-04-17 14:31:56] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child002_000086/model_float.onnx
+[2026-04-17 14:31:56] Float ONNX export finished in 0.24s
+[2026-04-17 14:31:56] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child002_000086/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.04s/it]
+Statistics Collection: 1it [00:02,  2.04s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/70 [00:00<?, ?it/s]
+Calculating quantization parameters:  61%|███████████████████████████████▉                    | 43/70 [00:00<00:00, 302.30it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 70/70 [00:13<00:00,  5.09it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:32:13] PTQ + quantized ONNX export finished in 16.50s
+[2026-04-17 14:32:13] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child002_000086/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child002_000086/imx500_output timeout=1800s
+[2026-04-17 14:33:36] IMX500 compilation finished in 83.33s
+[2026-04-17 14:33:36] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:33:36.408570292 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 116 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:36:15] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=84.67% (batch_size=50)
+[2026-04-17 14:36:15] Evaluation (model_quant.onnx) finished in 159.49s
+[2026-04-17 14:36:16] Finished gen003_child002_000086 | compiled=True quant_acc1=84.67 fitness=84.67 time=394.1s
+[2026-04-17 14:36:16] Evaluating offspring gen003_child003_000087
+[2026-04-17 14:36:16] [gen003_child003_000087] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:36:16] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:36:34] Train epoch 1/3 | loss=0.4261 acc1=82.08%
+[2026-04-17 14:36:34] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:37:43] Train epoch 2/3 | loss=0.3073 acc1=86.00%
+[2026-04-17 14:38:51] Train epoch 3/3 | loss=0.2774 acc1=87.48%
+[2026-04-17 14:38:51] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child003_000087/model_float.onnx
+[2026-04-17 14:38:51] Float ONNX export finished in 0.20s
+[2026-04-17 14:38:51] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child003_000087/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.23s/it]
+Statistics Collection: 1it [00:02,  2.23s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 208.47it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:13<00:00,  3.42it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:13<00:00,  4.19it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:39:07] PTQ + quantized ONNX export finished in 15.99s
+[2026-04-17 14:39:07] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child003_000087/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child003_000087/imx500_output timeout=1800s
+[2026-04-17 14:40:03] IMX500 compilation finished in 55.76s
+[2026-04-17 14:40:03] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:40:03.533353120 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:42:59] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=85.33% (batch_size=50)
+[2026-04-17 14:42:59] Evaluation (model_quant.onnx) finished in 176.43s
+[2026-04-17 14:43:00] Finished gen003_child003_000087 | compiled=True quant_acc1=85.33 fitness=85.33 time=404.0s
+[2026-04-17 14:43:00] Evaluating offspring gen003_child004_000088
+[2026-04-17 14:43:00] [gen003_child004_000088] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:43:00] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:43:14] Train epoch 1/3 | loss=0.4333 acc1=82.08%
+[2026-04-17 14:43:14] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:44:01] Train epoch 2/3 | loss=0.3486 acc1=85.04%
+[2026-04-17 14:44:48] Train epoch 3/3 | loss=0.3019 acc1=87.01%
+[2026-04-17 14:44:48] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child004_000088/model_float.onnx
+[2026-04-17 14:44:48] Float ONNX export finished in 0.15s
+[2026-04-17 14:44:48] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child004_000088/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.03s/it]
+Statistics Collection: 1it [00:01,  1.03s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 230.47it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:08<00:00,  5.69it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:44:58] PTQ + quantized ONNX export finished in 10.30s
+[2026-04-17 14:44:58] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child004_000088/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child004_000088/imx500_output timeout=1800s
+[2026-04-17 14:45:35] IMX500 compilation finished in 36.61s
+[2026-04-17 14:45:35] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:45:35.504487351 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:46:59] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=88.67% (batch_size=50)
+[2026-04-17 14:46:59] Evaluation (model_quant.onnx) finished in 83.96s
+[2026-04-17 14:46:59] Finished gen003_child004_000088 | compiled=True quant_acc1=88.67 fitness=88.67 time=239.5s
+[2026-04-17 14:46:59] Evaluating offspring gen003_child005_000089
+[2026-04-17 14:46:59] [gen003_child005_000089] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:46:59] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:47:14] Train epoch 1/3 | loss=0.4484 acc1=81.43%
+[2026-04-17 14:47:14] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:48:10] Train epoch 2/3 | loss=0.3758 acc1=83.97%
+[2026-04-17 14:49:06] Train epoch 3/3 | loss=0.3073 acc1=86.45%
+[2026-04-17 14:49:06] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child005_000089/model_float.onnx
+[2026-04-17 14:49:06] Float ONNX export finished in 0.21s
+[2026-04-17 14:49:06] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child005_000089/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.15s/it]
+Statistics Collection: 1it [00:02,  2.15s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 209.16it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:07<00:00,  5.69it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:07<00:00,  6.94it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:49:17] PTQ + quantized ONNX export finished in 10.63s
+[2026-04-17 14:49:17] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child005_000089/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child005_000089/imx500_output timeout=1800s
+[2026-04-17 14:50:05] IMX500 compilation finished in 48.44s
+[2026-04-17 14:50:05] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:50:05.517283783 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:52:56] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=86.00% (batch_size=50)
+[2026-04-17 14:52:56] Evaluation (model_quant.onnx) finished in 171.13s
+[2026-04-17 14:52:56] Finished gen003_child005_000089 | compiled=True quant_acc1=86.00 fitness=86.00 time=357.2s
+[2026-04-17 14:52:56] Evaluating offspring gen003_child006_000090
+[2026-04-17 14:52:56] [gen003_child006_000090] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:52:56] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:53:07] Train epoch 1/3 | loss=0.4433 acc1=81.48%
+[2026-04-17 14:53:07] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:53:47] Train epoch 2/3 | loss=0.3627 acc1=84.13%
+[2026-04-17 14:54:27] Train epoch 3/3 | loss=0.3064 acc1=86.68%
+[2026-04-17 14:54:27] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child006_000090/model_float.onnx
+[2026-04-17 14:54:27] Float ONNX export finished in 0.23s
+[2026-04-17 14:54:27] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child006_000090/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.23s/it]
+Statistics Collection: 1it [00:01,  1.23s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/45 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▎                   | 28/45 [00:00<00:00, 213.54it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 45/45 [00:09<00:00,  4.74it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:54:38] PTQ + quantized ONNX export finished in 11.30s
+[2026-04-17 14:54:38] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child006_000090/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child006_000090/imx500_output timeout=1800s
+[2026-04-17 14:55:28] IMX500 compilation finished in 49.91s
+[2026-04-17 14:55:28] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:55:28.706137598 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 76 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 14:57:08] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=79.33% (batch_size=50)
+[2026-04-17 14:57:08] Evaluation (model_quant.onnx) finished in 99.32s
+[2026-04-17 14:57:08] Finished gen003_child006_000090 | compiled=True quant_acc1=79.33 fitness=79.33 time=251.4s
+[2026-04-17 14:57:08] Evaluating offspring gen003_child007_000091
+[2026-04-17 14:57:08] [gen003_child007_000091] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 14:57:08] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 14:57:22] Train epoch 1/3 | loss=0.4244 acc1=82.31%
+[2026-04-17 14:57:22] Unfroze backbone after adaptation epoch.
+[2026-04-17 14:58:07] Train epoch 2/3 | loss=0.3456 acc1=84.92%
+[2026-04-17 14:58:51] Train epoch 3/3 | loss=0.3074 acc1=86.67%
+[2026-04-17 14:58:51] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child007_000091/model_float.onnx
+[2026-04-17 14:58:51] Float ONNX export finished in 0.24s
+[2026-04-17 14:58:51] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child007_000091/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:00,  1.06it/s]
+Statistics Collection: 1it [00:00,  1.06it/s]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 246.45it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:11<00:00, 246.45it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:12<00:00,  3.74it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:12<00:00,  4.58it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 14:59:05] PTQ + quantized ONNX export finished in 13.73s
+[2026-04-17 14:59:05] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child007_000091/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen003_child007_000091/imx500_output timeout=1800s
+[2026-04-17 14:59:51] IMX500 compilation finished in 46.63s
+[2026-04-17 14:59:51] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 14:59:52.003932992 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 15:01:10] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=87.33% (batch_size=50)
+[2026-04-17 15:01:10] Evaluation (model_quant.onnx) finished in 78.32s
+[2026-04-17 15:01:10] Finished gen003_child007_000091 | compiled=True quant_acc1=87.33 fitness=87.33 time=242.3s
+[2026-04-17 15:01:10] Generation 4 population summary
+[2026-04-17 15:01:10] rank | fitness | resolution stem | depths | widths
+[2026-04-17 15:01:10]    1 |   89.33 | 256  40 | (3, 1, 2, 3) | (64, 128, 160, 224)
+[2026-04-17 15:01:10]    2 |   88.67 | 256  32 | (2, 2, 2, 2) | (64, 128, 224, 224)
+[2026-04-17 15:01:10]    3 |   88.67 | 192  32 | (3, 1, 3, 1) | (48, 128, 192, 224)
+[2026-04-17 15:01:10]    4 |   87.33 | 192  32 | (2, 2, 2, 3) | (48, 128, 192, 256)
+[2026-04-17 15:01:10]    5 |   86.67 | 192  24 | (2, 1, 2, 3) | (48, 128, 192, 256)
+[2026-04-17 15:01:10]    6 |   86.67 | 256  40 | (3, 1, 2, 3) | (48, 128, 160, 224)
+[2026-04-17 15:01:10]    7 |   86.67 | 192  40 | (3, 1, 4, 3) | (64, 96, 192, 256)
+[2026-04-17 15:01:10]    8 |   86.00 | 192  40 | (3, 3, 3, 2) | (48, 128, 160, 256)
+[2026-04-17 15:01:10]    9 |   86.00 | 256  40 | (3, 1, 2, 3) | (64, 96, 160, 224)
+[2026-04-17 15:01:10]   10 |   85.33 | 256  40 | (2, 2, 4, 1) | (64, 128, 224, 224)
+[2026-04-17 15:01:10] Evaluating offspring gen004_child000_000092
+[2026-04-17 15:01:10] [gen004_child000_000092] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:01:10] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:01:27] Train epoch 1/3 | loss=0.4175 acc1=82.64%
+[2026-04-17 15:01:27] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:02:24] Train epoch 2/3 | loss=0.3362 acc1=85.18%
+[2026-04-17 15:03:21] Train epoch 3/3 | loss=0.2964 acc1=86.92%
+[2026-04-17 15:03:21] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child000_000092/model_float.onnx
+[2026-04-17 15:03:21] Float ONNX export finished in 0.24s
+[2026-04-17 15:03:21] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child000_000092/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.09s/it]
+Statistics Collection: 1it [00:01,  1.09s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/70 [00:00<?, ?it/s]
+Calculating quantization parameters:  61%|███████████████████████████████▉                    | 43/70 [00:00<00:00, 305.41it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 70/70 [00:13<00:00,  5.26it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:03:36] PTQ + quantized ONNX export finished in 15.11s
+[2026-04-17 15:03:36] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child000_000092/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child000_000092/imx500_output timeout=1800s
+[2026-04-17 15:04:30] IMX500 compilation finished in 53.94s
+[2026-04-17 15:04:30] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:04:30.831726496 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 116 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 15:06:00] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=82.67% (batch_size=50)
+[2026-04-17 15:06:00] Evaluation (model_quant.onnx) finished in 89.34s
+[2026-04-17 15:06:00] Finished gen004_child000_000092 | compiled=True quant_acc1=82.67 fitness=82.67 time=289.8s
+[2026-04-17 15:06:00] Evaluating offspring gen004_child001_000093
+[2026-04-17 15:06:00] [gen004_child001_000093] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:06:00] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:06:18] Train epoch 1/3 | loss=0.4286 acc1=82.24%
+[2026-04-17 15:06:18] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:07:17] Train epoch 2/3 | loss=0.3416 acc1=84.78%
+[2026-04-17 15:08:15] Train epoch 3/3 | loss=0.2913 acc1=86.99%
+[2026-04-17 15:08:15] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child001_000093/model_float.onnx
+[2026-04-17 15:08:15] Float ONNX export finished in 0.30s
+[2026-04-17 15:08:15] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child001_000093/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.60s/it]
+Statistics Collection: 1it [00:02,  2.60s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/65 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 40/65 [00:00<00:00, 230.12it/s]
+Calculating quantization parameters:  98%|████████████████████████████████████████████████████▏| 64/65 [00:12<00:00,  4.15it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:14<00:00,  3.62it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 65/65 [00:14<00:00,  4.59it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:08:33] PTQ + quantized ONNX export finished in 17.53s
+[2026-04-17 15:08:33] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child001_000093/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child001_000093/imx500_output timeout=1800s
+[2026-04-17 15:10:05] IMX500 compilation finished in 92.33s
+[2026-04-17 15:10:05] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:10:05.853203154 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 108 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 15:13:18] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=83.33% (batch_size=50)
+[2026-04-17 15:13:18] Evaluation (model_quant.onnx) finished in 193.08s
+[2026-04-17 15:13:19] Finished gen004_child001_000093 | compiled=True quant_acc1=83.33 fitness=83.33 time=438.8s
+[2026-04-17 15:13:19] Evaluating offspring gen004_child002_000094
+[2026-04-17 15:13:19] [gen004_child002_000094] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:13:19] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:13:32] Train epoch 1/3 | loss=0.4650 acc1=81.17%
+[2026-04-17 15:13:32] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:14:18] Train epoch 2/3 | loss=0.3609 acc1=84.68%
+[2026-04-17 15:15:05] Train epoch 3/3 | loss=0.3197 acc1=86.45%
+[2026-04-17 15:15:05] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child002_000094/model_float.onnx
+[2026-04-17 15:15:05] Float ONNX export finished in 0.12s
+[2026-04-17 15:15:05] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child002_000094/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.80s/it]
+Statistics Collection: 1it [00:01,  1.80s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/45 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▎                   | 28/45 [00:00<00:00, 198.41it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 45/45 [00:05<00:00,  7.74it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:15:14] PTQ + quantized ONNX export finished in 8.36s
+[2026-04-17 15:15:14] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child002_000094/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child002_000094/imx500_output timeout=1800s
+[2026-04-17 15:15:47] IMX500 compilation finished in 33.37s
+[2026-04-17 15:15:47] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:15:47.601079085 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 76 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 15:18:09] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=83.33% (batch_size=50)
+[2026-04-17 15:18:09] Evaluation (model_quant.onnx) finished in 141.88s
+[2026-04-17 15:18:09] Finished gen004_child002_000094 | compiled=True quant_acc1=83.33 fitness=83.33 time=290.6s
+[2026-04-17 15:18:09] Evaluating offspring gen004_child003_000095
+[2026-04-17 15:18:09] [gen004_child003_000095] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:18:09] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:18:23] Train epoch 1/3 | loss=0.4395 acc1=81.23%
+[2026-04-17 15:18:23] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:19:08] Train epoch 2/3 | loss=0.3545 acc1=85.01%
+[2026-04-17 15:19:53] Train epoch 3/3 | loss=0.3118 acc1=86.10%
+[2026-04-17 15:19:53] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child003_000095/model_float.onnx
+[2026-04-17 15:19:53] Float ONNX export finished in 0.22s
+[2026-04-17 15:19:53] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child003_000095/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.87s/it]
+Statistics Collection: 1it [00:01,  1.87s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  58%|██████████████████████████████▏                     | 29/50 [00:00<00:00, 240.43it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:10<00:00,  4.86it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:20:06] PTQ + quantized ONNX export finished in 12.70s
+[2026-04-17 15:20:06] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child003_000095/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child003_000095/imx500_output timeout=1800s
+[2026-04-17 15:20:54] IMX500 compilation finished in 48.39s
+[2026-04-17 15:20:54] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:20:54.776894065 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 15:23:16] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=84.67% (batch_size=50)
+[2026-04-17 15:23:16] Evaluation (model_quant.onnx) finished in 141.93s
+[2026-04-17 15:23:16] Finished gen004_child003_000095 | compiled=True quant_acc1=84.67 fitness=84.67 time=307.2s
+[2026-04-17 15:23:16] Evaluating offspring gen004_child004_000096
+[2026-04-17 15:23:16] [gen004_child004_000096] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:23:16] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:23:33] Train epoch 1/3 | loss=0.7896 acc1=71.14%
+[2026-04-17 15:23:33] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:24:44] Train epoch 2/3 | loss=0.4417 acc1=81.35%
+[2026-04-17 15:25:55] Train epoch 3/3 | loss=0.3347 acc1=85.22%
+[2026-04-17 15:25:55] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child004_000096/model_float.onnx
+[2026-04-17 15:25:55] Float ONNX export finished in 0.25s
+[2026-04-17 15:25:55] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child004_000096/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.02s/it]
+Statistics Collection: 1it [00:01,  1.02s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/60 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████                    | 37/60 [00:00<00:00, 274.05it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 60/60 [00:17<00:00,  3.50it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:26:14] PTQ + quantized ONNX export finished in 19.01s
+[2026-04-17 15:26:14] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child004_000096/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child004_000096/imx500_output timeout=1800s
+[2026-04-17 15:27:34] IMX500 compilation finished in 79.53s
+[2026-04-17 15:27:34] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:27:34.077128114 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 100 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 15:28:56] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=83.33% (batch_size=50)
+[2026-04-17 15:28:56] Evaluation (model_quant.onnx) finished in 82.66s
+[2026-04-17 15:28:56] Finished gen004_child004_000096 | compiled=True quant_acc1=83.33 fitness=83.33 time=340.0s
+[2026-04-17 15:28:56] Evaluating offspring gen004_child005_000097
+[2026-04-17 15:28:56] [gen004_child005_000097] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:28:56] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:29:12] Train epoch 1/3 | loss=0.4247 acc1=82.93%
+[2026-04-17 15:29:12] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:30:02] Train epoch 2/3 | loss=0.3254 acc1=85.18%
+[2026-04-17 15:30:52] Train epoch 3/3 | loss=0.2909 acc1=87.23%
+[2026-04-17 15:30:52] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child005_000097/model_float.onnx
+[2026-04-17 15:30:52] Float ONNX export finished in 0.20s
+[2026-04-17 15:30:52] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child005_000097/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.07s/it]
+Statistics Collection: 1it [00:02,  2.07s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 194.19it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:09<00:00,  5.18it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:31:04] PTQ + quantized ONNX export finished in 12.31s
+[2026-04-17 15:31:04] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child005_000097/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child005_000097/imx500_output timeout=1800s
+[2026-04-17 15:31:47] IMX500 compilation finished in 43.11s
+[2026-04-17 15:31:47] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:31:47.740950557 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[2026-04-17 15:34:31] Eval progress model_quant.onnx: batch 3/3, images=150/150, acc1=82.00% (batch_size=50)
+[2026-04-17 15:34:31] Evaluation (model_quant.onnx) finished in 164.25s
+[2026-04-17 15:34:32] Finished gen004_child005_000097 | compiled=True quant_acc1=82.00 fitness=82.00 time=335.3s
+[2026-04-17 15:34:32] Evaluating offspring gen004_child006_000098
+[2026-04-17 15:34:32] [gen004_child006_000098] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:34:32] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:34:52] Train epoch 1/3 | loss=0.4357 acc1=81.80%
+[2026-04-17 15:34:52] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:36:14] Train epoch 2/3 | loss=0.3579 acc1=84.57%
+[2026-04-17 15:37:36] Train epoch 3/3 | loss=0.2843 acc1=87.21%
+[2026-04-17 15:37:36] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child006_000098/model_float.onnx
+[2026-04-17 15:37:36] Float ONNX export finished in 0.28s
+[2026-04-17 15:37:36] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child006_000098/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:02,  2.46s/it]
+Statistics Collection: 1it [00:02,  2.46s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/70 [00:00<?, ?it/s]
+Calculating quantization parameters:  61%|███████████████████████████████▉                    | 43/70 [00:00<00:00, 266.80it/s]
+Calculating quantization parameters:  61%|███████████████████████████████▉                    | 43/70 [00:10<00:00, 266.80it/s]
+Calculating quantization parameters:  89%|██████████████████████████████████████████████▉      | 62/70 [00:10<00:01,  4.60it/s]
+Calculating quantization parameters:  90%|███████████████████████████████████████████████▋     | 63/70 [00:11<00:01,  4.12it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 70/70 [00:16<00:00,  4.21it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:37:56] PTQ + quantized ONNX export finished in 19.88s
+[2026-04-17 15:37:56] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child006_000098/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child006_000098/imx500_output timeout=1800s
+[2026-04-17 15:38:48] IMX500 compilation finished in 51.78s
+[2026-04-17 15:38:48] Finished gen004_child006_000098 | compiled=False quant_acc1=0.00 fitness=-1000000000.00 time=256.0s
+[2026-04-17 15:38:48] Evaluating offspring gen004_child007_000099
+[2026-04-17 15:38:48] [gen004_child007_000099] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:38:48] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:39:02] Train epoch 1/3 | loss=0.4384 acc1=81.74%
+[2026-04-17 15:39:02] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:39:52] Train epoch 2/3 | loss=0.3780 acc1=83.81%
+[2026-04-17 15:40:41] Train epoch 3/3 | loss=0.3048 acc1=86.97%
+[2026-04-17 15:40:41] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child007_000099/model_float.onnx
+[2026-04-17 15:40:42] Float ONNX export finished in 0.26s
+[2026-04-17 15:40:42] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child007_000099/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.43s/it]
+Statistics Collection: 1it [00:01,  1.43s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/55 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 34/55 [00:00<00:00, 208.31it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:10<00:00,  4.27it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 55/55 [00:10<00:00,  5.22it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:40:54] PTQ + quantized ONNX export finished in 12.57s
+[2026-04-17 15:40:54] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child007_000099/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen004_child007_000099/imx500_output timeout=1800s
+[2026-04-17 15:42:03] IMX500 compilation finished in 68.48s
+[2026-04-17 15:42:03] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:42:03.084180706 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 92 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[1;31m2026-04-17 15:42:05.900311781 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 160563200
+[m
+[2026-04-17 15:42:05] Evaluation failed for model_quant.onnx with batch_size=50: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 160563200
+. Retrying with batch_size=25.
+[1;31m2026-04-17 15:42:08.733603359 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 80281600
+[m
+[2026-04-17 15:42:08] Evaluation failed for model_quant.onnx with batch_size=25: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 80281600
+. Retrying with batch_size=12.
+[2026-04-17 15:42:51] Eval progress model_quant.onnx: batch 5/13, images=60/150, acc1=65.00% (batch_size=12)
+[2026-04-17 15:43:33] Eval progress model_quant.onnx: batch 10/13, images=120/150, acc1=78.33% (batch_size=12)
+[2026-04-17 15:43:54] Eval progress model_quant.onnx: batch 13/13, images=150/150, acc1=82.00% (batch_size=12)
+[2026-04-17 15:43:54] Evaluation (model_quant.onnx) finished in 111.62s
+[2026-04-17 15:43:54] Finished gen004_child007_000099 | compiled=True quant_acc1=82.00 fitness=82.00 time=306.7s
+[2026-04-17 15:43:54] Generation 5 population summary
+[2026-04-17 15:43:54] rank | fitness | resolution stem | depths | widths
+[2026-04-17 15:43:54]    1 |   89.33 | 256  40 | (3, 1, 2, 3) | (64, 128, 160, 224)
+[2026-04-17 15:43:54]    2 |   88.67 | 256  32 | (2, 2, 2, 2) | (64, 128, 224, 224)
+[2026-04-17 15:43:54]    3 |   88.67 | 192  32 | (3, 1, 3, 1) | (48, 128, 192, 224)
+[2026-04-17 15:43:54]    4 |   87.33 | 192  32 | (2, 2, 2, 3) | (48, 128, 192, 256)
+[2026-04-17 15:43:54]    5 |   86.67 | 192  24 | (2, 1, 2, 3) | (48, 128, 192, 256)
+[2026-04-17 15:43:54]    6 |   86.67 | 256  40 | (3, 1, 2, 3) | (48, 128, 160, 224)
+[2026-04-17 15:43:54]    7 |   86.67 | 192  40 | (3, 1, 4, 3) | (64, 96, 192, 256)
+[2026-04-17 15:43:54]    8 |   86.00 | 192  40 | (3, 3, 3, 2) | (48, 128, 160, 256)
+[2026-04-17 15:43:54]    9 |   86.00 | 256  40 | (3, 1, 2, 3) | (64, 96, 160, 224)
+[2026-04-17 15:43:54]   10 |   85.33 | 256  40 | (2, 2, 4, 1) | (64, 128, 224, 224)
+[2026-04-17 15:43:54] Evaluating offspring gen005_child000_000100
+[2026-04-17 15:43:54] [gen005_child000_000100] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:43:54] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:44:13] Train epoch 1/3 | loss=0.7531 acc1=71.97%
+[2026-04-17 15:44:13] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:45:24] Train epoch 2/3 | loss=0.4205 acc1=81.92%
+[2026-04-17 15:46:34] Train epoch 3/3 | loss=0.3396 acc1=85.02%
+[2026-04-17 15:46:34] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child000_000100/model_float.onnx
+[2026-04-17 15:46:34] Float ONNX export finished in 0.31s
+[2026-04-17 15:46:34] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child000_000100/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.42s/it]
+Statistics Collection: 1it [00:01,  1.42s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/75 [00:00<?, ?it/s]
+Calculating quantization parameters:  60%|███████████████████████████████▏                    | 45/75 [00:00<00:00, 446.47it/s]
+Calculating quantization parameters:  60%|███████████████████████████████▏                    | 45/75 [00:14<00:00, 446.47it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 75/75 [00:15<00:00,  4.04it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 75/75 [00:15<00:00,  4.92it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:46:52] PTQ + quantized ONNX export finished in 17.45s
+[2026-04-17 15:46:52] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child000_000100/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child000_000100/imx500_output timeout=1800s
+[2026-04-17 15:47:50] IMX500 compilation finished in 58.51s
+[2026-04-17 15:47:50] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:47:50.874102967 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 124 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[1;31m2026-04-17 15:47:53.167192070 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 117964800
+[m
+[2026-04-17 15:47:53] Evaluation failed for model_quant.onnx with batch_size=50: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 117964800
+. Retrying with batch_size=25.
+[1;31m2026-04-17 15:47:55.375530139 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 58982400
+[m
+[2026-04-17 15:47:55] Evaluation failed for model_quant.onnx with batch_size=25: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 58982400
+. Retrying with batch_size=12.
+[1;31m2026-04-17 15:48:09.682260429 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_1_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 87293952
+[m
+[2026-04-17 15:48:09] Evaluation failed for model_quant.onnx with batch_size=12: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_1_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 87293952
+. Retrying with batch_size=6.
+[1;31m2026-04-17 15:48:10.493352001 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 14155776
+[m
+[2026-04-17 15:48:10] Evaluation failed for model_quant.onnx with batch_size=6: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 14155776
+. Retrying with batch_size=3.
+[2026-04-17 15:48:21] Eval progress model_quant.onnx: batch 5/50, images=15/150, acc1=46.67% (batch_size=3)
+[2026-04-17 15:48:33] Eval progress model_quant.onnx: batch 10/50, images=30/150, acc1=50.00% (batch_size=3)
+[2026-04-17 15:48:43] Eval progress model_quant.onnx: batch 15/50, images=45/150, acc1=57.78% (batch_size=3)
+[2026-04-17 15:48:54] Eval progress model_quant.onnx: batch 20/50, images=60/150, acc1=66.67% (batch_size=3)
+[2026-04-17 15:49:06] Eval progress model_quant.onnx: batch 25/50, images=75/150, acc1=73.33% (batch_size=3)
+[2026-04-17 15:49:17] Eval progress model_quant.onnx: batch 30/50, images=90/150, acc1=77.78% (batch_size=3)
+[2026-04-17 15:49:28] Eval progress model_quant.onnx: batch 35/50, images=105/150, acc1=80.00% (batch_size=3)
+[2026-04-17 15:49:40] Eval progress model_quant.onnx: batch 40/50, images=120/150, acc1=80.83% (batch_size=3)
+[2026-04-17 15:49:51] Eval progress model_quant.onnx: batch 45/50, images=135/150, acc1=82.96% (batch_size=3)
+[2026-04-17 15:50:02] Eval progress model_quant.onnx: batch 50/50, images=150/150, acc1=84.67% (batch_size=3)
+[2026-04-17 15:50:02] Evaluation (model_quant.onnx) finished in 131.29s
+[2026-04-17 15:50:02] Finished gen005_child000_000100 | compiled=True quant_acc1=84.67 fitness=84.67 time=367.4s
+[2026-04-17 15:50:02] Evaluating offspring gen005_child001_000101
+[2026-04-17 15:50:02] [gen005_child001_000101] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:50:02] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:50:20] Train epoch 1/3 | loss=0.4269 acc1=82.06%
+[2026-04-17 15:50:20] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:51:24] Train epoch 2/3 | loss=0.3335 acc1=85.27%
+[2026-04-17 15:52:28] Train epoch 3/3 | loss=0.2855 acc1=87.38%
+[2026-04-17 15:52:28] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child001_000101/model_float.onnx
+[2026-04-17 15:52:28] Float ONNX export finished in 0.40s
+[2026-04-17 15:52:28] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child001_000101/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.89s/it]
+Statistics Collection: 1it [00:01,  1.89s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 212.45it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:08<00:00,  5.74it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:52:40] PTQ + quantized ONNX export finished in 11.31s
+[2026-04-17 15:52:40] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child001_000101/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child001_000101/imx500_output timeout=1800s
+[2026-04-17 15:53:19] IMX500 compilation finished in 39.43s
+[2026-04-17 15:53:19] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:53:19.555030320 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[1;31m2026-04-17 15:53:22.000598890 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 160563200
+[m
+[2026-04-17 15:53:22] Evaluation failed for model_quant.onnx with batch_size=50: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 160563200
+. Retrying with batch_size=25.
+[1;31m2026-04-17 15:53:24.631487442 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 80281600
+[m
+[2026-04-17 15:53:24] Evaluation failed for model_quant.onnx with batch_size=25: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 80281600
+. Retrying with batch_size=12.
+[1;31m2026-04-17 15:53:32.764583509 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_1_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 117964800
+[m
+[2026-04-17 15:53:32] Evaluation failed for model_quant.onnx with batch_size=12: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_1_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 117964800
+. Retrying with batch_size=6.
+[2026-04-17 15:53:59] Eval progress model_quant.onnx: batch 5/25, images=30/150, acc1=80.00% (batch_size=6)
+[2026-04-17 15:54:26] Eval progress model_quant.onnx: batch 10/25, images=60/150, acc1=70.00% (batch_size=6)
+[2026-04-17 15:54:54] Eval progress model_quant.onnx: batch 15/25, images=90/150, acc1=78.89% (batch_size=6)
+[2026-04-17 15:55:20] Eval progress model_quant.onnx: batch 20/25, images=120/150, acc1=84.17% (batch_size=6)
+[2026-04-17 15:55:47] Eval progress model_quant.onnx: batch 25/25, images=150/150, acc1=87.33% (batch_size=6)
+[2026-04-17 15:55:47] Evaluation (model_quant.onnx) finished in 147.91s
+[2026-04-17 15:55:47] Finished gen005_child001_000101 | compiled=True quant_acc1=87.33 fitness=87.33 time=345.3s
+[2026-04-17 15:55:47] Evaluating offspring gen005_child002_000102
+[2026-04-17 15:55:47] [gen005_child002_000102] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:55:47] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:55:59] Train epoch 1/3 | loss=0.4524 acc1=81.56%
+[2026-04-17 15:55:59] Unfroze backbone after adaptation epoch.
+[2026-04-17 15:56:45] Train epoch 2/3 | loss=0.3629 acc1=84.45%
+[2026-04-17 15:57:30] Train epoch 3/3 | loss=0.3228 acc1=85.97%
+[2026-04-17 15:57:30] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child002_000102/model_float.onnx
+[2026-04-17 15:57:31] Float ONNX export finished in 0.18s
+[2026-04-17 15:57:31] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child002_000102/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.33s/it]
+Statistics Collection: 1it [00:01,  1.33s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/45 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▎                   | 28/45 [00:00<00:00, 199.57it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 45/45 [00:05<00:00,  8.65it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 15:57:38] PTQ + quantized ONNX export finished in 7.00s
+[2026-04-17 15:57:38] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child002_000102/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child002_000102/imx500_output timeout=1800s
+[2026-04-17 15:58:08] IMX500 compilation finished in 30.25s
+[2026-04-17 15:58:08] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 15:58:08.293535709 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 76 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[1;31m2026-04-17 15:58:11.162454622 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 120422400
+[m
+[2026-04-17 15:58:11] Evaluation failed for model_quant.onnx with batch_size=50: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 120422400
+. Retrying with batch_size=25.
+[1;31m2026-04-17 15:58:13.683515200 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 60211200
+[m
+[2026-04-17 15:58:13] Evaluation failed for model_quant.onnx with batch_size=25: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 60211200
+. Retrying with batch_size=12.
+[2026-04-17 15:58:52] Eval progress model_quant.onnx: batch 5/13, images=60/150, acc1=66.67% (batch_size=12)
+[2026-04-17 15:59:30] Eval progress model_quant.onnx: batch 10/13, images=120/150, acc1=80.83% (batch_size=12)
+[2026-04-17 15:59:49] Eval progress model_quant.onnx: batch 13/13, images=150/150, acc1=84.00% (batch_size=12)
+[2026-04-17 15:59:49] Evaluation (model_quant.onnx) finished in 101.00s
+[2026-04-17 15:59:49] Finished gen005_child002_000102 | compiled=True quant_acc1=84.00 fitness=84.00 time=241.8s
+[2026-04-17 15:59:49] Evaluating offspring gen005_child004_000103
+[2026-04-17 15:59:49] [gen005_child004_000103] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 15:59:49] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 15:59:59] Train epoch 1/3 | loss=0.4336 acc1=82.43%
+[2026-04-17 15:59:59] Unfroze backbone after adaptation epoch.
+[2026-04-17 16:00:31] Train epoch 2/3 | loss=0.3848 acc1=83.81%
+[2026-04-17 16:01:04] Train epoch 3/3 | loss=0.3253 acc1=85.87%
+[2026-04-17 16:01:04] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child004_000103/model_float.onnx
+[2026-04-17 16:01:04] Float ONNX export finished in 0.25s
+[2026-04-17 16:01:04] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child004_000103/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:01,  1.19s/it]
+Statistics Collection: 1it [00:01,  1.19s/it]
+
+Calculating quantization parameters:   0%|                                                              | 0/45 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▎                   | 28/45 [00:00<00:00, 195.65it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 45/45 [00:09<00:00,  4.64it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 16:01:16] PTQ + quantized ONNX export finished in 11.46s
+[2026-04-17 16:01:16] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child004_000103/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child004_000103/imx500_output timeout=1800s
+[2026-04-17 16:02:00] IMX500 compilation finished in 44.42s
+[2026-04-17 16:02:00] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 16:02:00.566084138 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 76 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[1;31m2026-04-17 16:02:03.680885488 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 209715200
+[m
+[2026-04-17 16:02:03] Evaluation failed for model_quant.onnx with batch_size=50: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 209715200
+. Retrying with batch_size=25.
+[1;31m2026-04-17 16:02:05.196823535 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 104857600
+[m
+[2026-04-17 16:02:05] Evaluation failed for model_quant.onnx with batch_size=25: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 104857600
+. Retrying with batch_size=12.
+[1;31m2026-04-17 16:02:15.246283943 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 50331648
+[m
+[2026-04-17 16:02:15] Evaluation failed for model_quant.onnx with batch_size=12: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 50331648
+. Retrying with batch_size=6.
+[2026-04-17 16:02:33] Eval progress model_quant.onnx: batch 5/25, images=30/150, acc1=36.67% (batch_size=6)
+[2026-04-17 16:02:51] Eval progress model_quant.onnx: batch 10/25, images=60/150, acc1=61.67% (batch_size=6)
+[2026-04-17 16:03:10] Eval progress model_quant.onnx: batch 15/25, images=90/150, acc1=71.11% (batch_size=6)
+[2026-04-17 16:03:29] Eval progress model_quant.onnx: batch 20/25, images=120/150, acc1=76.67% (batch_size=6)
+[2026-04-17 16:03:47] Eval progress model_quant.onnx: batch 25/25, images=150/150, acc1=81.33% (batch_size=6)
+[2026-04-17 16:03:47] Evaluation (model_quant.onnx) finished in 106.59s
+[2026-04-17 16:03:47] Finished gen005_child004_000103 | compiled=True quant_acc1=81.33 fitness=81.33 time=237.9s
+[2026-04-17 16:03:47] Evaluating offspring gen005_child005_000104
+[2026-04-17 16:03:47] [gen005_child005_000104] Replaced classifier (1000 -> 6) and enabling frozen first epoch.
+[2026-04-17 16:03:47] Training epoch 1 with frozen backbone (classifier adaptation phase).
+[2026-04-17 16:04:00] Train epoch 1/3 | loss=0.4451 acc1=81.22%
+[2026-04-17 16:04:00] Unfroze backbone after adaptation epoch.
+[2026-04-17 16:04:42] Train epoch 2/3 | loss=0.3596 acc1=84.50%
+[2026-04-17 16:05:24] Train epoch 3/3 | loss=0.3204 acc1=85.96%
+[2026-04-17 16:05:24] Exporting float ONNX: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child005_000104/model_float.onnx
+[2026-04-17 16:05:24] Float ONNX export finished in 0.27s
+[2026-04-17 16:05:24] Starting PTQ quantization + ONNX export: /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child005_000104/model_quant.onnx
+WARNING:Model Compression Toolkit:DepthwiseConv2D is not in model.
+
+Statistics Collection: 0it [00:00, ?it/s]
+Statistics Collection: 1it [00:00,  1.02it/s]
+Statistics Collection: 1it [00:00,  1.02it/s]
+
+Calculating quantization parameters:   0%|                                                              | 0/50 [00:00<?, ?it/s]
+Calculating quantization parameters:  62%|████████████████████████████████▏                   | 31/50 [00:00<00:00, 194.25it/s]
+Calculating quantization parameters: 100%|█████████████████████████████████████████████████████| 50/50 [00:10<00:00,  4.83it/s]
+WARNING:Model Compression Toolkit:Attribute 'metadata' not found in the model or its submodules.
+/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/mct_quantizers/pytorch/quantizers/weights_inferable_quantizers/weights_symmetric_inferable_quantizer.py:52: TracerWarning: torch.tensor results are registered as constants in the trace. You can safely ignore this warning if you use this function to create tensors out of constant variables that would be the same every time you call this function. In any other case, this might cause the trace to be incorrect.
+  threshold = torch.tensor(threshold, dtype=torch.float32).to(get_working_device())
+[2026-04-17 16:05:36] PTQ + quantized ONNX export finished in 11.93s
+[2026-04-17 16:05:36] Starting IMX500 compilation: input=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child005_000104/model_quant.onnx output=/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748/candidates/gen005_child005_000104/imx500_output timeout=1800s
+[2026-04-17 16:06:26] IMX500 compilation finished in 49.99s
+[2026-04-17 16:06:26] Starting evaluation for model_quant.onnx: images=150 batch_size=50
+[0;93m2026-04-17 16:06:26.542450124 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 84 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[1;31m2026-04-17 16:06:28.727995482 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 117964800
+[m
+[2026-04-17 16:06:28] Evaluation failed for model_quant.onnx with batch_size=50: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_downsample_0_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 117964800
+. Retrying with batch_size=25.
+[1;31m2026-04-17 16:06:30.859029453 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 58982400
+[m
+[2026-04-17 16:06:30] Evaluation failed for model_quant.onnx with batch_size=25: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv1_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 58982400
+. Retrying with batch_size=12.
+[2026-04-17 16:07:00] Eval progress model_quant.onnx: batch 5/13, images=60/150, acc1=65.00% (batch_size=12)
+[2026-04-17 16:07:28] Eval progress model_quant.onnx: batch 10/13, images=120/150, acc1=78.33% (batch_size=12)
+[1;31m2026-04-17 16:07:41.822691134 [E:onnxruntime:, sequential_executor.cc:572 ExecuteKernel] Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 14155776
+[m
+[2026-04-17 16:07:41] Evaluation failed for model_quant.onnx with batch_size=12: [ONNXRuntimeError] : 6 : RUNTIME_EXCEPTION : Non-zero status code returned while running Conv node. Name:'/stages_0_0_conv2_bn/layer/Conv' Status Message: /onnxruntime_src/onnxruntime/core/framework/bfc_arena.cc:359 void* onnxruntime::BFCArena::AllocateRawInternal(size_t, bool, onnxruntime::Stream*) Failed to allocate memory for requested buffer of size 14155776
+. Retrying with batch_size=6.
+terminate called after throwing an instance of 'onnxruntime::OnnxRuntimeException'
+  what():  /onnxruntime_src/onnxruntime/core/providers/cuda/cuda_call.cc:129 std::conditional_t<THRW, void, onnxruntime::common::Status> onnxruntime::CudaCall(ERRTYPE, const char*, const char*, SUCCTYPE, const char*, const char*, int) [with ERRTYPE = cudaError; bool THRW = true; SUCCTYPE = cudaError; std::conditional_t<THRW, void, common::Status> = void] /onnxruntime_src/onnxruntime/core/providers/cuda/cuda_call.cc:121 std::conditional_t<THRW, void, onnxruntime::common::Status> onnxruntime::CudaCall(ERRTYPE, const char*, const char*, SUCCTYPE, const char*, const char*, int) [with ERRTYPE = cudaError; bool THRW = true; SUCCTYPE = cudaError; std::conditional_t<THRW, void, common::Status> = void] CUDA failure 700: an illegal memory access was encountered ; GPU=0 ; hostname=supergpu6.fit.vutbr.cz ; file=/onnxruntime_src/onnxruntime/core/providers/cuda/cuda_stream_handle.cc ; line=36 ; expr=cudaEventDestroy(event_); 
+
+

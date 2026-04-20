@@ -1,0 +1,50 @@
+{
+  "candidate_id": "gen010_child007_000145",
+  "config": {
+    "resolution": 288,
+    "stem_width": 40,
+    "stage_depths": [
+      3,
+      1,
+      4,
+      2
+    ],
+    "stage_widths": [
+      48,
+      96,
+      224,
+      256
+    ]
+  },
+  "compiled": true,
+  "compile_log": "2026-04-17 05:27:06,144 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 05:27:06,144 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_007_seed_1879/20260416_214856_pid49224/candidates/gen010_child007_000145/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 05:27:12,998 INFO : Wrote outputs to /tmp/1343059.1.long.q/tmp76xzf4su/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 05:27:12,999 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 05:27:13.592 INFO : CODE: [START] Starting SDSPconv\n2026-04-17 05:27:32.827 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 9.65MB \n2026-04-17 05:27:32.890 INFO : CODE: [IMCF] ConvFe failed with insufficient memory, trying to run Tiling Advisor\n2026-04-17 05:27:55.033 INFO : ConvFe conversion finished successfully\n2026-04-17 05:27:56.346 INFO : CBE component - DspConvParser has started conversion.\n2026-04-17 05:27:56.518 INFO : Dsp-Dnn-Parser finished successfully !\n2026-04-17 05:28:00.330 INFO : LogicModel generated successfully ! \n2026-04-17 05:28:00.337 INFO : DspConvParser runs: 4010 [msec]\n2026-04-17 05:28:00.337 INFO : CBE component - DspConvParser finished conversion.\n2026-04-17 05:28:02.995 WARN : CODE: [CBE] [ConvQReluQValidation:265] Id = Windowed_TiledLayer_2_/stages_1_0_downsample_0_bn/layer/Conv: Detect convolution coefficients tensor with suboptimal dynamic range values. ChannelOut = 84 , ML = 1.52587890625E-5 , max(Abs(val)) = 7.152557373046875E-7\n2026-04-17 05:28:03.150 WARN : CODE: [CBE] [ConvQReluQValidation:265] Id = Windowed_TiledLayer_0_/stages_1_0_downsample_0_bn/layer/Conv: Detect convolution coefficients tensor with suboptimal dynamic range values. ChannelOut = 84 , ML = 1.52587890625E-5 , max(Abs(val)) = 7.152557373046875E-7\n2026-04-17 05:28:03.181 WARN : CODE: [CBE] [ConvQReluQValidation:265] Id = Windowed_TiledLayer_1_/stages_1_0_downsample_0_bn/layer/Conv: Detect convolution coefficients tensor with suboptimal dynamic range values. ChannelOut = 84 , ML = 1.52587890625E-5 , max(Abs(val)) = 7.152557373046875E-7\n2026-04-17 05:28:31.132 INFO : Converter Backend successfully completed!\n2026-04-17 05:28:31.133 INFO : Conversion time is 30.61 Seconds\n2026-04-17 05:28:31.925 INFO : packer zip successfully generated under /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_007_seed_1879/20260416_214856_pid49224/candidates/gen010_child007_000145/imx500_output/packerOut.zip\n2026-04-17 05:28:32.112 INFO : CODE: [OUTPUT] Output is in /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_007_seed_1879/20260416_214856_pid49224/candidates/gen010_child007_000145/imx500_output",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7ff811241660>"
+  },
+  "quant_eval": {
+    "acc1": 86.0,
+    "correct": 129.0,
+    "total": 150.0,
+    "evaluated": 1.0,
+    "used_batch_size": 50.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 0.42533992896289946,
+      "acc1": 82.60377358490567
+    },
+    {
+      "epoch": 2.0,
+      "loss": 0.32811741716456866,
+      "acc1": 85.37106918238993
+    },
+    {
+      "epoch": 3.0,
+      "loss": 0.295237126174213,
+      "acc1": 87.16981132075472
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_007_seed_1879/20260416_214856_pid49224/candidates/gen010_child007_000145/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_007_seed_1879/20260416_214856_pid49224/candidates/gen010_child007_000145/model_quant.onnx"
+}

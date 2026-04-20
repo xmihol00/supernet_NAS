@@ -1,0 +1,7119 @@
+[
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 0,
+    "seed": 1200,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-11T19:26:22Z",
+    "finished_at": "2026-04-12T12:58:59Z",
+    "elapsed_wall_seconds": 63157.93362629204,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1200",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200/20260411_212635_pid16396",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 1200,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 90.66666666666667,
+      "best_quant_acc1": 90.66666666666667,
+      "total_candidates_evaluated": 220,
+      "compiled_candidates": 191,
+      "compile_success_rate": 0.8681818181818182,
+      "elapsed_seconds": 63135.11714633182,
+      "best_config": {
+        "resolution": 256,
+        "stem_width": 24,
+        "stage_depths": [
+          1,
+          1,
+          2,
+          2
+        ],
+        "stage_widths": [
+          48,
+          96,
+          224,
+          256
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200/20260411_212635_pid16396/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 90.66666666666667,
+          "quant_acc1": 90.66666666666667,
+          "compiled": true,
+          "birth_id": 139,
+          "source": "generation_10",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200/20260411_212635_pid16396/candidates/gen010_child000_000139",
+          "config": {
+            "resolution": 256,
+            "stem_width": 24,
+            "stage_depths": [
+              1,
+              1,
+              2,
+              2
+            ],
+            "stage_widths": [
+              48,
+              96,
+              224,
+              256
+            ]
+          },
+          "candidate_id": "gen010_child000_000139"
+        },
+        {
+          "fitness": 90.0,
+          "quant_acc1": 90.0,
+          "compiled": true,
+          "birth_id": 161,
+          "source": "generation_12",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200/20260411_212635_pid16396/candidates/gen012_child007_000161",
+          "config": {
+            "resolution": 256,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              2,
+              3,
+              2
+            ],
+            "stage_widths": [
+              64,
+              96,
+              224,
+              256
+            ]
+          },
+          "candidate_id": "gen012_child007_000161"
+        },
+        {
+          "fitness": 89.33333333333333,
+          "quant_acc1": 89.33333333333333,
+          "compiled": true,
+          "birth_id": 91,
+          "source": "generation_3",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200/20260411_212635_pid16396/candidates/gen003_child006_000091",
+          "config": {
+            "resolution": 256,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              4,
+              3,
+              3
+            ],
+            "stage_widths": [
+              64,
+              96,
+              160,
+              288
+            ]
+          },
+          "candidate_id": "gen003_child006_000091"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_000_seed_1200/20260411_212635_pid16396"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 86.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 50.49066666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 86.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 62.30666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 86.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 73.74266666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 83.70666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 84.58666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 84.90666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 85.49333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 7,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.0,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.34666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 9,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.58666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.85333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.96000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.17333333333335,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 13,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.25333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.30666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.44,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 16,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.62666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 18,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.62666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.67999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.67999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.67999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.70666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.73333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.73333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 223,
+    "launch_order": 1
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 1,
+    "seed": 1297,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-12T12:59:01Z",
+    "finished_at": "2026-04-13T07:24:59Z",
+    "elapsed_wall_seconds": 66358.07351310691,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1297",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297/20260412_145907_pid2393",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 1297,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 90.0,
+      "best_quant_acc1": 90.0,
+      "total_candidates_evaluated": 222,
+      "compiled_candidates": 204,
+      "compile_success_rate": 0.918918918918919,
+      "elapsed_seconds": 66350.055167482,
+      "best_config": {
+        "resolution": 256,
+        "stem_width": 32,
+        "stage_depths": [
+          1,
+          2,
+          2,
+          3
+        ],
+        "stage_widths": [
+          64,
+          128,
+          192,
+          288
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297/20260412_145907_pid2393/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 90.0,
+          "quant_acc1": 90.0,
+          "compiled": true,
+          "birth_id": 220,
+          "source": "generation_20",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297/20260412_145907_pid2393/candidates/gen020_child000_000220",
+          "config": {
+            "resolution": 256,
+            "stem_width": 32,
+            "stage_depths": [
+              1,
+              2,
+              2,
+              3
+            ],
+            "stage_widths": [
+              64,
+              128,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen020_child000_000220"
+        },
+        {
+          "fitness": 89.33333333333333,
+          "quant_acc1": 89.33333333333333,
+          "compiled": true,
+          "birth_id": 61,
+          "source": "generation_0",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297/20260412_145907_pid2393/candidates/gen000_child000_000061",
+          "config": {
+            "resolution": 256,
+            "stem_width": 24,
+            "stage_depths": [
+              2,
+              3,
+              2,
+              2
+            ],
+            "stage_widths": [
+              64,
+              96,
+              160,
+              256
+            ]
+          },
+          "candidate_id": "gen000_child000_000061"
+        },
+        {
+          "fitness": 89.33333333333333,
+          "quant_acc1": 89.33333333333333,
+          "compiled": true,
+          "birth_id": 173,
+          "source": "generation_14",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297/20260412_145907_pid2393/candidates/gen014_child000_000173",
+          "config": {
+            "resolution": 256,
+            "stem_width": 32,
+            "stage_depths": [
+              2,
+              3,
+              2,
+              2
+            ],
+            "stage_widths": [
+              64,
+              128,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen014_child000_000173"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_001_seed_1297/20260412_145907_pid2393"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 50.67733333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 62.6,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 72.48666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 84.05333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 84.42666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 85.49333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.05333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.26666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.39999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.50666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.64000000000001,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.98666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 86.98666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.06666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.57333333333332,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.73333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.78666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.78666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.81333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 87.81333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 20,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.94666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 21,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.97333333333331,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 22,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.97333333333331,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.97333333333331,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.97333333333331,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 225,
+    "launch_order": 2
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 2,
+    "seed": 1394,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-13T07:24:59Z",
+    "finished_at": "2026-04-14T03:39:57Z",
+    "elapsed_wall_seconds": 72897.70772814401,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1394",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394/20260413_092506_pid1996",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 1394,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 91.33333333333333,
+      "best_quant_acc1": 91.33333333333333,
+      "total_candidates_evaluated": 225,
+      "compiled_candidates": 214,
+      "compile_success_rate": 0.9511111111111111,
+      "elapsed_seconds": 72889.53002035595,
+      "best_config": {
+        "resolution": 192,
+        "stem_width": 32,
+        "stage_depths": [
+          2,
+          3,
+          3,
+          2
+        ],
+        "stage_widths": [
+          64,
+          128,
+          192,
+          288
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394/20260413_092506_pid1996/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 91.33333333333333,
+          "quant_acc1": 91.33333333333333,
+          "compiled": true,
+          "birth_id": 124,
+          "source": "generation_7",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394/20260413_092506_pid1996/candidates/gen007_child007_000124",
+          "config": {
+            "resolution": 192,
+            "stem_width": 32,
+            "stage_depths": [
+              2,
+              3,
+              3,
+              2
+            ],
+            "stage_widths": [
+              64,
+              128,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen007_child007_000124"
+        },
+        {
+          "fitness": 90.0,
+          "quant_acc1": 90.0,
+          "compiled": true,
+          "birth_id": 223,
+          "source": "generation_20",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394/20260413_092506_pid1996/candidates/gen020_child002_000223",
+          "config": {
+            "resolution": 288,
+            "stem_width": 32,
+            "stage_depths": [
+              1,
+              1,
+              4,
+              2
+            ],
+            "stage_widths": [
+              48,
+              96,
+              160,
+              256
+            ]
+          },
+          "candidate_id": "gen020_child002_000223"
+        },
+        {
+          "fitness": 89.33333333333333,
+          "quant_acc1": 89.33333333333333,
+          "compiled": true,
+          "birth_id": 116,
+          "source": "generation_6",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394/20260413_092506_pid1996/candidates/gen006_child007_000116",
+          "config": {
+            "resolution": 256,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              1,
+              4,
+              2
+            ],
+            "stage_widths": [
+              48,
+              96,
+              160,
+              288
+            ]
+          },
+          "candidate_id": "gen006_child007_000116"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_002_seed_1394/20260413_092506_pid1996"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 86.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            1,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 52.35733333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 64.59733333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.08,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 84.8,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 85.54666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.10666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            1,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.4,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.03999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.30666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.38666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.68,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.78666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.78666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.81333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.97333333333331,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.99999999999999,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.08,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.34666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.34666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.37333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.45333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.45333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 228,
+    "launch_order": 3
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 3,
+    "seed": 1491,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-14T03:39:58Z",
+    "finished_at": "2026-04-14T23:32:44Z",
+    "elapsed_wall_seconds": 71566.14567344123,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1491",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491/20260414_054005_pid52727",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 1491,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 90.0,
+      "best_quant_acc1": 90.0,
+      "total_candidates_evaluated": 222,
+      "compiled_candidates": 199,
+      "compile_success_rate": 0.8963963963963963,
+      "elapsed_seconds": 71557.87670989125,
+      "best_config": {
+        "resolution": 288,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          4,
+          3,
+          2
+        ],
+        "stage_widths": [
+          48,
+          128,
+          224,
+          224
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491/20260414_054005_pid52727/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 90.0,
+          "quant_acc1": 90.0,
+          "compiled": true,
+          "birth_id": 138,
+          "source": "generation_9",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491/20260414_054005_pid52727/candidates/gen009_child006_000138",
+          "config": {
+            "resolution": 288,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              4,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              224,
+              224
+            ]
+          },
+          "candidate_id": "gen009_child006_000138"
+        },
+        {
+          "fitness": 90.0,
+          "quant_acc1": 90.0,
+          "compiled": true,
+          "birth_id": 151,
+          "source": "generation_11",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491/20260414_054005_pid52727/candidates/gen011_child003_000151",
+          "config": {
+            "resolution": 256,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              4,
+              3,
+              3
+            ],
+            "stage_widths": [
+              48,
+              96,
+              160,
+              224
+            ]
+          },
+          "candidate_id": "gen011_child003_000151"
+        },
+        {
+          "fitness": 90.0,
+          "quant_acc1": 90.0,
+          "compiled": true,
+          "birth_id": 202,
+          "source": "generation_18",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491/20260414_054005_pid52727/candidates/gen018_child000_000202",
+          "config": {
+            "resolution": 256,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              1,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              96,
+              160,
+              288
+            ]
+          },
+          "candidate_id": "gen018_child000_000202"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_003_seed_1491/20260414_054005_pid52727"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 51.42400000000001,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 63.26399999999999,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 73.476,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 3,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 81.45333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            1,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 84.50666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            1,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 85.25333333333332,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            1,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 85.52000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            1,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 85.68,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            1,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 85.70666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.37333333333332,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.69333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.06666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 12,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.38666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.38666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.46666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.62666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.62666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 17,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.78666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.94666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.05333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.10666666666665,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.26666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.32000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.32000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 225,
+    "launch_order": 4
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 4,
+    "seed": 1588,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-14T23:32:45Z",
+    "finished_at": "2026-04-15T18:56:34Z",
+    "elapsed_wall_seconds": 69828.55302163633,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1588",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588/20260415_013255_pid28577",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 1588,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 91.33333333333333,
+      "best_quant_acc1": 91.33333333333333,
+      "total_candidates_evaluated": 222,
+      "compiled_candidates": 201,
+      "compile_success_rate": 0.9054054054054054,
+      "elapsed_seconds": 69817.27882174961,
+      "best_config": {
+        "resolution": 224,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          3,
+          4,
+          2
+        ],
+        "stage_widths": [
+          64,
+          96,
+          160,
+          288
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588/20260415_013255_pid28577/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 91.33333333333333,
+          "quant_acc1": 91.33333333333333,
+          "compiled": true,
+          "birth_id": 114,
+          "source": "generation_6",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588/20260415_013255_pid28577/candidates/gen006_child006_000114",
+          "config": {
+            "resolution": 224,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              3,
+              4,
+              2
+            ],
+            "stage_widths": [
+              64,
+              96,
+              160,
+              288
+            ]
+          },
+          "candidate_id": "gen006_child006_000114"
+        },
+        {
+          "fitness": 89.33333333333333,
+          "quant_acc1": 89.33333333333333,
+          "compiled": true,
+          "birth_id": 82,
+          "source": "generation_2",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588/20260415_013255_pid28577/candidates/gen002_child006_000082",
+          "config": {
+            "resolution": 256,
+            "stem_width": 40,
+            "stage_depths": [
+              2,
+              1,
+              2,
+              1
+            ],
+            "stage_widths": [
+              48,
+              128,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen002_child006_000082"
+        },
+        {
+          "fitness": 88.66666666666667,
+          "quant_acc1": 88.66666666666667,
+          "compiled": true,
+          "birth_id": 142,
+          "source": "generation_10",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588/20260415_013255_pid28577/candidates/gen010_child002_000142",
+          "config": {
+            "resolution": 192,
+            "stem_width": 40,
+            "stage_depths": [
+              1,
+              3,
+              2,
+              1
+            ],
+            "stage_widths": [
+              64,
+              128,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen010_child002_000142"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_004_seed_1588/20260415_013255_pid28577"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 85.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 53.22933333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 85.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 65.12,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 2,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            1,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 73.44933333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            1,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 83.49333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            1,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 84.58666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            1,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 84.63999999999999,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 85.2,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 85.41333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 85.94666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.69333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.01333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.12,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.28000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.30666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.49333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.49333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.65333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.70666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.70666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.70666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 23,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.78666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 24,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 224,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.81333333333332,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 225,
+    "launch_order": 5
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 5,
+    "seed": 1685,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-15T18:56:35Z",
+    "finished_at": "2026-04-16T16:12:16Z",
+    "elapsed_wall_seconds": 76540.83395752078,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1685",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685/20260415_205701_pid10365",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 1685,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 90.66666666666667,
+      "best_quant_acc1": 90.66666666666667,
+      "total_candidates_evaluated": 219,
+      "compiled_candidates": 197,
+      "compile_success_rate": 0.8995433789954338,
+      "elapsed_seconds": 76513.81546557369,
+      "best_config": {
+        "resolution": 256,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          4,
+          3,
+          2
+        ],
+        "stage_widths": [
+          48,
+          128,
+          192,
+          224
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685/20260415_205701_pid10365/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 90.66666666666667,
+          "quant_acc1": 90.66666666666667,
+          "compiled": true,
+          "birth_id": 127,
+          "source": "generation_8",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685/20260415_205701_pid10365/candidates/gen008_child002_000127",
+          "config": {
+            "resolution": 256,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              4,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen008_child002_000127"
+        },
+        {
+          "fitness": 90.66666666666667,
+          "quant_acc1": 90.66666666666667,
+          "compiled": true,
+          "birth_id": 216,
+          "source": "generation_19",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685/20260415_205701_pid10365/candidates/gen019_child006_000216",
+          "config": {
+            "resolution": 256,
+            "stem_width": 24,
+            "stage_depths": [
+              2,
+              3,
+              5,
+              1
+            ],
+            "stage_widths": [
+              48,
+              128,
+              160,
+              224
+            ]
+          },
+          "candidate_id": "gen019_child006_000216"
+        },
+        {
+          "fitness": 90.0,
+          "quant_acc1": 90.0,
+          "compiled": true,
+          "birth_id": 77,
+          "source": "generation_2",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685/20260415_205701_pid10365/candidates/gen002_child000_000077",
+          "config": {
+            "resolution": 256,
+            "stem_width": 32,
+            "stage_depths": [
+              2,
+              4,
+              3,
+              3
+            ],
+            "stage_widths": [
+              64,
+              128,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen002_child000_000077"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_005_seed_1685/20260415_205701_pid10365"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 88.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            2,
+            5,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 54.216,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            1,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 66.24,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 78.03600000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 84.90666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 85.33333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 85.78666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.07999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 90.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.32,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.93333333333332,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.28000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 10,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.44,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.54666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.70666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 13,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.70666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.92,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.05333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 16,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.21333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.23999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.42666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.48000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 21,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.48000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 22,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.48000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.58666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 24,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.58666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 222,
+    "launch_order": 6
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 6,
+    "seed": 1782,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-16T16:12:17Z",
+    "finished_at": "2026-04-17T10:22:16Z",
+    "elapsed_wall_seconds": 65399.367685541045,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1782",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 1782,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 90.66666666666667,
+      "best_quant_acc1": 90.66666666666667,
+      "total_candidates_evaluated": 222,
+      "compiled_candidates": 191,
+      "compile_success_rate": 0.8603603603603603,
+      "elapsed_seconds": 65366.60589847993,
+      "best_config": {
+        "resolution": 256,
+        "stem_width": 40,
+        "stage_depths": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "stage_widths": [
+          48,
+          128,
+          224,
+          224
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 90.66666666666667,
+          "quant_acc1": 90.66666666666667,
+          "compiled": true,
+          "birth_id": 64,
+          "source": "generation_0",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen000_child003_000064",
+          "config": {
+            "resolution": 256,
+            "stem_width": 40,
+            "stage_depths": [
+              1,
+              4,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              224,
+              224
+            ]
+          },
+          "candidate_id": "gen000_child003_000064"
+        },
+        {
+          "fitness": 90.66666666666667,
+          "quant_acc1": 90.66666666666667,
+          "compiled": true,
+          "birth_id": 151,
+          "source": "generation_11",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen011_child003_000151",
+          "config": {
+            "resolution": 256,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              4,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              224,
+              224
+            ]
+          },
+          "candidate_id": "gen011_child003_000151"
+        },
+        {
+          "fitness": 90.66666666666667,
+          "quant_acc1": 90.66666666666667,
+          "compiled": true,
+          "birth_id": 153,
+          "source": "generation_11",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen011_child005_000153",
+          "config": {
+            "resolution": 256,
+            "stem_width": 32,
+            "stage_depths": [
+              1,
+              4,
+              4,
+              1
+            ],
+            "stage_widths": [
+              64,
+              96,
+              224,
+              288
+            ]
+          },
+          "candidate_id": "gen011_child005_000153"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 51.023999999999994,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 63.42666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 74.88933333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 84.24,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 4,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 85.44,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.18666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.64,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.77333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.04,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.22666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.22666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.73333333333332,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.73333333333332,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.86666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.97333333333331,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.07999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.07999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.10666666666665,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.10666666666665,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.16,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 20,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 22,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 90.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 88.18666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 225,
+    "launch_order": 7
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 7,
+    "seed": 1879,
+    "status": "failed",
+    "return_code": -6,
+    "started_at": "2026-04-17T10:22:17Z",
+    "finished_at": "2026-04-17T14:07:48Z",
+    "elapsed_wall_seconds": 13530.802887277212,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1879",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/20260417_122229_pid2748",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_007_seed_1879/runner_stdout.log",
+    "summary": {
+      "elapsed_seconds": 13530.802887277212,
+      "seed": 1879,
+      "algorithm": "baseline_sga"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 53.86933333333334,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 1,
+        "best_fitness": 88.66666666666667,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 65.44,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            1,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 78.18133333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            1,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 84.4,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            1,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 84.93333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 50,
+    "launch_order": 8
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 8,
+    "seed": 1976,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-17T14:07:49Z",
+    "finished_at": "2026-04-18T06:54:40Z",
+    "elapsed_wall_seconds": 60411.245851947926,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "1976",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976/20260417_160756_pid1440",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 1976,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 91.33333333333333,
+      "best_quant_acc1": 91.33333333333333,
+      "total_candidates_evaluated": 220,
+      "compiled_candidates": 200,
+      "compile_success_rate": 0.9090909090909091,
+      "elapsed_seconds": 60403.06881948002,
+      "best_config": {
+        "resolution": 288,
+        "stem_width": 24,
+        "stage_depths": [
+          3,
+          2,
+          3,
+          1
+        ],
+        "stage_widths": [
+          48,
+          96,
+          192,
+          224
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976/20260417_160756_pid1440/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 91.33333333333333,
+          "quant_acc1": 91.33333333333333,
+          "compiled": true,
+          "birth_id": 149,
+          "source": "generation_11",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976/20260417_160756_pid1440/candidates/gen011_child001_000149",
+          "config": {
+            "resolution": 288,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              2,
+              3,
+              1
+            ],
+            "stage_widths": [
+              48,
+              96,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen011_child001_000149"
+        },
+        {
+          "fitness": 89.33333333333333,
+          "quant_acc1": 89.33333333333333,
+          "compiled": true,
+          "birth_id": 71,
+          "source": "generation_1",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976/20260417_160756_pid1440/candidates/gen001_child002_000071",
+          "config": {
+            "resolution": 256,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              2,
+              3,
+              2
+            ],
+            "stage_widths": [
+              64,
+              128,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen001_child002_000071"
+        },
+        {
+          "fitness": 89.33333333333333,
+          "quant_acc1": 89.33333333333333,
+          "compiled": true,
+          "birth_id": 201,
+          "source": "generation_17",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976/20260417_160756_pid1440/candidates/gen017_child006_000201",
+          "config": {
+            "resolution": 288,
+            "stem_width": 24,
+            "stage_depths": [
+              1,
+              2,
+              5,
+              1
+            ],
+            "stage_widths": [
+              48,
+              96,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen017_child006_000201"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_008_seed_1976/20260417_160756_pid1440"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 87.33333333333333,
+        "best_config": {
+          "resolution": 192,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 54.349333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 67.76,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 80.54266666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 84.82666666666665,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 85.62666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 5,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.10666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.29333333333332,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.47999999999998,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.50666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.74666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 89.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 86.88000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.28,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.28,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.36,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.38666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.46666666666665,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.54666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.76,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 18,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.89333333333335,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.89333333333335,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.91999999999999,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.91999999999999,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 22,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.94666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.94666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 87.94666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      }
+    ],
+    "progress_events_count": 223,
+    "launch_order": 9
+  },
+  {
+    "algorithm": "baseline_sga",
+    "run_index": 9,
+    "seed": 2073,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-04-18T06:54:42Z",
+    "finished_at": "2026-04-19T01:35:50Z",
+    "elapsed_wall_seconds": 67268.70520402864,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--algorithm",
+      "baseline_sga",
+      "--seed",
+      "2073",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "3",
+      "--train-batch-size",
+      "64",
+      "--eval-batch-size",
+      "50",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "6",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "100",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/EUD/NAS/images",
+      "--num-calibration-images",
+      "72",
+      "--calibration-batch-size",
+      "12",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "5",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/runner_stdout.log",
+    "summary": {
+      "algorithm": "baseline_sga",
+      "seed": 2073,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 91.33333333333333,
+      "best_quant_acc1": 91.33333333333333,
+      "total_candidates_evaluated": 224,
+      "compiled_candidates": 211,
+      "compile_success_rate": 0.9419642857142857,
+      "elapsed_seconds": 67259.69799300702,
+      "best_config": {
+        "resolution": 288,
+        "stem_width": 32,
+        "stage_depths": [
+          3,
+          2,
+          3,
+          2
+        ],
+        "stage_widths": [
+          64,
+          96,
+          160,
+          288
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 91.33333333333333,
+          "quant_acc1": 91.33333333333333,
+          "compiled": true,
+          "birth_id": 84,
+          "source": "generation_2",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen002_child007_000084",
+          "config": {
+            "resolution": 288,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              2,
+              3,
+              2
+            ],
+            "stage_widths": [
+              64,
+              96,
+              160,
+              288
+            ]
+          },
+          "candidate_id": "gen002_child007_000084"
+        },
+        {
+          "fitness": 90.66666666666667,
+          "quant_acc1": 90.66666666666667,
+          "compiled": true,
+          "birth_id": 254,
+          "source": "generation_24",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen024_child002_000254",
+          "config": {
+            "resolution": 288,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              3,
+              5,
+              1
+            ],
+            "stage_widths": [
+              64,
+              96,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen024_child002_000254"
+        },
+        {
+          "fitness": 90.0,
+          "quant_acc1": 90.0,
+          "compiled": true,
+          "birth_id": 101,
+          "source": "generation_5",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen005_child001_000101",
+          "config": {
+            "resolution": 256,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              3,
+              3,
+              1
+            ],
+            "stage_widths": [
+              64,
+              128,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen005_child001_000101"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 86.0,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 52.38400000000001,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 87.33333333333333,
+        "best_config": {
+          "resolution": 256,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 66.10666666666665,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 78.79466666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 84.34666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 4,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 84.98666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 85.44,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.08000000000001,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.58666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.66666666666666,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 86.90666666666667,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.09333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.20000000000002,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.33333333333331,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.38666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.38666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.38666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.54666666666668,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.65333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.89333333333335,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.89333333333335,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 87.89333333333335,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.05333333333333,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 91.33333333333333,
+        "best_config": {
+          "resolution": 288,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 88.21333333333334,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 227,
+    "launch_order": 10
+  }
+]

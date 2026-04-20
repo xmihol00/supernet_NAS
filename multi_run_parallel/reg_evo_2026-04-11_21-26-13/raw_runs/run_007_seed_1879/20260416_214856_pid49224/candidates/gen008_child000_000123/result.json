@@ -1,0 +1,48 @@
+{
+  "candidate_id": "gen008_child000_000123",
+  "config": {
+    "resolution": 224,
+    "stem_width": 40,
+    "stage_depths": [
+      3,
+      2,
+      3,
+      3
+    ],
+    "stage_widths": [
+      64,
+      128,
+      224,
+      288
+    ]
+  },
+  "compiled": false,
+  "compile_log": "2026-04-17 03:24:09,669 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 03:24:09,669 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_007_seed_1879/20260416_214856_pid49224/candidates/gen008_child000_000123/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 03:24:16,680 INFO : Wrote outputs to /tmp/1343059.1.long.q/tmpddz9s16j/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 03:24:16,681 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 03:24:17.346 INFO : CODE: [START] Starting SDSPconv\n2026-04-17 03:24:44.669 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 9.66MB \n2026-04-17 03:24:44.748 INFO : CODE: [IMCF] ConvFe failed with insufficient memory, trying to run Tiling Advisor\n2026-04-17 03:25:11.063 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 8.78MB \n2026-04-17 03:25:11.294 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 9.66MB \n2026-04-17 03:25:11,322 ERROR : sdspconv exited with error code: 1, uni files can be found in /tmp/1343059.1.long.q/tmpddz9s16j [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/imx500_converter/converter/converter.py:60]\n\nException in thread \"main\" sdsp.app.logging.FailureInSubRunningHideErrorException: ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 9.66MB \n\tat sdsp.app.state.machine.ConvFePhase.nextPhase(ConvFePhase.kt:165)\n\tat sdsp.app.StateMachine.run(StateMachine.kt:43)\n\tat sdsp.app.ConvMain.run(ConvMain.kt:310)\n\tat com.github.ajalt.clikt.parsers.Parser.finalizeAndRun(Parser.kt:348)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:218)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:42)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse(CliktCommand.kt:457)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse$default(CliktCommand.kt:454)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:474)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:481)\n\tat sdsp.app.ConvMain.fixedMain(ConvMain.kt:272)\n\tat sdsp.app.AppKt.main(App.kt:26)",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7ff8112b1210>"
+  },
+  "quant_eval": {
+    "acc1": 0.0,
+    "correct": 0.0,
+    "total": 0.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 0.4106193490073366,
+      "acc1": 82.57861635220125
+    },
+    {
+      "epoch": 2.0,
+      "loss": 0.32810212789091675,
+      "acc1": 85.66037735849056
+    },
+    {
+      "epoch": 3.0,
+      "loss": 0.2840037550491357,
+      "acc1": 87.48427672955975
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_007_seed_1879/20260416_214856_pid49224/candidates/gen008_child000_000123/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_007_seed_1879/20260416_214856_pid49224/candidates/gen008_child000_000123/model_quant.onnx"
+}

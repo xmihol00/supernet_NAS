@@ -1,0 +1,50 @@
+{
+  "candidate_id": "gen006_child001_000106",
+  "config": {
+    "resolution": 256,
+    "stem_width": 40,
+    "stage_depths": [
+      1,
+      2,
+      2,
+      3
+    ],
+    "stage_widths": [
+      48,
+      96,
+      160,
+      288
+    ]
+  },
+  "compiled": true,
+  "compile_log": "2026-04-14 05:25:09,341 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-14 05:25:09,341 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_003_seed_1491/20260414_011414_pid6412/candidates/gen006_child001_000106/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-14 05:25:14,369 INFO : Wrote outputs to /tmp/1343059.1.long.q/tmpgwo5h614/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-14 05:25:14,371 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-14 05:25:14.936 INFO : CODE: [START] Starting SDSPconv\n2026-04-14 05:25:32.089 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 8.22MB \n2026-04-14 05:25:32.178 INFO : CODE: [IMCF] ConvFe failed with insufficient memory, trying to run Tiling Advisor\n2026-04-14 05:25:49.970 INFO : ConvFe conversion finished successfully\n2026-04-14 05:25:51.255 INFO : CBE component - DspConvParser has started conversion.\n2026-04-14 05:25:51.406 INFO : Dsp-Dnn-Parser finished successfully !\n2026-04-14 05:25:54.804 INFO : LogicModel generated successfully ! \n2026-04-14 05:25:54.807 INFO : DspConvParser runs: 3570 [msec]\n2026-04-14 05:25:54.808 INFO : CBE component - DspConvParser finished conversion.\n2026-04-14 05:26:15.257 INFO : Converter Backend successfully completed!\n2026-04-14 05:26:15.258 INFO : Conversion time is 20.27 Seconds\n2026-04-14 05:26:16.024 INFO : packer zip successfully generated under /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_003_seed_1491/20260414_011414_pid6412/candidates/gen006_child001_000106/imx500_output/packerOut.zip\n2026-04-14 05:26:16.165 INFO : CODE: [OUTPUT] Output is in /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_003_seed_1491/20260414_011414_pid6412/candidates/gen006_child001_000106/imx500_output",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7f6702840490>"
+  },
+  "quant_eval": {
+    "acc1": 80.66666666666667,
+    "correct": 121.0,
+    "total": 150.0,
+    "evaluated": 1.0,
+    "used_batch_size": 50.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 0.4433526438961989,
+      "acc1": 81.78616352201257
+    },
+    {
+      "epoch": 2.0,
+      "loss": 0.3648340969640504,
+      "acc1": 84.33962264150944
+    },
+    {
+      "epoch": 3.0,
+      "loss": 0.32155042160981856,
+      "acc1": 86.13836477987421
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_003_seed_1491/20260414_011414_pid6412/candidates/gen006_child001_000106/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_003_seed_1491/20260414_011414_pid6412/candidates/gen006_child001_000106/model_quant.onnx"
+}

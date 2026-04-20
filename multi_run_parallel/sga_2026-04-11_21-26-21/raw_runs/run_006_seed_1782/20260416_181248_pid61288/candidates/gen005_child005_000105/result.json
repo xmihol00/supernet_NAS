@@ -1,0 +1,50 @@
+{
+  "candidate_id": "gen005_child005_000105",
+  "config": {
+    "resolution": 224,
+    "stem_width": 24,
+    "stage_depths": [
+      3,
+      4,
+      4,
+      3
+    ],
+    "stage_widths": [
+      64,
+      96,
+      192,
+      224
+    ]
+  },
+  "compiled": true,
+  "compile_log": "2026-04-16 22:28:16,583 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-16 22:28:16,583 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen005_child005_000105/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-16 22:28:23,164 INFO : Wrote outputs to /tmp/1343060.1.long.q/tmpji597ppz/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-16 22:28:23,165 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-16 22:28:23.771 INFO : CODE: [START] Starting SDSPconv\n2026-04-16 22:28:41.739 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 8.10MB \n2026-04-16 22:28:41.823 INFO : CODE: [IMCF] ConvFe failed with insufficient memory, trying to run Tiling Advisor\n2026-04-16 22:29:03.802 INFO : ConvFe conversion finished successfully\n2026-04-16 22:29:05.414 INFO : CBE component - DspConvParser has started conversion.\n2026-04-16 22:29:05.568 INFO : Dsp-Dnn-Parser finished successfully !\n2026-04-16 22:29:09.422 INFO : LogicModel generated successfully ! \n2026-04-16 22:29:09.425 INFO : DspConvParser runs: 4032 [msec]\n2026-04-16 22:29:09.425 INFO : CBE component - DspConvParser finished conversion.\n2026-04-16 22:29:12.389 WARN : CODE: [CBE] [ConvQReluQValidation:265] Id = /stages_1_3_conv2_bn/layer/Conv: Detect convolution coefficients tensor with suboptimal dynamic range values. ChannelOut = 59 , ML = 1.52587890625E-5 , max(Abs(val)) = 3.5762786865234375E-6\n2026-04-16 22:29:32.293 INFO : Converter Backend successfully completed!\n2026-04-16 22:29:32.294 INFO : Conversion time is 22.68 Seconds\n2026-04-16 22:29:33.194 INFO : packer zip successfully generated under /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen005_child005_000105/imx500_output/packerOut.zip\n2026-04-16 22:29:33.332 INFO : CODE: [OUTPUT] Output is in /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen005_child005_000105/imx500_output",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7f7f2b5df490>"
+  },
+  "quant_eval": {
+    "acc1": 88.66666666666667,
+    "correct": 133.0,
+    "total": 150.0,
+    "evaluated": 1.0,
+    "used_batch_size": 50.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 0.4226693516819732,
+      "acc1": 82.50314465408805
+    },
+    {
+      "epoch": 2.0,
+      "loss": 0.33310215377207825,
+      "acc1": 85.54716981132076
+    },
+    {
+      "epoch": 3.0,
+      "loss": 0.29288436095669584,
+      "acc1": 87.40880503144655
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen005_child005_000105/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen005_child005_000105/model_quant.onnx"
+}

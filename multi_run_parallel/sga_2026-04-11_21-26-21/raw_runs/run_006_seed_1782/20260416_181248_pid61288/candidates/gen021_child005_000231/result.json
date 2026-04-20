@@ -1,0 +1,48 @@
+{
+  "candidate_id": "gen021_child005_000231",
+  "config": {
+    "resolution": 256,
+    "stem_width": 24,
+    "stage_depths": [
+      3,
+      4,
+      5,
+      2
+    ],
+    "stage_widths": [
+      64,
+      128,
+      224,
+      224
+    ]
+  },
+  "compiled": false,
+  "compile_log": "2026-04-17 09:53:40,019 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 09:53:40,019 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen021_child005_000231/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 09:53:48,132 INFO : Wrote outputs to /tmp/1343060.1.long.q/tmp09myi1n7/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 09:53:48,133 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-04-17 09:53:48.704 INFO : CODE: [START] Starting SDSPconv\n2026-04-17 09:54:12.288 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 10.23MB \n2026-04-17 09:54:12.453 INFO : CODE: [IMCF] ConvFe failed with insufficient memory, trying to run Tiling Advisor\n2026-04-17 09:54:28.704 ERROR: CODE: [GE] Caught exception while converting'model_quant': requirement failed: ShapesVerifier: shapes verification failed: \n2026-04-17 09:54:28.704 ERROR: CODE: [GE] Layer TiledLayer_1_/Add: Layer Add: TiledLayer_1_/Add: Input shapes (64,68,128) and (64,70,128) are not compatible, cannot broadcast\n2026-04-17 09:54:28.704 ERROR: CODE: [GE] Layer TiledLayer_1_/Add_1: Layer Add: TiledLayer_1_/Add_1: Input shapes (64,66,128) and (64,67,128) are not compatible, cannot broadcast \n2026-04-17 09:54:28.954 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 10.23MB \n2026-04-17 09:54:29,040 ERROR : sdspconv exited with error code: 1, uni files can be found in /tmp/1343060.1.long.q/tmp09myi1n7 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/imx500_converter/converter/converter.py:60]\n\nException in thread \"main\" sdsp.app.logging.FailureInSubRunningHideErrorException: ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 10.23MB \n\tat sdsp.app.state.machine.ConvFePhase.nextPhase(ConvFePhase.kt:165)\n\tat sdsp.app.StateMachine.run(StateMachine.kt:43)\n\tat sdsp.app.ConvMain.run(ConvMain.kt:310)\n\tat com.github.ajalt.clikt.parsers.Parser.finalizeAndRun(Parser.kt:348)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:218)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:42)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse(CliktCommand.kt:457)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse$default(CliktCommand.kt:454)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:474)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:481)\n\tat sdsp.app.ConvMain.fixedMain(ConvMain.kt:272)\n\tat sdsp.app.AppKt.main(App.kt:26)",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7f7f2b4f04f0>"
+  },
+  "quant_eval": {
+    "acc1": 0.0,
+    "correct": 0.0,
+    "total": 0.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 0.41563016963454913,
+      "acc1": 82.42767295597484
+    },
+    {
+      "epoch": 2.0,
+      "loss": 0.30987903516997334,
+      "acc1": 86.44025157232704
+    },
+    {
+      "epoch": 3.0,
+      "loss": 0.2681429064648706,
+      "acc1": 88.0125786163522
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen021_child005_000231/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_006_seed_1782/20260416_181248_pid61288/candidates/gen021_child005_000231/model_quant.onnx"
+}

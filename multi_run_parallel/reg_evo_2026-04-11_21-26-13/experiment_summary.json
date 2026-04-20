@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-04-19T00:00:52Z",
+  "total_runs_requested": 10,
+  "total_runs_finished": 10,
+  "successful_runs": 10,
+  "failed_runs": 0,
+  "algorithms": [
+    "regularized_evolution"
+  ],
+  "output_root": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13",
+  "algorithm_output_dirs": {
+    "regularized_evolution": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13"
+  },
+  "scipy_available": true
+}

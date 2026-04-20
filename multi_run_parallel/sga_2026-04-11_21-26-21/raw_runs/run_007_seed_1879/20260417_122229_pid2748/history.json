@@ -1,0 +1,117 @@
+[
+  {
+    "generation": 0,
+    "best_fitness": 88.66666666666667,
+    "best_config": {
+      "resolution": 256,
+      "stem_width": 32,
+      "stage_depths": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        224
+      ]
+    },
+    "population_mean_fitness": 53.86933333333334,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 1,
+    "best_fitness": 88.66666666666667,
+    "best_config": {
+      "resolution": 256,
+      "stem_width": 32,
+      "stage_depths": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        224
+      ]
+    },
+    "population_mean_fitness": 65.44,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 2,
+    "best_fitness": 89.33333333333333,
+    "best_config": {
+      "resolution": 256,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        1,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        224
+      ]
+    },
+    "population_mean_fitness": 78.18133333333333,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 3,
+    "best_fitness": 89.33333333333333,
+    "best_config": {
+      "resolution": 256,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        1,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        224
+      ]
+    },
+    "population_mean_fitness": 84.4,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 4,
+    "best_fitness": 89.33333333333333,
+    "best_config": {
+      "resolution": 256,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        1,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        224
+      ]
+    },
+    "population_mean_fitness": 84.93333333333334,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  }
+]

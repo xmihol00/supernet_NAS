@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-04-19T01:35:52Z",
+  "total_runs_requested": 10,
+  "total_runs_finished": 10,
+  "successful_runs": 9,
+  "failed_runs": 1,
+  "algorithms": [
+    "baseline_sga"
+  ],
+  "output_root": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21",
+  "algorithm_output_dirs": {
+    "baseline_sga": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21"
+  },
+  "scipy_available": true
+}

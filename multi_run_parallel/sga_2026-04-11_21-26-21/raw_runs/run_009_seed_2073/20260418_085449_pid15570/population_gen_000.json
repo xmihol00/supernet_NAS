@@ -1,0 +1,602 @@
+[
+  {
+    "fitness": 86.0,
+    "quant_acc1": 86.0,
+    "compiled": true,
+    "birth_id": 68,
+    "source": "generation_0",
+    "config": {
+      "resolution": 256,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "stage_widths": [
+        64,
+        96,
+        192,
+        288
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen000_child007_000068"
+  },
+  {
+    "fitness": 85.33333333333333,
+    "quant_acc1": 85.33333333333333,
+    "compiled": true,
+    "birth_id": 61,
+    "source": "generation_0",
+    "config": {
+      "resolution": 256,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen000_child000_000061"
+  },
+  {
+    "fitness": 84.66666666666667,
+    "quant_acc1": 84.66666666666667,
+    "compiled": true,
+    "birth_id": 66,
+    "source": "generation_0",
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        1,
+        1,
+        1
+      ],
+      "stage_widths": [
+        48,
+        128,
+        224,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen000_child005_000066"
+  },
+  {
+    "fitness": 83.33333333333333,
+    "quant_acc1": 83.33333333333333,
+    "compiled": true,
+    "birth_id": 62,
+    "source": "generation_0",
+    "config": {
+      "resolution": 288,
+      "stem_width": 40,
+      "stage_depths": [
+        1,
+        4,
+        2,
+        1
+      ],
+      "stage_widths": [
+        64,
+        96,
+        192,
+        288
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen000_child001_000062"
+  },
+  {
+    "fitness": 83.33333333333333,
+    "quant_acc1": 83.33333333333333,
+    "compiled": true,
+    "birth_id": 63,
+    "source": "generation_0",
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        1
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        288
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen000_child002_000063"
+  },
+  {
+    "fitness": 83.33333333333333,
+    "quant_acc1": 83.33333333333333,
+    "compiled": true,
+    "birth_id": 67,
+    "source": "generation_0",
+    "config": {
+      "resolution": 192,
+      "stem_width": 40,
+      "stage_depths": [
+        1,
+        4,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-04-11_21-26-21/raw_runs/run_009_seed_2073/20260418_085449_pid15570/candidates/gen000_child006_000067"
+  },
+  {
+    "fitness": 47.0,
+    "quant_acc1": 47.0,
+    "compiled": true,
+    "birth_id": 48,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 256,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        2,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        224,
+        256
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 45.9,
+    "quant_acc1": 45.9,
+    "compiled": true,
+    "birth_id": 20,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 224,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        2,
+        3,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        256
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 44.3,
+    "quant_acc1": 44.3,
+    "compiled": true,
+    "birth_id": 40,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 256,
+      "stem_width": 24,
+      "stage_depths": [
+        2,
+        2,
+        4,
+        1
+      ],
+      "stage_widths": [
+        48,
+        128,
+        192,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 43.7,
+    "quant_acc1": 43.7,
+    "compiled": true,
+    "birth_id": 58,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 256,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        4,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 43.1,
+    "quant_acc1": 43.1,
+    "compiled": true,
+    "birth_id": 17,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 256,
+      "stem_width": 24,
+      "stage_depths": [
+        1,
+        3,
+        2,
+        3
+      ],
+      "stage_widths": [
+        48,
+        128,
+        192,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 42.9,
+    "quant_acc1": 42.9,
+    "compiled": true,
+    "birth_id": 37,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 256,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 42.6,
+    "quant_acc1": 42.6,
+    "compiled": true,
+    "birth_id": 14,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 256,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        1,
+        4,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 42.3,
+    "quant_acc1": 42.3,
+    "compiled": true,
+    "birth_id": 16,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        3,
+        5,
+        1
+      ],
+      "stage_widths": [
+        48,
+        128,
+        224,
+        288
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 42.2,
+    "quant_acc1": 42.2,
+    "compiled": true,
+    "birth_id": 8,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 256,
+      "stem_width": 32,
+      "stage_depths": [
+        1,
+        3,
+        3,
+        1
+      ],
+      "stage_widths": [
+        64,
+        96,
+        224,
+        288
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 42.0,
+    "quant_acc1": 42.0,
+    "compiled": true,
+    "birth_id": 6,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 256,
+      "stem_width": 24,
+      "stage_depths": [
+        2,
+        1,
+        5,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        224,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 42.0,
+    "quant_acc1": 42.0,
+    "compiled": true,
+    "birth_id": 24,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        1,
+        4,
+        3,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 41.6,
+    "quant_acc1": 41.6,
+    "compiled": true,
+    "birth_id": 4,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        4,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        96,
+        192,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 41.4,
+    "quant_acc1": 41.4,
+    "compiled": true,
+    "birth_id": 11,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        256
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 41.1,
+    "quant_acc1": 41.1,
+    "compiled": true,
+    "birth_id": 44,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        2,
+        4,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        192,
+        256
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 40.5,
+    "quant_acc1": 40.5,
+    "compiled": true,
+    "birth_id": 39,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        4,
+        5,
+        1
+      ],
+      "stage_widths": [
+        48,
+        96,
+        224,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 40.3,
+    "quant_acc1": 40.3,
+    "compiled": true,
+    "birth_id": 26,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        2,
+        4,
+        1
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        224
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 40.3,
+    "quant_acc1": 40.3,
+    "compiled": true,
+    "birth_id": 51,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 224,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        1,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        224,
+        288
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 40.2,
+    "quant_acc1": 40.2,
+    "compiled": true,
+    "birth_id": 54,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        1,
+        4,
+        5,
+        1
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        288
+      ]
+    },
+    "sample_dir": ""
+  },
+  {
+    "fitness": 40.2,
+    "quant_acc1": 40.2,
+    "compiled": true,
+    "birth_id": 56,
+    "source": "sampling_results",
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        2,
+        2,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        96,
+        224,
+        224
+      ]
+    },
+    "sample_dir": ""
+  }
+]

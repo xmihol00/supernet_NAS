@@ -1,0 +1,83 @@
+{
+  "algorithm": "regularized_evolution",
+  "seed": 1394,
+  "selection_policy": "top fitness among compiled candidates, fallback to all candidates if none compiled",
+  "top_k": 3,
+  "architectures": [
+    {
+      "fitness": 92.0,
+      "quant_acc1": 92.0,
+      "compiled": true,
+      "birth_id": 160,
+      "source": "generation_13",
+      "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_002_seed_1394/20260413_072504_pid56005/candidates/gen013_child000_000160",
+      "config": {
+        "resolution": 288,
+        "stem_width": 24,
+        "stage_depths": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "stage_widths": [
+          48,
+          128,
+          160,
+          224
+        ]
+      },
+      "candidate_id": "gen013_child000_000160"
+    },
+    {
+      "fitness": 90.66666666666667,
+      "quant_acc1": 90.66666666666667,
+      "compiled": true,
+      "birth_id": 181,
+      "source": "generation_15",
+      "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_002_seed_1394/20260413_072504_pid56005/candidates/gen015_child007_000181",
+      "config": {
+        "resolution": 288,
+        "stem_width": 24,
+        "stage_depths": [
+          1,
+          3,
+          4,
+          1
+        ],
+        "stage_widths": [
+          64,
+          128,
+          192,
+          224
+        ]
+      },
+      "candidate_id": "gen015_child007_000181"
+    },
+    {
+      "fitness": 90.0,
+      "quant_acc1": 90.0,
+      "compiled": true,
+      "birth_id": 131,
+      "source": "generation_9",
+      "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-04-11_21-26-13/raw_runs/run_002_seed_1394/20260413_072504_pid56005/candidates/gen009_child002_000131",
+      "config": {
+        "resolution": 256,
+        "stem_width": 32,
+        "stage_depths": [
+          1,
+          2,
+          5,
+          1
+        ],
+        "stage_widths": [
+          64,
+          128,
+          224,
+          256
+        ]
+      },
+      "candidate_id": "gen009_child002_000131"
+    }
+  ]
+}
