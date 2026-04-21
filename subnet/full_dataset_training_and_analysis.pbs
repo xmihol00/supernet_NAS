@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cd "/homes/eva/xm/xmihol00"
+source setup.sh
+conda activate cnnSearch
+cd "/mnt/matylda5/xmihol00/EUD/subnet"
+
+current_time=$(date +"%Y-%m-%d_%H-%M-%S")
+echo "Full-dataset correlation experiment started at: $current_time"
+echo "Job ID: $PBS_JOBID"
+echo "Node:   $(hostname)"
+echo "GPU:    $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo 'unknown')"
+
+OUTPUT_DIR="/mnt/matylda5/xmihol00/EUD/subnet/runs_full_dataset_correlation/run_$current_time"
+
+python -u full_dataset_training_and_analysis.py 
+
+echo "Experiment stopped at: $(date +"%Y-%m-%d_%H-%M-%S")"
+echo "Output directory: $OUTPUT_DIR"
+echo "To resume, resubmit this script with --output-dir pointing to the same directory."
