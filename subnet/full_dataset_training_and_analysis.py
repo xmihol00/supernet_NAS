@@ -2,7 +2,7 @@
 """
 Full-dataset correlation experiment.
 
-Trains 15 NAS-selected subnet architectures (initially from the supernet checkpoint)
+Trains NAS-selected subnet architectures (initially from the supernet checkpoint)
 on the full ImageNet training set in a round-robin fashion — 1 epoch per architecture
 per cycle — and tests whether the 6-class NAS quantised accuracy (nas_quant_acc1)
 correlates with the 1000-class floating-point validation accuracy.
@@ -14,11 +14,11 @@ Usage:
         --checkpoint /path/to/supernet/best.pt \\
         --output-dir ./full_dataset_experiment
 
-Resume: re-run the exact same command.  Progress is recovered from checkpoints
-and progress.json inside output-dir.
+Resume: re-run the exact same command.  Progress is recovered from per-arch
+checkpoints, cycle_progress.json, and metrics inside output-dir.
 
 Stop: Ctrl-C (or SIGTERM).  All state is already saved — the next run picks up
-where this one left off.
+where this one left off (including mid-cycle position).
 """
 
 from __future__ import annotations
@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import copy
 import csv
+import gc
 import json
 import logging
 import math
@@ -37,7 +38,7 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence, Sized, Tuple, cast
+from typing import Any, Dict, List, Optional, Sequence, Set, Tuple, cast
 import shutil
 
 import matplotlib
@@ -146,8 +147,6 @@ def build_static_subnet_model(supernet: IMX500ResNetSupernet, config: SubnetConf
     Returns (model, error_message). On any weight-transfer failure the model is
     returned with whatever weights were successfully copied plus random init for
     the remaining layers, and error_message describes the first error encountered.
-    Blocks whose index exceeds the supernet's capacity are left randomly
-    initialised (partial transfer) rather than aborting the whole copy.
     """
     model = StaticSubnetModel(config, num_classes, supernet.stage_strides).to(device)
     transfer_error: str | None = None
@@ -163,8 +162,6 @@ def build_static_subnet_model(supernet: IMX500ResNetSupernet, config: SubnetConf
                 for bi in range(depth):
                     block_in = prev if bi == 0 else out_w
                     if bi >= max_blocks:
-                        # Supernet has fewer blocks than this subnet stage requires;
-                        # leave the extra blocks randomly initialised.
                         if transfer_error is None:
                             transfer_error = (
                                 f"stage {si} block {bi}: supernet only has {max_blocks} "
@@ -180,7 +177,6 @@ def build_static_subnet_model(supernet: IMX500ResNetSupernet, config: SubnetConf
                     needs_proj = (stride != 1 and bi == 0) or (block_in != out_w)
                     if needs_proj and sb.downsample is not None:
                         ds = cast(nn.Sequential, sb.downsample)
-                        # Support both attribute-style and sequential-style downsample on supernet
                         if hasattr(db, "downsample_conv"):
                             ds_conv_w = db.downsample_conv.weight.data
                             ds_bn_src = db.downsample_bn
@@ -292,7 +288,6 @@ def _get_dir_size(path: Path) -> int:
         out = subprocess.check_output(["du", "-sb", str(path)], stderr=subprocess.DEVNULL)
         return int(out.split()[0])
     except Exception:
-        # Fallback: Python walk (slower on NFS)
         total = 0
         for p in path.rglob("*"):
             if p.is_file():
@@ -303,26 +298,27 @@ def _get_dir_size(path: Path) -> int:
         return total
 
 
-def try_cache_dataset_on_ssd(dataset_path: Path, logger: logging.Logger) -> Path:
+def try_cache_dataset_on_ssd(dataset_path: Path, cache_dataset: bool, logger: logging.Logger) -> Path:
     """Copy the dataset to SSD if there is enough free space.
 
     Returns the path that should be used for training — either the SSD copy
     (fast local NVMe) or the original path if copying is not possible.
     If the destination already exists it is reused without re-copying.
     """
+    if not cache_dataset:
+        logger.info("SSD caching disabled by config — using original dataset path.")
+        return dataset_path
     ssd_dest = _SSD_CACHE_DIR / dataset_path.name
-    
+
     if ssd_dest.exists() and any(ssd_dest.iterdir()):
         logger.info("SSD cache found at %s — skipping copy.", ssd_dest)
         return ssd_dest
 
-    # Measure dataset size
     logger.info("Measuring dataset size at %s …", dataset_path)
     t0 = time.time()
     dataset_bytes = _get_dir_size(dataset_path)
     logger.info("Dataset size: %.2f GB (measured in %.1f s)", dataset_bytes / 1e9, time.time() - t0)
 
-    # Check free space on SSD
     try:
         free_bytes = shutil.disk_usage(_SSD_MOUNT).free
         logger.info("SSD free space: %.2f GB", free_bytes / 1e9)
@@ -337,7 +333,6 @@ def try_cache_dataset_on_ssd(dataset_path: Path, logger: logging.Logger) -> Path
         )
         return dataset_path
 
-    # Copy with periodic progress logging
     logger.info("Copying dataset to SSD: %s → %s", dataset_path, ssd_dest)
     _SSD_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -443,7 +438,6 @@ def train_one_epoch(
     for g in optimizer.param_groups:
         g["lr"] = lr
 
-    # Unfreeze backbone after first epoch
     if epoch >= args.freeze_backbone_epochs:
         for p in model.parameters():
             p.requires_grad_(True)
@@ -516,6 +510,7 @@ def save_arch_checkpoint(path: Path, epoch: int, model: nn.Module,
                          scaler: torch.amp.GradScaler,
                          ema: ModelEMA, best_acc1: float,
                          arch_record: dict) -> None:
+    tmp = path.with_suffix(".tmp")
     torch.save({
         "epoch": epoch,
         "model": model.state_dict(),
@@ -524,7 +519,8 @@ def save_arch_checkpoint(path: Path, epoch: int, model: nn.Module,
         "ema": ema.ema.state_dict(),
         "best_acc1": best_acc1,
         "arch_record": arch_record,
-    }, path)
+    }, tmp)
+    tmp.replace(path)
 
 
 def load_arch_checkpoint(path: Path, model: nn.Module,
@@ -532,13 +528,146 @@ def load_arch_checkpoint(path: Path, model: nn.Module,
                           scaler: torch.amp.GradScaler,
                           ema: ModelEMA, device: torch.device,
                           ) -> Tuple[int, float]:
-    """Returns (epoch, best_acc1)."""
+    """Returns (epoch_completed, best_acc1)."""
     ckpt = torch.load(path, map_location=device, weights_only=False)
     model.load_state_dict(ckpt["model"])
     optimizer.load_state_dict(ckpt["optimizer"])
     scaler.load_state_dict(ckpt["scaler"])
     ema.ema.load_state_dict(ckpt["ema"])
     return int(ckpt["epoch"]), float(ckpt.get("best_acc1", -1.0))
+
+
+def peek_checkpoint_epoch(path: Path) -> Tuple[int, float]:
+    """Read epoch and best_acc1 from checkpoint without loading model weights."""
+    ckpt = torch.load(path, map_location="cpu", weights_only=False)
+    return int(ckpt["epoch"]), float(ckpt.get("best_acc1", -1.0))
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# I/O utilities
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _atomic_json_write(path: Path, data: Any) -> None:
+    """Write JSON atomically via a temp file to avoid partial writes on crash."""
+    tmp = path.with_suffix(".tmp")
+    with tmp.open("w") as f:
+        json.dump(data, f, indent=2)
+    tmp.replace(path)
+
+
+def _rebuild_metrics_csv(adir: Path, hist: List[dict]) -> None:
+    """Rebuild metrics.csv from the canonical history list."""
+    if not hist:
+        return
+    fields = list(hist[0].keys())
+    with (adir / "metrics.csv").open("w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=fields)
+        w.writeheader()
+        w.writerows(hist)
+
+
+def _reconcile_arch_state(adir: Path, ai: int, logger: logging.Logger,
+                           ) -> Tuple[int, float, List[dict]]:
+    """Return (epochs_done, best_acc1, history) reconciled between checkpoint and metrics.json.
+
+    epochs_done is the number of epochs fully completed (= next epoch index to run).
+    The checkpoint is authoritative for epochs_done; metrics.json is truncated or
+    left as-is to match.  The metrics.csv is rebuilt from metrics.json when truncated.
+    """
+    last_ckpt = adir / "last.pt"
+    if last_ckpt.exists():
+        epoch_completed, best_acc1 = peek_checkpoint_epoch(last_ckpt)
+        epochs_done = epoch_completed + 1
+    else:
+        epochs_done = 0
+        best_acc1 = -1.0
+
+    hist_path = adir / "metrics.json"
+    if hist_path.exists():
+        try:
+            with hist_path.open() as f:
+                hist = json.load(f)
+        except Exception as exc:
+            logger.warning("Arch %02d: metrics.json unreadable (%s) — resetting history.", ai, exc)
+            hist = []
+
+        if len(hist) > epochs_done:
+            logger.warning(
+                "Arch %02d: metrics.json has %d entries but checkpoint says %d epochs completed "
+                "— truncating to match checkpoint (likely a partial write before last crash).",
+                ai, len(hist), epochs_done,
+            )
+            hist = hist[:epochs_done]
+            _atomic_json_write(hist_path, hist)
+            _rebuild_metrics_csv(adir, hist)
+        elif len(hist) < epochs_done:
+            logger.warning(
+                "Arch %02d: metrics.json has only %d entries but checkpoint says %d epochs — "
+                "history is incomplete; will proceed from checkpoint.",
+                ai, len(hist), epochs_done,
+            )
+    else:
+        hist = []
+        if epochs_done > 0:
+            logger.warning(
+                "Arch %02d: checkpoint says %d epochs done but no metrics.json found — "
+                "history will be empty.",
+                ai, epochs_done,
+            )
+
+    return epochs_done, best_acc1, hist
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cycle progress  (enables mid-cycle resume after crash)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def load_cycle_progress(cdir: Path) -> Tuple[Set[int], Dict[int, Tuple[float, float, float, float]]]:
+    """Load in-progress cycle state.
+
+    Returns (completed_arch_set, cycle_val_results) where cycle_val_results maps
+    arch_index → (val_acc1, ema_acc1, best_val_acc1, best_ema_acc1).
+    """
+    progress_path = cdir / "cycle_progress.json"
+    if not progress_path.exists():
+        return set(), {}
+    try:
+        with progress_path.open() as f:
+            d = json.load(f)
+        completed: Set[int] = set(d.get("completed_arch_indices", []))
+        raw = d.get("cycle_val_results", {})
+        results: Dict[int, Tuple[float, float, float, float]] = {
+            int(k): tuple(v) for k, v in raw.items()  # type: ignore[assignment]
+        }
+        return completed, results
+    except Exception:
+        return set(), {}
+
+
+def save_cycle_progress(cdir: Path, cycle: int,
+                         completed: Set[int],
+                         results: Dict[int, Tuple[float, float, float, float]]) -> None:
+    cdir.mkdir(parents=True, exist_ok=True)
+    data = {
+        "cycle": cycle,
+        "completed_arch_indices": sorted(completed),
+        "cycle_val_results": {str(k): list(v) for k, v in results.items()},
+    }
+    _atomic_json_write(cdir / "cycle_progress.json", data)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GPU memory cleanup
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _free_gpu(*tensors_or_modules) -> None:
+    """Delete objects and release GPU memory."""
+    for obj in tensors_or_modules:
+        del obj
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -549,6 +678,7 @@ def load_arch_checkpoint(path: Path, model: nn.Module,
 class CycleStats:
     cycle: int
     n_archs: int
+    # Correlations on current-epoch val accuracy
     spearman_r: float
     spearman_p: float
     pearson_r: float
@@ -556,57 +686,100 @@ class CycleStats:
     kendall_tau: float
     kendall_p: float
     bootstrap_ci_spearman: tuple
+    # Correlations on EMA accuracy
+    spearman_r_ema: float
+    spearman_p_ema: float
+    pearson_r_ema: float
+    pearson_p_ema: float
+    kendall_tau_ema: float
+    kendall_p_ema: float
+    bootstrap_ci_spearman_ema: tuple
+    # Correlations on best-so-far val accuracy
+    spearman_r_best: float
+    spearman_p_best: float
+    pearson_r_best: float
+    pearson_p_best: float
+    kendall_tau_best: float
+    kendall_p_best: float
+    bootstrap_ci_spearman_best: tuple
+    # Summary statistics
     mean_val_acc1: float
     std_val_acc1: float
+    mean_ema_acc1: float
+    mean_best_val_acc1: float
     per_arch: List[Dict[str, Any]]
+
+
+def _bootstrap_spearman_ci(x: np.ndarray, y: np.ndarray,
+                            n_boot: int = 5000, rng_seed: int = 42
+                            ) -> Tuple[float, float]:
+    rng = np.random.default_rng(rng_seed)
+    n = len(x)
+    boot_r = []
+    for _ in range(n_boot):
+        idx = rng.integers(0, n, size=n)
+        if len(set(idx.tolist())) < 3:
+            continue
+        r_b, _ = scipy_stats.spearmanr(x[idx], y[idx])
+        boot_r.append(float(r_b))
+    if boot_r:
+        return float(np.percentile(boot_r, 2.5)), float(np.percentile(boot_r, 97.5))
+    return float("nan"), float("nan")
+
+
+def _corr_triple(x: np.ndarray, y: np.ndarray, n_boot: int, seed: int
+                 ) -> Tuple[float, float, float, float, float, float, Tuple[float, float]]:
+    """Return (sr, sp, pr, pp, kt, kp, bootstrap_ci_spearman)."""
+    sr, sp = scipy_stats.spearmanr(x, y)
+    pr, pp = scipy_stats.pearsonr(x, y)
+    kt, kp = scipy_stats.kendalltau(x, y)
+    ci = _bootstrap_spearman_ci(x, y, n_boot, seed)
+    return float(sr), float(sp), float(pr), float(pp), float(kt), float(kp), ci
 
 
 def compute_cycle_stats(cycle: int, arch_records: List[dict],
                         n_boot: int = 5000, rng_seed: int = 42) -> CycleStats:
-    nas_accs  = np.array([r["nas_quant_acc1"] for r in arch_records])
+    nas_accs  = np.array([r["nas_quant_acc1"]   for r in arch_records])
     val_accs  = np.array([r["current_val_acc1"] for r in arch_records])
     ema_accs  = np.array([r["current_ema_acc1"] for r in arch_records])
+    best_accs = np.array([r["best_val_acc1"]    for r in arch_records])
 
-    sr, sp = scipy_stats.spearmanr(nas_accs, val_accs)
-    pr, pp = scipy_stats.pearsonr(nas_accs, val_accs)
-    kt, kp = scipy_stats.kendalltau(nas_accs, val_accs)
-
-    # Bootstrap CI for Spearman ρ using Fisher z-transform
-    rng = np.random.default_rng(rng_seed)
-    boot_r = []
-    n = len(nas_accs)
-    for _ in range(n_boot):
-        idx = rng.integers(0, n, size=n)
-        if len(set(idx)) < 3:
-            continue
-        r_b, _ = scipy_stats.spearmanr(nas_accs[idx], val_accs[idx])
-        boot_r.append(float(r_b))
-    if boot_r:
-        ci = (float(np.percentile(boot_r, 2.5)), float(np.percentile(boot_r, 97.5)))
-    else:
-        ci = (float("nan"), float("nan"))
+    sr, sp, pr, pp, kt, kp, ci_v       = _corr_triple(nas_accs, val_accs,  n_boot, rng_seed)
+    sr_e, sp_e, pr_e, pp_e, kt_e, kp_e, ci_e = _corr_triple(nas_accs, ema_accs,  n_boot, rng_seed + 1)
+    sr_b, sp_b, pr_b, pp_b, kt_b, kp_b, ci_b = _corr_triple(nas_accs, best_accs, n_boot, rng_seed + 2)
 
     per_arch = []
     for i, r in enumerate(arch_records):
         per_arch.append({
-            "arch_index": r["arch_index"],
-            "nas_quant_acc1": r["nas_quant_acc1"],
-            "val_acc1": r["current_val_acc1"],
-            "ema_acc1": r["current_ema_acc1"],
+            "arch_index":      r["arch_index"],
+            "nas_quant_acc1":  r["nas_quant_acc1"],
+            "val_acc1":        r["current_val_acc1"],
+            "ema_acc1":        r["current_ema_acc1"],
+            "best_val_acc1":   r["best_val_acc1"],
+            "best_ema_acc1":   r["best_ema_acc1"],
             "epochs_completed": r["epochs_completed"],
-            "nas_rank": int(np.argsort(np.argsort(-nas_accs))[i]),
-            "val_rank": int(np.argsort(np.argsort(-val_accs))[i]),
+            "nas_rank":  int(np.argsort(np.argsort(-nas_accs))[i]),
+            "val_rank":  int(np.argsort(np.argsort(-val_accs))[i]),
+            "ema_rank":  int(np.argsort(np.argsort(-ema_accs))[i]),
+            "best_rank": int(np.argsort(np.argsort(-best_accs))[i]),
         })
 
     return CycleStats(
-        cycle=cycle,
-        n_archs=len(arch_records),
-        spearman_r=float(sr), spearman_p=float(sp),
-        pearson_r=float(pr),  pearson_p=float(pp),
-        kendall_tau=float(kt), kendall_p=float(kp),
-        bootstrap_ci_spearman=ci,
+        cycle=cycle, n_archs=len(arch_records),
+        spearman_r=sr, spearman_p=sp, pearson_r=pr, pearson_p=pp,
+        kendall_tau=kt, kendall_p=kp, bootstrap_ci_spearman=ci_v,
+        spearman_r_ema=sr_e, spearman_p_ema=sp_e,
+        pearson_r_ema=pr_e, pearson_p_ema=pp_e,
+        kendall_tau_ema=kt_e, kendall_p_ema=kp_e,
+        bootstrap_ci_spearman_ema=ci_e,
+        spearman_r_best=sr_b, spearman_p_best=sp_b,
+        pearson_r_best=pr_b, pearson_p_best=pp_b,
+        kendall_tau_best=kt_b, kendall_p_best=kp_b,
+        bootstrap_ci_spearman_best=ci_b,
         mean_val_acc1=float(np.mean(val_accs)),
-        std_val_acc1=float(np.std(val_accs, ddof=1)),
+        std_val_acc1=float(np.std(val_accs, ddof=1) if len(val_accs) > 1 else 0.0),
+        mean_ema_acc1=float(np.mean(ema_accs)),
+        mean_best_val_acc1=float(np.mean(best_accs)),
         per_arch=per_arch,
     )
 
@@ -622,9 +795,18 @@ def _arch_color(i: int):
     return _CMAP(i % 20)
 
 
+def _sig_label(p: float) -> str:
+    if p < 0.001:
+        return "p<0.001 ✓✓✓"
+    if p < 0.01:
+        return f"p={p:.4f} ✓✓"
+    if p < 0.05:
+        return f"p={p:.4f} ✓"
+    return f"p={p:.4f} ✗"
+
+
 def plot_training_curves(arch_records: List[dict], histories: Dict[int, List[dict]],
                           out_path: Path) -> None:
-    """Multi-panel: loss and val_acc1 per architecture over all completed epochs."""
     n = len(arch_records)
     ncols = min(5, n)
     nrows = math.ceil(n / ncols)
@@ -648,7 +830,6 @@ def plot_training_curves(arch_records: List[dict], histories: Dict[int, List[dic
         ax.legend(fontsize=7, loc="lower right")
         ax.yaxis.grid(True, alpha=0.3)
 
-    # hide unused panels
     for j in range(n, nrows * ncols):
         axes[j // ncols][j % ncols].set_visible(False)
 
@@ -658,47 +839,54 @@ def plot_training_curves(arch_records: List[dict], histories: Dict[int, List[dic
     plt.close(fig)
 
 
-def plot_correlation_scatter(stats: CycleStats, arch_records: List[dict],
-                              out_path: Path) -> None:
-    """NAS quantised acc (x) vs current full-dataset val acc (y) scatter."""
-    nas  = [p["nas_quant_acc1"] for p in stats.per_arch]
-    val  = [p["val_acc1"] for p in stats.per_arch]
-    ema  = [p["ema_acc1"] for p in stats.per_arch]
-    idxs = [p["arch_index"] for p in stats.per_arch]
-
-    fig, ax = plt.subplots(figsize=(8, 6))
-    for i, (x, y, ye, ai) in enumerate(zip(nas, val, ema, idxs)):
-        ax.scatter(x, y, color=_arch_color(i), s=80, zorder=3, edgecolors="white", lw=0.6)
-        ax.scatter(x, ye, marker="D", color=_arch_color(i), s=50, zorder=3,
-                   edgecolors="black", lw=0.5, alpha=0.7)
+def _scatter_with_regression(ax, nas: List[float], acc: List[float],
+                              idxs: List[int], label_key: str,
+                              marker: str = "o", size: int = 80) -> None:
+    """Plot scatter with per-arch colors and an OLS regression line."""
+    for i, (x, y, ai) in enumerate(zip(nas, acc, idxs)):
+        ax.scatter(x, y, color=_arch_color(i), s=size, zorder=3,
+                   edgecolors="white", lw=0.6, marker=marker)
         ax.annotate(f"A{ai}", (x, y), textcoords="offset points", xytext=(5, 3), fontsize=7)
-
-    # Regression line (using val)
     if len(nas) >= 2:
-        m, b, *_ = scipy_stats.linregress(nas, val)
+        m, b, *_ = scipy_stats.linregress(nas, acc)
         xs = np.linspace(min(nas), max(nas), 100)
         ax.plot(xs, m * xs + b, "k--", lw=1.2, alpha=0.6)
 
-    ci_lo, ci_hi = stats.bootstrap_ci_spearman
-    ax.set_xlabel("NAS Quantised Accuracy — 6-class subset (%)", fontsize=11)
-    ax.set_ylabel("Full ImageNet Val Accuracy — float, 1000 classes (%)", fontsize=11)
-    sig = "✓ significant" if stats.spearman_p < 0.05 else "✗ not significant"
-    ax.set_title(
-        f"Cycle {stats.cycle} | Spearman ρ = {stats.spearman_r:.3f} (p={stats.spearman_p:.4f}) {sig}\n"
-        f"Bootstrap 95% CI: [{ci_lo:.3f}, {ci_hi:.3f}] | "
-        f"Pearson r = {stats.pearson_r:.3f} | Kendall τ = {stats.kendall_tau:.3f}",
-        fontsize=10,
-    )
-    ax.xaxis.grid(True, alpha=0.3)
-    ax.yaxis.grid(True, alpha=0.3)
-    ax.set_axisbelow(True)
-    # legend: circles = val, diamonds = EMA
-    from matplotlib.lines import Line2D
-    legend_handles = [
-        Line2D([0], [0], marker="o", color="gray", lw=0, markersize=8, label="Val (float)"),
-        Line2D([0], [0], marker="D", color="gray", lw=0, markersize=7, label="Val EMA"),
-    ]
-    ax.legend(handles=legend_handles, fontsize=9)
+
+def plot_correlation_scatter(stats: CycleStats, arch_records: List[dict],
+                              out_path: Path) -> None:
+    """Three-panel scatter: val / EMA / best-so-far acc vs NAS acc."""
+    nas  = [p["nas_quant_acc1"] for p in stats.per_arch]
+    val  = [p["val_acc1"]       for p in stats.per_arch]
+    ema  = [p["ema_acc1"]       for p in stats.per_arch]
+    best = [p["best_val_acc1"]  for p in stats.per_arch]
+    idxs = [p["arch_index"]     for p in stats.per_arch]
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+
+    for ax, acc, title, sr, sp, pr, ci in [
+        (axes[0], val,  "Val (current epoch)",
+         stats.spearman_r, stats.spearman_p, stats.pearson_r, stats.bootstrap_ci_spearman),
+        (axes[1], ema,  "EMA val (current epoch)",
+         stats.spearman_r_ema, stats.spearman_p_ema, stats.pearson_r_ema, stats.bootstrap_ci_spearman_ema),
+        (axes[2], best, "Best val (all epochs so far)",
+         stats.spearman_r_best, stats.spearman_p_best, stats.pearson_r_best, stats.bootstrap_ci_spearman_best),
+    ]:
+        _scatter_with_regression(ax, nas, acc, idxs, title)
+        ci_lo, ci_hi = ci
+        ax.set_xlabel("NAS Quantised Accuracy — 6-class subset (%)", fontsize=10)
+        ax.set_ylabel("Full ImageNet Val Top-1 Acc (%)", fontsize=10)
+        ax.set_title(
+            f"{title}\nSpearman ρ={sr:.3f} ({_sig_label(sp)}) | Pearson r={pr:.3f}\n"
+            f"Bootstrap 95% CI: [{ci_lo:.3f}, {ci_hi:.3f}]",
+            fontsize=9,
+        )
+        ax.xaxis.grid(True, alpha=0.3)
+        ax.yaxis.grid(True, alpha=0.3)
+        ax.set_axisbelow(True)
+
+    fig.suptitle(f"Cycle {stats.cycle} — NAS accuracy vs Full-dataset accuracy (N={stats.n_archs})",
+                 fontsize=13)
     fig.tight_layout()
     fig.savefig(out_path, dpi=130, bbox_inches="tight")
     plt.close(fig)
@@ -709,64 +897,71 @@ def plot_rank_comparison(stats: CycleStats, out_path: Path) -> None:
     n = len(stats.per_arch)
     sorted_by_nas = sorted(stats.per_arch, key=lambda p: p["nas_quant_acc1"])
     ai_labels = [f"A{p['arch_index']}" for p in sorted_by_nas]
-    nas_ranks = [p["nas_rank"] for p in sorted_by_nas]
-    val_ranks = [p["val_rank"] for p in sorted_by_nas]
+    nas_ranks  = [p["nas_rank"]  for p in sorted_by_nas]
+    val_ranks  = [p["val_rank"]  for p in sorted_by_nas]
+    best_ranks = [p["best_rank"] for p in sorted_by_nas]
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     x = np.arange(n)
-    w = 0.38
-    axes[0].bar(x - w / 2, nas_ranks, w, label="NAS rank",  color="#0072B2", alpha=0.85)
-    axes[0].bar(x + w / 2, val_ranks, w, label="Full-dataset rank", color="#D55E00", alpha=0.85)
+    w = 0.28
+    axes[0].bar(x - w, nas_ranks,  w, label="NAS rank",        color="#0072B2", alpha=0.85)
+    axes[0].bar(x,     val_ranks,  w, label="Val rank",         color="#D55E00", alpha=0.85)
+    axes[0].bar(x + w, best_ranks, w, label="Best val rank",    color="#009E73", alpha=0.85)
     axes[0].set_xticks(x); axes[0].set_xticklabels(ai_labels, fontsize=8)
     axes[0].set_ylabel("Rank (0=best)", fontsize=11)
-    axes[0].set_title("NAS rank vs. Full-dataset rank (sorted by NAS acc)", fontsize=11)
-    axes[0].legend(fontsize=10)
+    axes[0].set_title("NAS rank vs. full-dataset ranks (sorted by NAS acc)", fontsize=11)
+    axes[0].legend(fontsize=9)
     axes[0].yaxis.grid(True, alpha=0.3)
 
-    # Rank difference
-    diff = [v - n for v, n in zip(val_ranks, nas_ranks)]
+    diff = [v - na for v, na in zip(val_ranks, nas_ranks)]
     colors = ["#009E73" if d <= 0 else "#CC79A7" for d in diff]
     axes[1].bar(x, diff, color=colors, alpha=0.85, edgecolor="white")
     axes[1].axhline(0, color="black", lw=0.8)
     axes[1].set_xticks(x); axes[1].set_xticklabels(ai_labels, fontsize=8)
-    axes[1].set_ylabel("Val rank − NAS rank (negative = moved up)", fontsize=11)
-    axes[1].set_title("Rank shift from NAS to Full-dataset", fontsize=11)
+    axes[1].set_ylabel("Val rank − NAS rank  (negative = moved up)", fontsize=11)
+    axes[1].set_title("Rank shift: NAS → full-dataset (current epoch)", fontsize=11)
     axes[1].yaxis.grid(True, alpha=0.3)
 
-    fig.suptitle(f"Cycle {stats.cycle} | Spearman ρ = {stats.spearman_r:.3f}", fontsize=12)
+    fig.suptitle(
+        f"Cycle {stats.cycle} | Spearman ρ={stats.spearman_r:.3f} ({_sig_label(stats.spearman_p)})",
+        fontsize=12,
+    )
     fig.tight_layout()
     fig.savefig(out_path, dpi=130, bbox_inches="tight")
     plt.close(fig)
 
 
 def plot_correlation_over_cycles(all_stats: List[dict], out_path: Path) -> None:
-    """Line plot of Spearman ρ, Pearson r, Kendall τ over cycles."""
+    """Line plot of all correlation metrics (val, EMA, best) over cycles."""
     if len(all_stats) < 2:
         return
     cycles = [s["cycle"] for s in all_stats]
-    sr = [s["spearman_r"] for s in all_stats]
-    pr = [s["pearson_r"]  for s in all_stats]
-    kt = [s["kendall_tau"] for s in all_stats]
-    sp = [s["spearman_p"]  for s in all_stats]
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 7), sharex=True)
-    ax1.plot(cycles, sr, "o-", color="#0072B2", lw=2, label="Spearman ρ")
-    ax1.plot(cycles, pr, "s-", color="#D55E00", lw=2, label="Pearson r")
-    ax1.plot(cycles, kt, "^-", color="#009E73", lw=2, label="Kendall τ")
-    ax1.axhline(0, color="black", lw=0.8, linestyle="--")
-    ax1.set_ylabel("Correlation coefficient", fontsize=11)
-    ax1.set_title("Correlation between NAS accuracy and Full-dataset accuracy over cycles", fontsize=12)
-    ax1.legend(fontsize=10)
-    ax1.yaxis.grid(True, alpha=0.3)
-    ax1.set_ylim(-1.05, 1.05)
+    fig, axes = plt.subplots(3, 1, figsize=(11, 12), sharex=True)
 
-    ax2.semilogy(cycles, [max(p, 1e-10) for p in sp], "o-", color="#0072B2", lw=2, label="Spearman p-value")
-    ax2.axhline(0.05, color="red", lw=1.2, linestyle="--", label="α=0.05")
-    ax2.set_xlabel("Cycle", fontsize=11)
-    ax2.set_ylabel("p-value (log scale)", fontsize=11)
-    ax2.legend(fontsize=10)
-    ax2.yaxis.grid(True, alpha=0.3)
+    for ax, sr_key, sp_key, pr_key, label_suffix, color in [
+        (axes[0], "spearman_r",      "spearman_p",      "pearson_r",      "current val", "#0072B2"),
+        (axes[1], "spearman_r_ema",  "spearman_p_ema",  "pearson_r_ema",  "EMA val",     "#D55E00"),
+        (axes[2], "spearman_r_best", "spearman_p_best", "pearson_r_best", "best val",    "#009E73"),
+    ]:
+        sr = [s.get(sr_key, float("nan")) for s in all_stats]
+        pr = [s.get(pr_key, float("nan")) for s in all_stats]
+        sp = [s.get(sp_key, 1.0)          for s in all_stats]
+        ax.plot(cycles, sr, "o-", color=color,   lw=2, label=f"Spearman ρ ({label_suffix})")
+        ax.plot(cycles, pr, "s--", color=color,  lw=1.5, alpha=0.7, label=f"Pearson r ({label_suffix})")
+        ax.axhline(0,    color="black", lw=0.8, linestyle="--")
+        # Mark significant cycles
+        for c, s_val, s_p in zip(cycles, sr, sp):
+            if s_p < 0.05:
+                ax.scatter(c, s_val, s=120, marker="*", color="gold", zorder=4, edgecolors="black", lw=0.5)
+        ax.set_ylabel("Correlation", fontsize=10)
+        ax.legend(fontsize=9)
+        ax.yaxis.grid(True, alpha=0.3)
+        ax.set_ylim(-1.05, 1.05)
+        ax.set_title(f"Correlation on {label_suffix} accuracy", fontsize=11)
 
+    axes[-1].set_xlabel("Cycle (= epochs per architecture)", fontsize=11)
+    fig.suptitle("NAS ↔ Full-dataset Correlation over Training  (★ = p<0.05)", fontsize=13)
     fig.tight_layout()
     fig.savefig(out_path, dpi=130, bbox_inches="tight")
     plt.close(fig)
@@ -774,28 +969,60 @@ def plot_correlation_over_cycles(all_stats: List[dict], out_path: Path) -> None:
 
 def plot_accuracy_progress(arch_records: List[dict], all_stats: List[dict],
                             out_path: Path) -> None:
-    """Val accuracy of all architectures over cycles (colored by NAS rank)."""
+    """Val and EMA accuracy of all architectures over cycles."""
     if not all_stats:
         return
     cycles = [s["cycle"] for s in all_stats]
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+
     sorted_by_nas = sorted(arch_records, key=lambda r: r["nas_quant_acc1"])
     for rank, rec in enumerate(sorted_by_nas):
         ai = rec["arch_index"]
-        y = []
+        val_y, ema_y = [], []
         for cs in all_stats:
             pa = next((p for p in cs["per_arch"] if p["arch_index"] == ai), None)
-            if pa:
-                y.append(pa["val_acc1"])
-            else:
-                y.append(float("nan"))
-        ax.plot(cycles[:len(y)], y, lw=1.8, label=f"A{ai} NAS={rec['nas_quant_acc1']:.1f}%",
-                color=_arch_color(rank))
-    ax.set_xlabel("Cycle (= epochs per architecture)", fontsize=11)
-    ax.set_ylabel("Full ImageNet Val Top-1 Accuracy (%)", fontsize=11)
-    ax.set_title("All Architectures: Full-Dataset Val Accuracy over Cycles", fontsize=12)
-    ax.legend(fontsize=7, ncol=3, loc="lower right")
-    ax.yaxis.grid(True, alpha=0.3)
+            val_y.append(pa["val_acc1"]  if pa else float("nan"))
+            ema_y.append(pa["ema_acc1"]  if pa else float("nan"))
+        lbl = f"A{ai} NAS={rec['nas_quant_acc1']:.1f}%"
+        col = _arch_color(rank)
+        axes[0].plot(cycles[:len(val_y)], val_y, lw=1.8, label=lbl, color=col)
+        axes[1].plot(cycles[:len(ema_y)], ema_y, lw=1.8, label=lbl, color=col)
+
+    for ax, title in [(axes[0], "Val (model)"), (axes[1], "Val (EMA)")]:
+        ax.set_xlabel("Cycle", fontsize=11)
+        ax.set_ylabel("Top-1 Accuracy (%)", fontsize=11)
+        ax.set_title(f"All Architectures: Full-Dataset {title} Accuracy", fontsize=12)
+        ax.legend(fontsize=7, ncol=3, loc="lower right")
+        ax.yaxis.grid(True, alpha=0.3)
+
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=130, bbox_inches="tight")
+    plt.close(fig)
+
+
+def plot_best_acc_summary(arch_records: List[dict], all_stats: List[dict],
+                           out_path: Path) -> None:
+    """Best val acc achieved per arch vs NAS acc (updated each cycle)."""
+    if not all_stats:
+        return
+    last = all_stats[-1]
+    nas  = [p["nas_quant_acc1"] for p in last["per_arch"]]
+    best = [p["best_val_acc1"]  for p in last["per_arch"]]
+    idxs = [p["arch_index"]     for p in last["per_arch"]]
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    _scatter_with_regression(ax, nas, best, idxs, "best val")
+    sr = last.get("spearman_r_best", float("nan"))
+    sp = last.get("spearman_p_best", 1.0)
+    ax.set_xlabel("NAS Quantised Accuracy — 6-class subset (%)", fontsize=11)
+    ax.set_ylabel("Best Full ImageNet Val Top-1 Acc achieved (%)", fontsize=11)
+    ax.set_title(
+        f"NAS acc vs. Best val acc after {last['cycle']+1} cycles\n"
+        f"Spearman ρ={sr:.3f} ({_sig_label(sp)})",
+        fontsize=11,
+    )
+    ax.xaxis.grid(True, alpha=0.3); ax.yaxis.grid(True, alpha=0.3)
+    ax.set_axisbelow(True)
     fig.tight_layout()
     fig.savefig(out_path, dpi=130, bbox_inches="tight")
     plt.close(fig)
@@ -841,7 +1068,7 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--output-dir", default="./full_dataset_experiment")
     ap.add_argument("--num-classes", type=int, default=1000)
     ap.add_argument("--val-frac", type=float, default=0.2)
-    ap.add_argument("--batch-size", type=int, default=512)
+    ap.add_argument("--batch-size", type=int, default=650)
     ap.add_argument("--num-workers", type=int, default=6)
     ap.add_argument("--seed", type=int, default=1)
     # Optimiser
@@ -870,6 +1097,10 @@ def parse_args() -> argparse.Namespace:
                     help="Log to console every N training batches")
     ap.add_argument("--device", type=str, default="cuda")
     ap.add_argument("--bootstrap-samples", type=int, default=5000)
+    ap.add_argument("--cache-dataset", action="store_true", default=False,
+                    help="Copy dataset to SSD for faster training (if enough space)")
+    ap.add_argument("--max-cycles", type=int, default=0,
+                    help="Stop after this many cycles (0 = run until Ctrl-C)")
     return ap.parse_args()
 
 
@@ -877,7 +1108,6 @@ def parse_args() -> argparse.Namespace:
 # Main experiment
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Global flag for graceful shutdown
 _STOP_REQUESTED = False
 
 def _signal_handler(sig, frame):
@@ -894,9 +1124,9 @@ def main() -> None:
     args = parse_args()
 
     # ── output structure ──────────────────────────────────────────────────────
-    out_root    = Path(args.output_dir)
-    arch_dir    = out_root / "architectures"
-    cycles_dir  = out_root / "cycles"
+    out_root   = Path(args.output_dir)
+    arch_dir   = out_root / "architectures"
+    cycles_dir = out_root / "cycles"
     out_root.mkdir(parents=True, exist_ok=True)
     arch_dir.mkdir(parents=True, exist_ok=True)
     cycles_dir.mkdir(parents=True, exist_ok=True)
@@ -932,14 +1162,11 @@ def main() -> None:
     with open(args.architectures_json) as f:
         arch_list: List[dict] = json.load(f)
     logger.info("Loaded %d architectures from %s", len(arch_list), args.architectures_json)
-    # Copy the JSON into output dir for reference
     shutil.copy2(args.architectures_json, out_root / "selected_architectures.json")
 
-    # Save config
     cfg_path = out_root / "experiment_config.json"
     if not cfg_path.exists():
-        with cfg_path.open("w") as f:
-            json.dump(vars(args), f, indent=2, default=str)
+        _atomic_json_write(cfg_path, vars(args))
 
     # ── dataset split (cached) ───────────────────────────────────────────────
     split_cache = out_root / "dataset_split.json"
@@ -949,7 +1176,7 @@ def main() -> None:
     logger.info("Train samples: %d | Val samples: %d", len(train_idx), len(val_idx))
 
     # ── SSD dataset cache ─────────────────────────────────────────────────────
-    effective_dataset_path = try_cache_dataset_on_ssd(Path(args.dataset_path), logger)
+    effective_dataset_path = try_cache_dataset_on_ssd(Path(args.dataset_path), args.cache_dataset, logger)
     if effective_dataset_path != Path(args.dataset_path):
         logger.info("Training will read data from SSD: %s", effective_dataset_path)
 
@@ -965,7 +1192,7 @@ def main() -> None:
                 args.randaugment_magnitude)
         return loader_cache[resolution]
 
-    # ── load supernet ─────────────────────────────────────────────────────────
+    # ── load supernet onto CPU (stays there for weight transfer) ──────────────
     logger.info("Loading supernet checkpoint: %s", args.checkpoint)
     supernet = create_default_supernet(num_classes=args.num_classes)
     ckpt_payload = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
@@ -975,75 +1202,36 @@ def main() -> None:
         logger.warning("Supernet missing keys: %d", len(missing))
     if unexpected:
         logger.warning("Supernet unexpected keys: %d", len(unexpected))
+    supernet.eval()
+    # Supernet remains on CPU throughout; individual subnets are moved to device one at a time.
 
-    # ── initialise per-architecture state ────────────────────────────────────
-    models:     Dict[int, StaticSubnetModel]        = {}
-    optimizers: Dict[int, torch.optim.Optimizer]    = {}
-    scalers:    Dict[int, torch.amp.GradScaler] = {}
-    emas:       Dict[int, ModelEMA]                  = {}
-    histories:  Dict[int, List[dict]]                = {}
-    best_acc1s: Dict[int, float]                     = {}
-    # Track epochs completed per arch (for LR schedule and resume)
-    epochs_done: Dict[int, int] = {}
-
-    criterion = nn.CrossEntropyLoss(label_smoothing=args.label_smoothing)
+    # ── reconcile per-architecture state on startup ───────────────────────────
+    epochs_done:     Dict[int, int]   = {}
+    best_acc1s:      Dict[int, float] = {}   # best EMA acc
+    best_val_acc1s:  Dict[int, float] = {}   # best val acc (non-EMA)
+    histories:       Dict[int, List[dict]] = {}
 
     for arch_rec in arch_list:
         ai = arch_rec["arch_index"]
-        config = SubnetConfig.from_dict(arch_rec["config"])
         adir = arch_dir / f"arch_{ai:02d}"
         adir.mkdir(parents=True, exist_ok=True)
 
-        # Save arch metadata once
         meta_path = adir / "arch_config.json"
         if not meta_path.exists():
-            with meta_path.open("w") as f:
-                json.dump(arch_rec, f, indent=2)
+            _atomic_json_write(meta_path, arch_rec)
 
-        # Build model and transfer supernet weights
-        model, transfer_err = build_static_subnet_model(supernet, config, args.num_classes, device)
-        if transfer_err is None:
-            logger.info("Arch %02d: supernet weights transferred successfully", ai)
+        ep, best, hist = _reconcile_arch_state(adir, ai, logger)
+        epochs_done[ai]    = ep
+        best_acc1s[ai]     = best
+        histories[ai]      = hist
+        best_val_acc1s[ai] = max((h["val_acc1"] for h in hist), default=-1.0)
+
+        if ep == 0:
+            logger.info("Arch %02d: fresh start (nas_acc=%.2f%%)", ai, arch_rec["nas_quant_acc1"])
         else:
-            logger.warning(
-                "Arch %02d: supernet weight transfer incomplete — %s — affected layers use random init",
-                ai, transfer_err,
-            )
-        opt = torch.optim.SGD(model.parameters(), lr=args.lr,
-                              momentum=args.momentum, weight_decay=args.weight_decay,
-                              nesterov=True)
-        scaler = torch.amp.GradScaler("cuda", enabled=args.amp and device.type == "cuda")
-        ema = ModelEMA(model, decay=args.ema_decay)
+            logger.info("Arch %02d: resumed at epoch %d (best_ema=%.2f%%)", ai, ep, best)
 
-        # Load checkpoint if exists
-        last_ckpt = adir / "last.pt"
-        if last_ckpt.exists():
-            epoch, best = load_arch_checkpoint(last_ckpt, model, opt, scaler, ema, device)
-            epochs_done[ai] = epoch + 1   # epoch N is complete
-            best_acc1s[ai] = best
-            logger.info("Arch %02d: resumed from epoch %d (best_acc1=%.2f%%)", ai, epoch, best)
-        else:
-            epochs_done[ai] = 0
-            best_acc1s[ai]  = -1.0
-            logger.info("Arch %02d: fresh start (config=%s, nas_acc=%.2f%%)",
-                        ai, arch_rec["config"], arch_rec["nas_quant_acc1"])
-
-        # Load training history if exists
-        hist_path = adir / "metrics.json"
-        if hist_path.exists():
-            with hist_path.open() as f:
-                histories[ai] = json.load(f)
-        else:
-            histories[ai] = []
-
-        models[ai]     = model
-        optimizers[ai] = opt
-        scalers[ai]    = scaler
-        emas[ai]       = ema
-
-    del supernet  # free memory
-
-    # ── load per-cycle stats history ─────────────────────────────────────────
+    # ── load cycle stats history ─────────────────────────────────────────────
     stats_history_path = out_root / "stats_history.json"
     if stats_history_path.exists():
         with stats_history_path.open() as f:
@@ -1051,28 +1239,49 @@ def main() -> None:
     else:
         all_cycle_stats = []
 
-    # Determine starting cycle number
     current_cycle = max((s["cycle"] for s in all_cycle_stats), default=-1) + 1
     logger.info("Starting from cycle %d", current_cycle)
 
     # ── CSV header for cycle summary ─────────────────────────────────────────
     cycle_csv_path = out_root / "cycle_summary.csv"
-    csv_fields = ["cycle", "timestamp", "spearman_r", "spearman_p", "pearson_r",
-                  "pearson_p", "kendall_tau", "kendall_p",
-                  "ci_lo", "ci_hi", "mean_val_acc1", "std_val_acc1"]
+    _CSV_FIELDS = [
+        "cycle", "timestamp",
+        "spearman_r", "spearman_p", "pearson_r", "pearson_p",
+        "kendall_tau", "kendall_p", "ci_lo", "ci_hi",
+        "spearman_r_ema", "spearman_p_ema", "pearson_r_ema", "pearson_p_ema",
+        "kendall_tau_ema", "kendall_p_ema",
+        "spearman_r_best", "spearman_p_best", "pearson_r_best", "pearson_p_best",
+        "kendall_tau_best", "kendall_p_best",
+        "mean_val_acc1", "std_val_acc1", "mean_ema_acc1", "mean_best_val_acc1",
+        "n_archs",
+    ]
     if not cycle_csv_path.exists():
         with cycle_csv_path.open("w", newline="") as fh:
-            csv.DictWriter(fh, fieldnames=csv_fields).writeheader()
+            csv.DictWriter(fh, fieldnames=_CSV_FIELDS).writeheader()
+
+    criterion = nn.CrossEntropyLoss(label_smoothing=args.label_smoothing)
 
     # ── main loop ─────────────────────────────────────────────────────────────
     logger.info("Entering main training loop (Ctrl-C to stop gracefully).")
     while not _STOP_REQUESTED:
+        if args.max_cycles > 0 and current_cycle >= args.max_cycles:
+            logger.info("Reached max_cycles=%d — stopping.", args.max_cycles)
+            break
+
         logger.info("━" * 70)
         logger.info("CYCLE %d  (%s)", current_cycle, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         logger.info("━" * 70)
 
-        cycle_val_results: Dict[int, Tuple[float, float]] = {}  # ai → (val_acc1, ema_acc1)
+        cdir = cycles_dir / f"cycle_{current_cycle:04d}"
+        cdir.mkdir(parents=True, exist_ok=True)
 
+        # Load in-progress state (non-empty only after a crash mid-cycle)
+        completed_in_cycle, cycle_val_results = load_cycle_progress(cdir)
+        if completed_in_cycle:
+            logger.info("Resuming cycle %d: %d arch(es) already done: %s",
+                        current_cycle, len(completed_in_cycle), sorted(completed_in_cycle))
+
+        # ── per-arch training round ───────────────────────────────────────────
         for arch_rec in arch_list:
             if _STOP_REQUESTED:
                 break
@@ -1082,130 +1291,207 @@ def main() -> None:
             config = SubnetConfig.from_dict(arch_rec["config"])
             adir   = arch_dir / f"arch_{ai:02d}"
 
+            if ai in completed_in_cycle:
+                logger.info("  Arch %02d: already completed in cycle %d — skipping.", ai, current_cycle)
+                continue
+
             logger.info("─── Arch %02d | Epoch %d | NAS=%.2f%% | config=%s",
                         ai, epoch, arch_rec["nas_quant_acc1"], arch_rec["config"])
 
             train_loader, val_loader = get_loaders(config.resolution)
 
+            # Build model — skip supernet weight transfer if we have a checkpoint
+            last_ckpt = adir / "last.pt"
+            if last_ckpt.exists():
+                model = StaticSubnetModel(config, args.num_classes, supernet.stage_strides).to(device)
+                transfer_err = None
+            else:
+                model, transfer_err = build_static_subnet_model(supernet, config, args.num_classes, device)
+                if transfer_err is None:
+                    logger.info("  Arch %02d: supernet weights transferred successfully", ai)
+                else:
+                    logger.warning("  Arch %02d: partial supernet transfer — %s", ai, transfer_err)
+
+            opt = torch.optim.SGD(model.parameters(), lr=args.lr,
+                                  momentum=args.momentum, weight_decay=args.weight_decay,
+                                  nesterov=True)
+            scaler = torch.amp.GradScaler("cuda", enabled=args.amp and device.type == "cuda")
+            ema = ModelEMA(model, decay=args.ema_decay)
+
+            if last_ckpt.exists():
+                ep_ckpt, best = load_arch_checkpoint(last_ckpt, model, opt, scaler, ema, device)
+                best_acc1s[ai] = best
+                logger.info("  Arch %02d: loaded checkpoint (epoch %d, best_ema=%.2f%%)",
+                            ai, ep_ckpt, best)
+
             # ── train one epoch ───────────────────────────────────────────────
-            model, opt, scaler, ema = models[ai], optimizers[ai], scalers[ai], emas[ai]
-            t_stats = train_one_epoch(
-                ai, epoch, model, train_loader, opt, criterion, scaler, ema, device, args, logger)
+            skipped = False
+            try:
+                t_stats = train_one_epoch(
+                    ai, epoch, model, train_loader, opt, criterion, scaler, ema, device, args, logger)
 
-            # ── evaluate ──────────────────────────────────────────────────────
-            logger.info("  Evaluating model and EMA on val set…")
-            v_stats   = evaluate(model, val_loader, criterion, device)
-            ema_stats = evaluate(ema.ema, val_loader, criterion, device)
-            logger.info("  val: loss=%.4f acc1=%.3f%% acc5=%.3f%%",
-                        v_stats["loss"], v_stats["acc1"], v_stats["acc5"])
-            logger.info("  ema: loss=%.4f acc1=%.3f%% acc5=%.3f%%",
-                        ema_stats["loss"], ema_stats["acc1"], ema_stats["acc5"])
+                # ── evaluate ──────────────────────────────────────────────────
+                logger.info("  Evaluating model and EMA on val set…")
+                v_stats   = evaluate(model, val_loader, criterion, device)
+                ema_stats = evaluate(ema.ema, val_loader, criterion, device)
+                logger.info("  val: loss=%.4f acc1=%.3f%% acc5=%.3f%%",
+                            v_stats["loss"], v_stats["acc1"], v_stats["acc5"])
+                logger.info("  ema: loss=%.4f acc1=%.3f%% acc5=%.3f%%",
+                            ema_stats["loss"], ema_stats["acc1"], ema_stats["acc5"])
 
-            # Use EMA accuracy as selection criterion (better generalisation)
-            sel_acc1 = ema_stats["acc1"]
-            if sel_acc1 > best_acc1s[ai]:
-                best_acc1s[ai] = sel_acc1
-                save_arch_checkpoint(adir / "best.pt", epoch, model, opt, scaler, ema,
-                                     sel_acc1, arch_rec)
-                logger.info("  ★ New best: %.3f%%", sel_acc1)
+                # Best acc tracking
+                if ema_stats["acc1"] > best_acc1s[ai]:
+                    best_acc1s[ai] = ema_stats["acc1"]
+                    save_arch_checkpoint(adir / "best.pt", epoch, model, opt, scaler, ema,
+                                         best_acc1s[ai], arch_rec)
+                    logger.info("  ★ New best EMA: %.3f%%", best_acc1s[ai])
+                if v_stats["acc1"] > best_val_acc1s[ai]:
+                    best_val_acc1s[ai] = v_stats["acc1"]
 
-            # ── history ───────────────────────────────────────────────────────
-            row = {
-                "epoch": epoch,
-                "train_loss": t_stats["loss"], "train_acc1": t_stats["acc1"],
-                "train_acc5": t_stats["acc5"], "lr": t_stats["lr"],
-                "val_loss": v_stats["loss"],   "val_acc1":  v_stats["acc1"],
-                "val_acc5": v_stats["acc5"],
-                "ema_loss": ema_stats["loss"], "ema_acc1":  ema_stats["acc1"],
-                "ema_acc5": ema_stats["acc5"],
-            }
-            histories[ai].append(row)
-            with (adir / "metrics.json").open("w") as f:
-                json.dump(histories[ai], f, indent=2)
+                # ── history ───────────────────────────────────────────────────
+                row = {
+                    "epoch": epoch,
+                    "train_loss": t_stats["loss"], "train_acc1": t_stats["acc1"],
+                    "train_acc5": t_stats["acc5"], "lr": t_stats["lr"],
+                    "val_loss":   v_stats["loss"], "val_acc1":   v_stats["acc1"],
+                    "val_acc5":   v_stats["acc5"],
+                    "ema_loss":   ema_stats["loss"], "ema_acc1": ema_stats["acc1"],
+                    "ema_acc5":   ema_stats["acc5"],
+                }
+                histories[ai].append(row)
+                _atomic_json_write(adir / "metrics.json", histories[ai])
 
-            # ── CSV append ────────────────────────────────────────────────────
-            arch_csv = adir / "metrics.csv"
-            write_header = not arch_csv.exists()
-            with arch_csv.open("a", newline="") as fh:
-                w = csv.DictWriter(fh, fieldnames=list(row.keys()))
-                if write_header:
-                    w.writeheader()
-                w.writerow(row)
+                # Append row to per-arch CSV
+                arch_csv = adir / "metrics.csv"
+                write_header = not arch_csv.exists()
+                with arch_csv.open("a", newline="") as fh:
+                    w = csv.DictWriter(fh, fieldnames=list(row.keys()))
+                    if write_header:
+                        w.writeheader()
+                    w.writerow(row)
 
-            # ── checkpoint ───────────────────────────────────────────────────
-            save_arch_checkpoint(adir / "last.pt", epoch, model, opt, scaler, ema,
-                                  best_acc1s[ai], arch_rec)
-            # Also save a per-epoch checkpoint to never lose progress
-            epoch_ckpt = adir / f"epoch_{epoch:04d}.pt"
-            # Only keep every 5th epoch checkpoint to save disk space
-            if epoch % 5 == 0:
-                save_arch_checkpoint(epoch_ckpt, epoch, model, opt, scaler, ema,
-                                     best_acc1s[ai], arch_rec)
+                # ── checkpoint ───────────────────────────────────────────────
+                save_arch_checkpoint(adir / "last.pt", epoch, model, opt, scaler, ema,
+                                      best_acc1s[ai], arch_rec)
+                if epoch % 5 == 0:
+                    save_arch_checkpoint(adir / f"epoch_{epoch:04d}.pt", epoch, model, opt,
+                                          scaler, ema, best_acc1s[ai], arch_rec)
 
-            epochs_done[ai] = epoch + 1
-            cycle_val_results[ai] = (v_stats["acc1"], ema_stats["acc1"])
+                epochs_done[ai] = epoch + 1
+
+                # Record results for this cycle and persist immediately
+                cycle_val_results[ai] = (
+                    v_stats["acc1"], ema_stats["acc1"],
+                    best_val_acc1s[ai], best_acc1s[ai],
+                )
+                completed_in_cycle.add(ai)
+                save_cycle_progress(cdir, current_cycle, completed_in_cycle, cycle_val_results)
+
+            except (torch.cuda.OutOfMemoryError, RuntimeError) as exc:
+                logger.error(
+                    "  Arch %02d: error during epoch %d — %s\n"
+                    "  This arch will be skipped in cycle %d and retried next cycle.",
+                    ai, epoch, exc, current_cycle,
+                )
+                skipped = True
+
+            finally:
+                # Always free GPU memory regardless of success or failure
+                _free_gpu(model, opt, scaler, ema)
+                logger.debug("  Arch %02d: GPU memory freed after epoch %d.", ai, epoch)
 
         if _STOP_REQUESTED:
-            logger.info("Stop requested — skipping cycle stats and exiting.")
+            logger.info("Stop requested — saving state and exiting before cycle stats.")
             break
 
-        # ── per-cycle statistics ───────────────────────────────────────────────
+        # ── per-cycle statistics ──────────────────────────────────────────────
+        if len(cycle_val_results) < 2:
+            logger.warning(
+                "Cycle %d: only %d arch(es) have results — skipping stats (need ≥2).",
+                current_cycle, len(cycle_val_results),
+            )
+            current_cycle += 1
+            continue
+
         logger.info("Computing cycle %d statistics…", current_cycle)
         stat_arch_records = []
         for arch_rec in arch_list:
             ai = arch_rec["arch_index"]
-            v1, e1 = cycle_val_results.get(ai, (-1, -1))
+            if ai not in cycle_val_results:
+                continue
+            v1, e1, bv1, be1 = cycle_val_results[ai]
             stat_arch_records.append({
-                "arch_index": ai,
-                "nas_quant_acc1": arch_rec["nas_quant_acc1"],
+                "arch_index":       ai,
+                "nas_quant_acc1":   arch_rec["nas_quant_acc1"],
                 "current_val_acc1": v1,
                 "current_ema_acc1": e1,
+                "best_val_acc1":    bv1,
+                "best_ema_acc1":    be1,
                 "epochs_completed": epochs_done[ai],
             })
 
         cs = compute_cycle_stats(current_cycle, stat_arch_records, args.bootstrap_samples)
         logger.info(
-            "  Spearman ρ = %.4f (p=%.4f%s) | Pearson r = %.4f (p=%.4f) | Kendall τ = %.4f (p=%.4f)",
-            cs.spearman_r, cs.spearman_p, " ✓" if cs.spearman_p < 0.05 else "",
-            cs.pearson_r,  cs.pearson_p,
-            cs.kendall_tau, cs.kendall_p,
+            "  [Val]  Spearman ρ=%.4f (%s) | Pearson r=%.4f | Kendall τ=%.4f",
+            cs.spearman_r, _sig_label(cs.spearman_p), cs.pearson_r, cs.kendall_tau,
         )
         logger.info(
-            "  Bootstrap 95%% CI [%.4f, %.4f] | Mean val_acc1 = %.3f±%.3f%%",
+            "  [EMA]  Spearman ρ=%.4f (%s) | Pearson r=%.4f | Kendall τ=%.4f",
+            cs.spearman_r_ema, _sig_label(cs.spearman_p_ema), cs.pearson_r_ema, cs.kendall_tau_ema,
+        )
+        logger.info(
+            "  [Best] Spearman ρ=%.4f (%s) | Pearson r=%.4f | Kendall τ=%.4f",
+            cs.spearman_r_best, _sig_label(cs.spearman_p_best), cs.pearson_r_best, cs.kendall_tau_best,
+        )
+        logger.info(
+            "  Bootstrap 95%% CI (val) [%.4f, %.4f] | Mean val=%.3f±%.3f%% | Mean EMA=%.3f%%",
             cs.bootstrap_ci_spearman[0], cs.bootstrap_ci_spearman[1],
-            cs.mean_val_acc1, cs.std_val_acc1,
+            cs.mean_val_acc1, cs.std_val_acc1, cs.mean_ema_acc1,
         )
 
         # ── save cycle stats ──────────────────────────────────────────────────
-        cdir = cycles_dir / f"cycle_{current_cycle:04d}"
-        cdir.mkdir(parents=True, exist_ok=True)
-
         cs_dict = asdict(cs)
         cs_dict["timestamp"] = datetime.utcnow().isoformat()
-        with (cdir / "stats.json").open("w") as f:
-            json.dump(cs_dict, f, indent=2)
+        _atomic_json_write(cdir / "stats.json", cs_dict)
 
-        # Append to rolling history
         all_cycle_stats.append(cs_dict)
-        with stats_history_path.open("w") as f:
-            json.dump(all_cycle_stats, f, indent=2)
+        _atomic_json_write(stats_history_path, all_cycle_stats)
 
         # Append to CSV
         with cycle_csv_path.open("a", newline="") as fh:
-            w2 = csv.DictWriter(fh, fieldnames=csv_fields)
+            w2 = csv.DictWriter(fh, fieldnames=_CSV_FIELDS)
             w2.writerow({
-                "cycle": current_cycle,
-                "timestamp": cs_dict["timestamp"],
-                "spearman_r": cs.spearman_r, "spearman_p": cs.spearman_p,
-                "pearson_r":  cs.pearson_r,  "pearson_p":  cs.pearson_p,
-                "kendall_tau": cs.kendall_tau, "kendall_p": cs.kendall_p,
-                "ci_lo": cs.bootstrap_ci_spearman[0],
-                "ci_hi": cs.bootstrap_ci_spearman[1],
-                "mean_val_acc1": cs.mean_val_acc1,
-                "std_val_acc1":  cs.std_val_acc1,
+                "cycle": current_cycle, "timestamp": cs_dict["timestamp"],
+                "spearman_r":    cs.spearman_r,    "spearman_p":    cs.spearman_p,
+                "pearson_r":     cs.pearson_r,      "pearson_p":     cs.pearson_p,
+                "kendall_tau":   cs.kendall_tau,    "kendall_p":     cs.kendall_p,
+                "ci_lo":         cs.bootstrap_ci_spearman[0],
+                "ci_hi":         cs.bootstrap_ci_spearman[1],
+                "spearman_r_ema":  cs.spearman_r_ema,  "spearman_p_ema":  cs.spearman_p_ema,
+                "pearson_r_ema":   cs.pearson_r_ema,   "pearson_p_ema":   cs.pearson_p_ema,
+                "kendall_tau_ema": cs.kendall_tau_ema, "kendall_p_ema":   cs.kendall_p_ema,
+                "spearman_r_best":  cs.spearman_r_best,  "spearman_p_best":  cs.spearman_p_best,
+                "pearson_r_best":   cs.pearson_r_best,   "pearson_p_best":   cs.pearson_p_best,
+                "kendall_tau_best": cs.kendall_tau_best, "kendall_p_best":   cs.kendall_p_best,
+                "mean_val_acc1":  cs.mean_val_acc1, "std_val_acc1":   cs.std_val_acc1,
+                "mean_ema_acc1":  cs.mean_ema_acc1, "mean_best_val_acc1": cs.mean_best_val_acc1,
+                "n_archs": cs.n_archs,
             })
 
-        # ── plots ─────────────────────────────────────────────────────────────
+        # Save per-arch best-acc summary (updated every cycle)
+        best_summary = [
+            {
+                "arch_index":     arch_rec["arch_index"],
+                "nas_quant_acc1": arch_rec["nas_quant_acc1"],
+                "best_val_acc1":  best_val_acc1s[arch_rec["arch_index"]],
+                "best_ema_acc1":  best_acc1s[arch_rec["arch_index"]],
+                "epochs_completed": epochs_done[arch_rec["arch_index"]],
+            }
+            for arch_rec in arch_list
+        ]
+        _atomic_json_write(out_root / "best_acc_summary.json", best_summary)
+
+        # ── per-cycle plots ───────────────────────────────────────────────────
         logger.info("Generating cycle %d plots…", current_cycle)
         try:
             plot_correlation_scatter(cs, stat_arch_records,
@@ -1213,13 +1499,19 @@ def main() -> None:
             plot_rank_comparison(cs, cdir / "rank_comparison.png")
             plot_training_curves(stat_arch_records, histories,
                                  cdir / "training_curves.png")
-            # Also update rolling plots at root level
+        except Exception as e:
+            logger.warning("Per-cycle plot generation failed: %s", e)
+
+        # ── rolling plots (root level) ────────────────────────────────────────
+        try:
             plot_correlation_over_cycles(all_cycle_stats,
                                          out_root / "correlation_over_cycles.png")
             plot_accuracy_progress(stat_arch_records, all_cycle_stats,
                                    out_root / "accuracy_progress.png")
+            plot_best_acc_summary(stat_arch_records, all_cycle_stats,
+                                  out_root / "best_acc_summary.png")
         except Exception as e:
-            logger.warning("Plot generation failed: %s", e)
+            logger.warning("Rolling plot generation failed: %s", e)
 
         logger.info("Cycle %d complete. Output saved to %s", current_cycle, cdir)
         current_cycle += 1
