@@ -28,8 +28,9 @@
 14. [Comparison with NAS Literature](#14-comparison-with-nas-literature)
 15. [Conclusions](#15-conclusions)
 16. [Reproducibility & Artifacts](#16-reproducibility--artifacts)
-17. [Appendix A: Per-Run Results Table](#appendix-a-per-run-results-table)
-18. [Appendix B: All Plots Index](#appendix-b-all-plots-index)
+17. [NAS Proxy Predictability — Full-Dataset Validation](#17-nas-proxy-predictability--full-dataset-validation)
+18. [Appendix A: Per-Run Results Table](#appendix-a-per-run-results-table)
+19. [Appendix B: All Plots Index](#appendix-b-all-plots-index)
 
 ---
 
@@ -618,6 +619,179 @@ Using the same seeds for both algorithms ensures that any run-level differences 
 
 ---
 
+## 17. NAS Proxy Predictability — Full-Dataset Validation
+
+**Analysis script:** [subnet/nas_predictability_analysis.py](subnet/nas_predictability_analysis.py)  
+**Raw data:** [full_dataset_experiment/](full_dataset_experiment/)  
+**Plots:** [full_dataset_experiment/nas_predictability_analysis/](full_dataset_experiment/nas_predictability_analysis/)
+
+---
+
+### 17.1 Experimental Setup
+
+To assess whether the NAS proxy metric — quantised top-1 accuracy on a 6-class ImageNet subset evaluated on the IMX500 — actually predicts full-dataset classification performance, 15 representative architectures from across the NAS score distribution were selected (NAS score range: 59.33%–92.67%) and trained independently on the full ImageNet training set.
+
+| Parameter | Value |
+|-----------|-------|
+| Architectures evaluated | 15 (NAS scores 59.33%–92.67%) |
+| Training dataset | ImageNet ILSVRC-2012 (full, 1000 classes) |
+| Train / val split | 80% / 20% (random, reproducible, seed=1) |
+| Epochs per architecture | 5 (one per round-robin cycle) |
+| Batch size | 650 |
+| Optimiser | SGD (lr=0.02, momentum=0.9, cosine restart) |
+| Augmentation | RandAugment, CutMix, MixUp, RandomErasing |
+| EMA decay | 0.9998 |
+| Resolution | Per-architecture (192, 224, or 256 px) |
+| Script | [subnet/full_dataset_training_and_analysis.py](subnet/full_dataset_training_and_analysis.py) |
+
+One architecture (Arch 6, NAS=83.33%) failed with a CUDA out-of-memory error consistently from epoch 1 onward and completed only a single epoch. Its data is included in the best-accuracy analysis (with one-epoch results) but was excluded from per-cycle correlation computation in cycles 1–4.
+
+---
+
+### 17.2 Architecture Rankings: NAS vs. Full-Dataset
+
+The table below shows how each architecture's NAS-proxy rank maps to its full-dataset validation rank after 5 training epochs. A positive rank shift means the architecture performed *worse* on the full dataset than its NAS score predicted; negative means it performed *better*.
+
+| Arch | NAS score (%) | NAS rank | Full val (%) | Full rank | Rank shift |
+|------|--------------|----------|-------------|-----------|------------|
+| A14  | 92.67        |  1       | 65.03       |  7        | +6         |
+| A13  | 88.00        |  2       | 65.88       |  4        | +2         |
+| A12  | 86.67        |  3       | 65.69       |  5        | +2         |
+| A11  | 86.00        |  4       | 63.91       | 10        | +6         |
+| A10  | 85.33        |  5       | 58.13       | **15**    | **+10**    |
+| A9   | 85.33        |  6       | 67.12       |  2        | **−4**     |
+| A8   | 84.67        |  7       | 63.17       | 13        | +6         |
+| A7   | 84.00        |  8       | 63.36       | 12        | +4         |
+| A6   | 83.33        |  9       | 63.47       | 11        | +2         |
+| A5   | 82.67        | 10       | 64.52       |  8        | −2         |
+| A4   | 82.00        | 11       | 66.77       |  3        | **−8**     |
+| A3   | 81.33        | 12       | 67.43       |  **1**    | **−11**    |
+| A2   | 80.67        | 13       | 65.20       |  6        | −7         |
+| A1   | 78.67        | 14       | 59.04       | 14        |  0         |
+| A0   | 59.33        | 15       | 64.08       |  9        | **−6**     |
+
+**Notable observations:**
+
+- **The NAS best-ranked architecture (A14, 92.67%) is not the best-performing architecture on the full dataset.** It achieves only 65.03% top-1 and ranks 7th out of 15.
+- **The best full-dataset architecture (A3, 67.43%) ranks only 12th by NAS score** (81.33%). The NAS proxy would have deprioritised this architecture in favour of 11 others.
+- **A0 (NAS rank 15, dead last at 59.33%)** achieves 64.08% full-dataset accuracy — comfortably above 6 architectures with higher NAS scores.
+- **A4 and A3** (NAS ranks 11 and 12) collectively hold the top-2 and top-3 full-dataset positions, neither of which the NAS proxy suggested as particularly strong.
+
+![Rank comparison](full_dataset_experiment/nas_predictability_analysis/rank_comparison.png)
+
+![Rank matrix](full_dataset_experiment/nas_predictability_analysis/rank_matrix.png)
+
+---
+
+### 17.3 Correlation Analysis
+
+Spearman rank correlation, Pearson linear correlation, and Kendall τ were computed between the NAS proxy score and the best full-dataset validation accuracy achieved after 5 epochs. Bootstrap confidence intervals (5 000 resamples) were computed for the Spearman ρ.
+
+| Metric | NAS ↔ Best val | NAS ↔ Best EMA val |
+|--------|---------------|-------------------|
+| Spearman ρ | 0.084 | 0.261 |
+| Spearman p-value | 0.766 (n.s.) | 0.348 (n.s.) |
+| Pearson r | 0.095 | 0.583 |
+| Pearson p-value | 0.737 (n.s.) | 0.022 (*) |
+| Kendall τ | 0.019 | — |
+| Bootstrap 95% CI (Spearman) | [−0.459, 0.548] | [−0.363, 0.738] |
+
+All rank-correlation metrics (Spearman, Kendall) are non-significant at every conventional threshold. The wide bootstrap confidence intervals — spanning from large negative to moderate positive values — indicate that the data are consistent with anything from a mild negative correlation to a moderate positive one. No reliable ranking signal is present.
+
+The EMA Pearson r of 0.583 (p=0.022) is the only figure that nominally reaches significance, but Pearson r is sensitive to a single influential point; when two low-NAS outlier architectures (A0, A1) are present in the data, their position in NAS-space has a disproportionate effect on the linear fit. The rank-based Spearman ρ (0.261, p=0.348) on the same EMA data is not significant, confirming that there is no reliable monotonic ordering.
+
+The correlation did not improve over the course of training. Spearman ρ on the current-epoch validation accuracy was 0.270 at cycle 0 and declined to 0.103 by cycle 4, remaining non-significant throughout.
+
+| Cycle | Spearman ρ (current val) | p | Spearman ρ (best val) | p |
+|-------|--------------------------|---|----------------------|---|
+| 0     | 0.270                    | 0.331 | 0.270 | 0.331 |
+| 1     | 0.139                    | 0.637 | 0.139 | 0.637 |
+| 2     | 0.136                    | 0.642 | 0.136 | 0.642 |
+| 3     | 0.108                    | 0.714 | 0.103 | 0.725 |
+| 4     | 0.103                    | 0.725 | 0.099 | 0.736 |
+
+> **Note:** The seemingly high Pearson r at cycle 0 (0.890, p<0.001) was driven by an artefact: Arch 0 had a catastrophically low validation accuracy of 6.18% after its first epoch (the backbone was frozen and only the randomly-initialised classifier was trained for epoch 0). Because Arch 0 also had the lowest NAS score, this single outlier point created a spuriously strong linear trend. Once all architectures had trained for more epochs, the Pearson r dropped to near 0.
+
+![Correlation evolution](full_dataset_experiment/nas_predictability_analysis/correlation_evolution.png)
+
+![NAS vs. full accuracy scatter](full_dataset_experiment/nas_predictability_analysis/nas_vs_full_acc.png)
+
+---
+
+### 17.4 Top-K Selection Fidelity
+
+A practical question is: if a practitioner selects the top-k architectures by NAS proxy score for full training, how many of the actual top-k performers would they capture?
+
+| k | Top-k recall | Random baseline | Architectures captured |
+|---|-------------|-----------------|------------------------|
+| 1 | **0%**  | 6.7% | 0/1 — NAS best (A14) is not the full-dataset best |
+| 2 | **0%**  | 13.3% | 0/2 |
+| 3 | **0%**  | 20.0% | 0/3 — none of top-3 by NAS are in top-3 by val |
+| 4 | **25%** | 26.7% | 1/4 |
+| 5 | **40%** | 33.3% | 2/5 |
+| 6 | **50%** | 40.0% | 3/6 |
+| 7 | **43%** | 46.7% | 3/7 |
+
+At k=1 through k=3, the NAS proxy performs *below the random baseline*. At larger k values it approaches the random baseline from above. Only at k≥5 does the NAS selection yield a modest advantage over random.
+
+The true top-3 architectures by full-dataset accuracy are A3 (NAS rank 12), A9 (NAS rank 6), and A4 (NAS rank 11). None of these would have been prioritised by the NAS proxy for dedicated full training.
+
+![Top-K recall](full_dataset_experiment/nas_predictability_analysis/topk_recall.png)
+
+---
+
+### 17.5 Case Study: Identical NAS Score, Divergent Full-Dataset Performance
+
+Architectures A9 and A10 received identical NAS proxy scores (85.33%), yet their full-dataset validation accuracies diverged by **9 percentage points**: A9 achieved 67.12% (rank 2/15) while A10 achieved only 58.13% (rank 15/15, last place).
+
+| | A9 | A10 |
+|--|----|----|
+| NAS proxy score | 85.33% | 85.33% |
+| Full val (best, 5 epochs) | **67.12%** | **58.13%** |
+| Full val rank | 2 / 15 | 15 / 15 |
+| Resolution | 224 px | 192 px |
+| Stem width | 40 | 24 |
+| Stage depths | [3, 1, 5, 2] | [2, 1, 1, 2] |
+| Stage widths | [64, 128, 192, 256] | [64, 128, 224, 224] |
+| NAS algorithm | Baseline SGA (seed=1394) | Regularized Evolution (seed=2073) |
+
+The NAS score is evaluated on a 600-image, 6-class, INT8-quantised forward pass. Such a coarse signal cannot distinguish between two architectures that happen to produce identical results on this narrow proxy but differ substantially in their capacity to generalise to 1 000 classes with floating-point arithmetic.
+
+![Tied NAS score comparison](full_dataset_experiment/nas_predictability_analysis/tied_nas_score_comparison.png)
+
+---
+
+### 17.6 Discussion
+
+**Why does the proxy fail to predict rank?**
+
+1. **Domain mismatch.** The proxy is evaluated on 6 classes drawn alphabetically from ImageNet (a narrow, potentially unrepresentative sample). Accuracy on 6 classes does not reliably predict accuracy on all 1000 classes, especially for architectures with different width/depth profiles that may specialise differently across class groups.
+
+2. **Quantisation effect.** The proxy score is measured after INT8 post-training quantisation for the IMX500. Quantisation sensitivity varies across architectures: a network that is robust to INT8 quantisation may rank higher in NAS evaluation than it deserves relative to full-precision training, and vice versa.
+
+3. **Few-shot proxy noise.** With only 600 evaluation images (100 per class), each accuracy measurement has a resolution of 1/600 ≈ 0.17 pp and high variance. Two architectures separated by 0.67% (2/300 correct images) in NAS score may be statistically indistinguishable, yet the NAS ranking treats them as ordered.
+
+4. **Short supernet training.** Subnet weights are inherited from the supernet and fine-tuned for only 3 epochs per NAS candidate. At 3 epochs, the ranking of architectures by accuracy may not reflect their final performance after full training — the supernet's weight-sharing biases certain architecture configurations.
+
+5. **Different operating conditions.** The NAS evaluation runs with a fixed batch size of 64 and a learning rate of 0.01 on the 6-class subset. The full-dataset training uses a batch size of 650, a higher learning rate (0.02), and aggressive augmentation (CutMix, MixUp, RandAugment). These are different training conditions and the ranking under one may not preserve the ranking under the other.
+
+**Practical implications:**
+
+- Using the NAS proxy score alone to select a single "best" architecture for full training carries substantial risk. In this experiment, that strategy would have selected A14 (65.03% full accuracy) over A3 (67.43%), a 2.4 percentage point missed opportunity.
+- The best full-training results come from architectures in the middle of the NAS score distribution (NAS 81%–85%), not from the highest-scoring architectures. This suggests the NAS procedure effectively identifies a region of viable architectures but lacks the resolution to rank them accurately.
+- A selection strategy that screens a broader set of architectures (e.g., all architectures with NAS score above a threshold) and relies on short-term full-training for final ranking would be more reliable than selecting the single NAS top-performer.
+
+---
+
+### 17.7 Limitations
+
+- Only 5 epochs of full training per architecture were completed. Rank correlations may shift with longer training, though the trend across cycles 0–4 shows declining rather than improving correlation.
+- The validation set is a random 20% split of the ImageNet *training* directory, not the official ImageNet validation set. Absolute accuracy numbers are not comparable to published benchmarks.
+- Arch 6 completed only one training epoch due to persistent OOM errors, limiting the per-cycle analysis to 14 architectures (cycles 1–4).
+- With N=15 architectures, all correlation estimates have wide confidence intervals. The conclusion that there is no reliable correlation is well-supported, but the true magnitude of any weak signal cannot be precisely quantified.
+
+---
+
 ## Appendix A: Per-Run Results Table
 
 ### Regularized Evolution (all 10 runs)
@@ -705,4 +879,18 @@ All plots are in [multi_run_parallel/publication_analysis/plots/](multi_run_para
 
 ---
 
-*Generated: 2026-04-20 | Analysis: NAS/publication_analysis.py | Raw data: multi_run_parallel/*
+### NAS Proxy Predictability Plots (Section 17)
+
+| Plot | File | Description |
+|------|------|-------------|
+| NAS vs. full accuracy | [nas_predictability_analysis/nas_vs_full_acc.png](full_dataset_experiment/nas_predictability_analysis/nas_vs_full_acc.png) | Scatter of NAS proxy score vs. best full-dataset val / EMA accuracy with OLS fit |
+| Rank comparison | [nas_predictability_analysis/rank_comparison.png](full_dataset_experiment/nas_predictability_analysis/rank_comparison.png) | Side-by-side bar chart: NAS rank vs. full-dataset rank per architecture |
+| Rank matrix | [nas_predictability_analysis/rank_matrix.png](full_dataset_experiment/nas_predictability_analysis/rank_matrix.png) | Scatter of NAS rank vs. full-dataset rank — points on diagonal = perfect prediction |
+| Correlation evolution | [nas_predictability_analysis/correlation_evolution.png](full_dataset_experiment/nas_predictability_analysis/correlation_evolution.png) | Spearman/Pearson/p-value/CI over training cycles |
+| Top-K recall | [nas_predictability_analysis/topk_recall.png](full_dataset_experiment/nas_predictability_analysis/topk_recall.png) | Fraction of true top-k architectures captured by NAS top-k selection |
+| Tied NAS score | [nas_predictability_analysis/tied_nas_score_comparison.png](full_dataset_experiment/nas_predictability_analysis/tied_nas_score_comparison.png) | A9 vs. A10: identical NAS score, 9 pp full-accuracy gap |
+| Text summary | [nas_predictability_analysis/summary.txt](full_dataset_experiment/nas_predictability_analysis/summary.txt) | Full numerical summary of all metrics |
+
+---
+
+*Generated: 2026-04-20 (NAS search) / 2026-04-26 (Section 17 full-dataset analysis) | Analysis: NAS/publication_analysis.py, subnet/nas_predictability_analysis.py | Raw data: multi_run_parallel/, full_dataset_experiment/*

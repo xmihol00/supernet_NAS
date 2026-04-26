@@ -1,0 +1,107 @@
+[
+  {
+    "arch_index": 0,
+    "nas_quant_acc1": 59.333333333333336,
+    "best_val_acc1": 64.08216852242829,
+    "best_ema_acc1": 58.02271001621439,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 1,
+    "nas_quant_acc1": 78.66666666666667,
+    "best_val_acc1": 59.035956872523144,
+    "best_ema_acc1": 60.604471463071754,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 2,
+    "nas_quant_acc1": 80.66666666666667,
+    "best_val_acc1": 65.19736552055217,
+    "best_ema_acc1": 66.2013000945434,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 3,
+    "nas_quant_acc1": 81.33333333333333,
+    "best_val_acc1": 67.43217219639556,
+    "best_ema_acc1": 68.49116337397554,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 4,
+    "nas_quant_acc1": 82.0,
+    "best_val_acc1": 66.77068957915922,
+    "best_ema_acc1": 67.86448743258266,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 5,
+    "nas_quant_acc1": 82.66666666666667,
+    "best_val_acc1": 64.52310337564106,
+    "best_ema_acc1": 65.75871636482982,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 6,
+    "nas_quant_acc1": 83.33333333333333,
+    "best_val_acc1": 63.47221941912133,
+    "best_ema_acc1": 61.25650463654665,
+    "epochs_completed": 1
+  },
+  {
+    "arch_index": 7,
+    "nas_quant_acc1": 84.0,
+    "best_val_acc1": 63.36408329618538,
+    "best_ema_acc1": 65.16279887723562,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 8,
+    "nas_quant_acc1": 84.66666666666667,
+    "best_val_acc1": 63.166300412953966,
+    "best_ema_acc1": 64.70625211253119,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 9,
+    "nas_quant_acc1": 85.33333333333333,
+    "best_val_acc1": 67.12485512322485,
+    "best_ema_acc1": 68.4412121152744,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 10,
+    "nas_quant_acc1": 85.33333333333333,
+    "best_val_acc1": 58.13037881051635,
+    "best_ema_acc1": 59.820276380309416,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 11,
+    "nas_quant_acc1": 86.0,
+    "best_val_acc1": 63.90985651933242,
+    "best_ema_acc1": 64.58996370120363,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 12,
+    "nas_quant_acc1": 86.66666666666667,
+    "best_val_acc1": 65.69303954658345,
+    "best_ema_acc1": 67.54725554646593,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 13,
+    "nas_quant_acc1": 88.0,
+    "best_val_acc1": 65.8819520032919,
+    "best_ema_acc1": 67.09067449140055,
+    "epochs_completed": 5
+  },
+  {
+    "arch_index": 14,
+    "nas_quant_acc1": 92.66666666666667,
+    "best_val_acc1": 65.02918109719363,
+    "best_ema_acc1": 66.41986881487617,
+    "epochs_completed": 5
+  }
+]
