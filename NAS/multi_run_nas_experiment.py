@@ -12,7 +12,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Sequence
+from typing import Any, Dict, List, Sequence
 
 from experiment_stats import build_full_statistics
 from experiment_viz import (
@@ -24,6 +24,33 @@ from experiment_viz import (
     plot_run_comparison_scatter,
     plot_statistical_pvalues,
 )
+
+_DATASET_CONFIGS: Dict[str, Dict[str, Any]] = {
+    "cifar10": {
+        "num_classes": 10,
+        "train_path": "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+        "eval_path": "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+        "calib_path": "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+        "train_batch_size": 256,
+        "eval_batch_size": 200,
+        "images_per_class_eval": 40,
+        "epochs_per_candidate": 10,
+        "n_folds": 10,
+        "train_fold_fraction": 0.1,
+    },
+    "imagenet": {
+        "num_classes": 1000,
+        "train_path": "/mnt/matylda5/xmihol00/datasets/imagenet/train",
+        "eval_path": "/mnt/matylda5/xmihol00/datasets/imagenet/val",
+        "calib_path": "/mnt/matylda5/xmihol00/datasets/imagenet/calib",
+        "train_batch_size": 64,
+        "eval_batch_size": 50,
+        "images_per_class_eval": 50,
+        "epochs_per_candidate": 3,
+        "n_folds": 1,
+        "train_fold_fraction": 1.0,
+    },
+}
 
 
 def utc_now() -> str:
@@ -110,6 +137,8 @@ def build_runner_command(args: argparse.Namespace, algorithm: str, seed: int, ru
     command = [
         args.python_executable,
         str(args.runner_script),
+        "--dataset-name",
+        args.dataset_name,
         "--algorithm",
         algorithm,
         "--seed",
@@ -128,6 +157,10 @@ def build_runner_command(args: argparse.Namespace, algorithm: str, seed: int, ru
         str(args.offspring_per_generation),
         "--epochs-per-candidate",
         str(args.epochs_per_candidate),
+        "--n-folds",
+        str(args.n_folds),
+        "--train-fold-fraction",
+        str(args.train_fold_fraction),
         "--train-batch-size",
         str(args.train_batch_size),
         "--eval-batch-size",
@@ -458,8 +491,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--poll-interval-sec", type=float, default=100.0)
     parser.add_argument("--continue-on-failure", action="store_true")
 
-    parser.add_argument("--train-dataset", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/subset/train")
-    parser.add_argument("--eval-dataset", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/subset/val")
+    parser.add_argument("--dataset-name", type=str, choices=list(_DATASET_CONFIGS), default="cifar10",
+                        help="Dataset preset; sets normalization, num-classes, and path defaults in the runner")
+    parser.add_argument("--train-dataset", type=str, default=None,
+                        help="Training data root (default: derived from --dataset-name)")
+    parser.add_argument("--eval-dataset", type=str, default=None,
+                        help="Evaluation data root (default: derived from --dataset-name)")
     parser.add_argument(
         "--initial-population-json",
         type=str,
@@ -469,19 +506,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--generations", type=int, default=25)
     parser.add_argument("--population-size", type=int, default=25)
     parser.add_argument("--offspring-per-generation", type=int, default=8)
-    parser.add_argument("--epochs-per-candidate", type=int, default=3)
+    parser.add_argument("--epochs-per-candidate", type=int, default=None,
+                        help="Training epochs per candidate (default: derived from --dataset-name)")
+    parser.add_argument("--n-folds", type=int, default=None,
+                        help="Number of training folds (default: derived from --dataset-name)")
+    parser.add_argument("--train-fold-fraction", type=float, default=None,
+                        help="Fraction of training data per fold (default: derived from --dataset-name)")
 
-    parser.add_argument("--train-batch-size", type=int, default=64)
-    parser.add_argument("--eval-batch-size", type=int, default=50)
+    parser.add_argument("--train-batch-size", type=int, default=None,
+                        help="Training batch size (default: derived from --dataset-name)")
+    parser.add_argument("--eval-batch-size", type=int, default=None,
+                        help="Evaluation batch size (default: derived from --dataset-name)")
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--lr", type=float, default=0.01)
     parser.add_argument("--weight-decay", type=float, default=5e-5)
     parser.add_argument("--momentum", type=float, default=0.9)
     parser.add_argument("--label-smoothing", type=float, default=0.0)
 
-    parser.add_argument("--num-classes", type=int, default=6)
+    parser.add_argument("--num-classes", type=int, default=None,
+                        help="Number of classes (default: derived from --dataset-name)")
     parser.add_argument("--images-per-class-train", type=int, default=0)
-    parser.add_argument("--images-per-class-eval", type=int, default=100)
+    parser.add_argument("--images-per-class-eval", type=int, default=None,
+                        help="Max eval images per class (default: derived from --dataset-name)")
 
     parser.add_argument(
         "--checkpoint",
@@ -490,13 +536,14 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--device", type=str, default="cuda")
 
-    parser.add_argument("--calibration-dir", type=str, default=str(Path(__file__).resolve().parent / "images"))
-    parser.add_argument("--num-calibration-images", type=int, default=72)
-    parser.add_argument("--calibration-batch-size", type=int, default=12)
+    parser.add_argument("--calibration-dir", type=str, default=None,
+                        help="Calibration image directory (default: derived from --dataset-name)")
+    parser.add_argument("--num-calibration-images", type=int, default=50)
+    parser.add_argument("--calibration-batch-size", type=int, default=10)
     parser.add_argument("--tpc-version", type=str, default="1.0")
     parser.add_argument("--opset-version", type=int, default=15)
     parser.add_argument("--compile-timeout-sec", type=int, default=1800)
-    parser.add_argument("--eval-log-every", type=int, default=5)
+    parser.add_argument("--eval-log-every", type=int, default=1)
 
     parser.add_argument("--mutation-rate", type=float, default=0.25)
     parser.add_argument("--tournament-size", type=int, default=3)
@@ -517,6 +564,30 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+
+    # Resolve dataset-specific defaults
+    ds_cfg = _DATASET_CONFIGS[args.dataset_name]
+    if args.num_classes is None:
+        args.num_classes = int(ds_cfg["num_classes"])
+    if args.train_dataset is None:
+        args.train_dataset = str(ds_cfg["train_path"])
+    if args.eval_dataset is None:
+        args.eval_dataset = str(ds_cfg["eval_path"])
+    if args.calibration_dir is None:
+        args.calibration_dir = str(ds_cfg["calib_path"])
+    if args.train_batch_size is None:
+        args.train_batch_size = int(ds_cfg["train_batch_size"])
+    if args.eval_batch_size is None:
+        args.eval_batch_size = int(ds_cfg["eval_batch_size"])
+    if args.images_per_class_eval is None:
+        args.images_per_class_eval = int(ds_cfg["images_per_class_eval"])
+    if args.epochs_per_candidate is None:
+        args.epochs_per_candidate = int(ds_cfg["epochs_per_candidate"])
+    if args.n_folds is None:
+        args.n_folds = int(ds_cfg["n_folds"])
+    if args.train_fold_fraction is None:
+        args.train_fold_fraction = float(ds_cfg["train_fold_fraction"])
+
     output_root = args.output_root.resolve()
     output_root.mkdir(parents=True, exist_ok=True)
 

@@ -10,7 +10,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, List, Sequence, Tuple
+from typing import Any, Dict, Iterable, List, Sequence, Tuple
 
 import numpy as np
 import onnx
@@ -39,6 +39,25 @@ except Exception:
 
 
 SUPPORTED_IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".bmp", ".webp")
+
+_DATASET_CONFIGS: Dict[str, Dict[str, Any]] = {
+    "cifar10": {
+        "num_classes": 10,
+        "mean": [0.4914, 0.4822, 0.4465],
+        "std": [0.2023, 0.1994, 0.2010],
+        "dataset_path": "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+        "calib_path": "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+        "resolution_candidates": (28, 32, 34),
+    },
+    "imagenet": {
+        "num_classes": 1000,
+        "mean": [0.485, 0.456, 0.406],
+        "std": [0.229, 0.224, 0.225],
+        "dataset_path": "/mnt/matylda5/xmihol00/datasets/imagenet/sampled",
+        "calib_path": "/mnt/matylda5/xmihol00/datasets/imagenet/calib",
+        "resolution_candidates": (192, 224, 256, 288),
+    },
+}
 
 
 def log(message: str) -> None:
@@ -253,15 +272,16 @@ class RepresentativeDataGenerator:
         batch_size: int,
         num_images: int,
         device: torch.device,
+        mean=None,
+        std=None,
     ) -> None:
+        _mean = mean if mean is not None else _DATASET_CONFIGS["cifar10"]["mean"]
+        _std = std if std is not None else _DATASET_CONFIGS["cifar10"]["std"]
         transform = transforms.Compose(
             [
                 transforms.Resize((input_shape[1], input_shape[2])),
                 transforms.ToTensor(),
-                transforms.Normalize(
-                    mean=[0.485, 0.456, 0.406],
-                    std=[0.229, 0.224, 0.225],
-                ),
+                transforms.Normalize(mean=_mean, std=_std),
             ]
         )
         dataset = ImageFolderCalibrationDataset(
@@ -310,15 +330,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-attempts", type=int, default=400)
     parser.add_argument("--seed", type=int, default=42)
 
-    parser.add_argument("--num-classes", type=int, default=1000)
+    parser.add_argument("--dataset-name", type=str, choices=list(_DATASET_CONFIGS), default="cifar10",
+                        help="Dataset preset; sets normalization, num-classes, and path defaults")
+    parser.add_argument("--num-classes", type=int, default=None,
+                        help="Number of classes (default: derived from --dataset-name)")
     parser.add_argument("--checkpoint", type=str, default="/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt")
     parser.add_argument("--device", type=str, default="cuda")
 
-    parser.add_argument("--calibration-dir", type=str, default=str(Path(__file__).resolve().parent / "images"))
+    parser.add_argument("--calibration-dir", type=str, default=None,
+                        help="Calibration image directory (default: derived from --dataset-name)")
     parser.add_argument("--num-calibration-images", type=int, default=50)
     parser.add_argument("--calibration-batch-size", type=int, default=1)
 
-    parser.add_argument("--dataset", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/sampled")
+    parser.add_argument("--dataset", type=str, default=None,
+                        help="Dataset root for evaluation (default: derived from --dataset-name)")
     parser.add_argument("--eval-batch-size", type=int, default=20)
     parser.add_argument(
         "--images-per-class",
@@ -338,7 +363,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--eval-log-every",
         type=int,
-        default=5,
+        default=1,
         help="Print evaluation progress every N batches (0 disables).",
     )
 
@@ -394,7 +419,8 @@ def load_supernet(args: argparse.Namespace, device: torch.device) -> Tuple[IMX50
             )
             effective_num_classes = checkpoint_num_classes
 
-    model = create_default_supernet(num_classes=effective_num_classes)
+    res_candidates = getattr(args, "resolution_candidates", None)
+    model = create_default_supernet(num_classes=effective_num_classes, resolution_candidates=res_candidates)
 
     if state_dict is not None:
         missing, unexpected = model.load_state_dict(state_dict, strict=False)
@@ -573,6 +599,8 @@ def evaluate_onnx(
     batch_size: int,
     selected_num_classes: int,
     eval_log_every: int,
+    mean=None,
+    std=None,
 ) -> Dict[str, float]:
     eval_start = time.perf_counter()
     log(
@@ -589,8 +617,9 @@ def evaluate_onnx(
     input_name = session.get_inputs()[0].name
     output_name = session.get_outputs()[0].name
 
-    mean = np.array([0.485, 0.456, 0.406], dtype=np.float32).reshape(1, 1, 3)
-    std = np.array([0.229, 0.224, 0.225], dtype=np.float32).reshape(1, 1, 3)
+    _default = _DATASET_CONFIGS["cifar10"]
+    mean = np.array(mean if mean is not None else _default["mean"], dtype=np.float32).reshape(1, 1, 3)
+    std = np.array(std if std is not None else _default["std"], dtype=np.float32).reshape(1, 1, 3)
 
     current_batch_size = max(1, batch_size)
     while True:
@@ -676,12 +705,25 @@ def as_jsonable(obj: object) -> object:
 def main() -> None:
     run_start = time.perf_counter()
     args = parse_args()
+
+    # Resolve dataset-specific defaults
+    ds_cfg = _DATASET_CONFIGS[args.dataset_name]
+    if args.num_classes is None:
+        args.num_classes = int(ds_cfg["num_classes"])
+    if args.dataset is None:
+        args.dataset = str(ds_cfg["dataset_path"])
+    if args.calibration_dir is None:
+        args.calibration_dir = str(ds_cfg["calib_path"])
+    _norm_mean: List[float] = list(ds_cfg["mean"])
+    _norm_std: List[float] = list(ds_cfg["std"])
+    args.resolution_candidates = tuple(ds_cfg["resolution_candidates"])
+
     set_seed(args.seed)
 
     log(
         "Starting space sampling run: "
-        f"targets={args.num_target_models}, max_attempts={args.max_attempts}, "
-        f"seed={args.seed}, eval_batch_size={args.eval_batch_size}"
+        f"dataset={args.dataset_name}, targets={args.num_target_models}, max_attempts={args.max_attempts}, "
+        f"seed={args.seed}, eval_batch_size={args.eval_batch_size}, num_classes={args.num_classes}"
     )
 
     output_dir = Path(args.output_dir)
@@ -779,6 +821,8 @@ def main() -> None:
                 batch_size=args.calibration_batch_size,
                 num_images=args.num_calibration_images,
                 device=device,
+                mean=_norm_mean,
+                std=_norm_std,
             )
 
             quant_info = quantize_and_export_onnx(
@@ -810,6 +854,8 @@ def main() -> None:
                 batch_size=args.eval_batch_size,
                 selected_num_classes=len(class_names),
                 eval_log_every=args.eval_log_every,
+                mean=_norm_mean,
+                std=_norm_std,
             )
             quant_metrics = evaluate_onnx(
                 onnx_path=quant_onnx,
@@ -818,6 +864,8 @@ def main() -> None:
                 batch_size=args.eval_batch_size,
                 selected_num_classes=len(class_names),
                 eval_log_every=args.eval_log_every,
+                mean=_norm_mean,
+                std=_norm_std,
             )
             sample_record["float_eval"] = float_metrics
             sample_record["quant_eval"] = quant_metrics

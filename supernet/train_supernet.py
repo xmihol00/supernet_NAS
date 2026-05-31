@@ -19,6 +19,23 @@ from tqdm import tqdm
 
 from imx500_supernet import IMX500ResNetSupernet, create_default_supernet
 
+_DATASET_CONFIGS = {
+    "cifar10": {
+        "num_classes": 10,
+        "mean": [0.4914, 0.4822, 0.4465],
+        "std": [0.2023, 0.1994, 0.2010],
+        "dataset_path": "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+        "resolution_candidates": (28, 32, 34),
+    },
+    "imagenet": {
+        "num_classes": 1000,
+        "mean": [0.485, 0.456, 0.406],
+        "std": [0.229, 0.224, 0.225],
+        "dataset_path": "/mnt/matylda5/xmihol00/datasets/imagenet/train",
+        "resolution_candidates": (192, 224, 256, 288),
+    },
+}
+
 import safe_gpu
 while True:
     try:
@@ -33,9 +50,13 @@ while True:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser("Train IMX500-aware supernet (single GPU)")
 
-    parser.add_argument("--dataset-path", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/train")
+    parser.add_argument("--dataset-name", type=str, choices=list(_DATASET_CONFIGS), default="cifar10",
+                        help="Dataset preset; sets normalization, num-classes, and path defaults")
+    parser.add_argument("--dataset-path", type=str, default=None,
+                        help="Dataset root directory (default: derived from --dataset-name)")
     parser.add_argument("--val-split", type=float, default=0.15)
-    parser.add_argument("--num-classes", type=int, default=1000)
+    parser.add_argument("--num-classes", type=int, default=None,
+                        help="Number of classes (default: derived from --dataset-name)")
 
     parser.add_argument("--epochs", type=int, default=120)
     parser.add_argument("--batch-size", type=int, default=96)
@@ -126,8 +147,10 @@ def create_splits(dataset_path: Path, val_split: float, seed: int) -> Tuple[list
     return train_indices.tolist(), val_indices.tolist()
 
 
-def create_loaders(args: argparse.Namespace, max_resolution: int) -> Tuple[DataLoader, DataLoader]:
-    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+def create_loaders(args: argparse.Namespace, max_resolution: int, mean=None, std=None) -> Tuple[DataLoader, DataLoader]:
+    _mean = mean if mean is not None else _DATASET_CONFIGS["cifar10"]["mean"]
+    _std = std if std is not None else _DATASET_CONFIGS["cifar10"]["std"]
+    normalize = transforms.Normalize(mean=_mean, std=_std)
 
     train_transform = transforms.Compose(
         [
@@ -406,6 +429,17 @@ def dump_supernet_profile(model: IMX500ResNetSupernet, output_dir: Path, logger:
 
 def main() -> None:
     args = parse_args()
+
+    # Resolve dataset-specific defaults
+    ds_cfg = _DATASET_CONFIGS[args.dataset_name]
+    if args.num_classes is None:
+        args.num_classes = int(ds_cfg["num_classes"])
+    if args.dataset_path is None:
+        args.dataset_path = str(ds_cfg["dataset_path"])
+    _norm_mean = list(ds_cfg["mean"])
+    _norm_std = list(ds_cfg["std"])
+    _res_candidates = tuple(ds_cfg["resolution_candidates"])
+
     run_id = time.strftime("%Y%m%d_%H%M%S")
     output_dir = Path(args.output_dir) / run_id
     logger = setup_logging(output_dir)
@@ -416,7 +450,7 @@ def main() -> None:
     if device.type != "cuda":
         logger.warning("CUDA not available, using CPU. This will be very slow.")
 
-    model = create_default_supernet(num_classes=args.num_classes).to(device)
+    model = create_default_supernet(num_classes=args.num_classes, resolution_candidates=_res_candidates).to(device)
     hard_criterion = nn.CrossEntropyLoss(label_smoothing=args.label_smoothing)
     soft_criterion = SoftTargetKLLoss(temperature=1.0)
 
@@ -429,7 +463,8 @@ def main() -> None:
     )
     scaler = torch.amp.GradScaler(enabled=args.amp and device.type == "cuda")
 
-    train_loader, val_loader = create_loaders(args, max_resolution=max(model.resolution_candidates))
+    train_loader, val_loader = create_loaders(args, max_resolution=max(model.resolution_candidates),
+                                               mean=_norm_mean, std=_norm_std)
 
     logger.info("Training configuration: %s", json.dumps(vars(args), sort_keys=True))
     logger.info("Using device: %s", device)

@@ -57,7 +57,7 @@ _SUPERNET_DIR = _PROJECT_ROOT / "supernet"
 if str(_SUPERNET_DIR) not in sys.path:
     sys.path.insert(0, str(_SUPERNET_DIR))
 
-from imx500_supernet import IMX500ResNetSupernet, SubnetConfig, create_default_supernet  # noqa: E402
+from imx500_supernet import DynamicLinear, IMX500ResNetSupernet, SubnetConfig, create_default_supernet  # noqa: E402
 
 try:
     import safe_gpu
@@ -67,8 +67,22 @@ except Exception:
 # ─────────────────────────────────────────────────────────────────────────────
 # Architecture constants
 # ─────────────────────────────────────────────────────────────────────────────
-_IMAGENET_MEAN = [0.485, 0.456, 0.406]
-_IMAGENET_STD  = [0.229, 0.224, 0.225]
+_DATASET_CONFIGS = {
+    "cifar10": {
+        "num_classes": 10,
+        "mean": [0.4914, 0.4822, 0.4465],
+        "std": [0.2023, 0.1994, 0.2010],
+        "dataset_path": "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+        "resolution_candidates": (28, 32, 34),
+    },
+    "imagenet": {
+        "num_classes": 1000,
+        "mean": [0.485, 0.456, 0.406],
+        "std": [0.229, 0.224, 0.225],
+        "dataset_path": "/mnt/matylda5/xmihol00/datasets/imagenet/train",
+        "resolution_candidates": (192, 224, 256, 288),
+    },
+}
 
 _SSD_MOUNT     = Path("/mnt/ssd")
 _SSD_CACHE_DIR = _SSD_MOUNT / "xmihol00"
@@ -249,8 +263,11 @@ def create_split_indices(dataset_path: Path, val_frac: float,
 
 def build_loaders(dataset_path: Path, train_idx: List[int], val_idx: List[int],
                   resolution: int, batch_size: int, num_workers: int,
-                  randaugment_magnitude: int) -> Tuple[DataLoader, DataLoader]:
-    normalize = transforms.Normalize(_IMAGENET_MEAN, _IMAGENET_STD)
+                  randaugment_magnitude: int,
+                  mean=None, std=None) -> Tuple[DataLoader, DataLoader]:
+    _mean = mean if mean is not None else _DATASET_CONFIGS["cifar10"]["mean"]
+    _std = std if std is not None else _DATASET_CONFIGS["cifar10"]["std"]
+    normalize = transforms.Normalize(_mean, _std)
     train_tf = transforms.Compose([
         transforms.RandomResizedCrop(resolution, scale=(0.2, 1.0), ratio=(0.75, 1.333),
                                      interpolation=transforms.InterpolationMode.BILINEAR),
@@ -1061,12 +1078,15 @@ def parse_args() -> argparse.Namespace:
     )
     ap.add_argument("--architectures-json", type=str, default="selected_architectures.json",
                     help="JSON produced by select_architectures.py")
-    ap.add_argument("--dataset-path", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/train",
-                    help="Path to ImageNet training directory (ImageFolder layout)")
+    ap.add_argument("--dataset-name", type=str, choices=list(_DATASET_CONFIGS), default="cifar10",
+                    help="Dataset preset; sets normalization, num-classes, and path defaults")
+    ap.add_argument("--dataset-path", type=str, default=None,
+                    help="Dataset root directory (default: derived from --dataset-name)")
     ap.add_argument("--checkpoint", type=str, default="/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
                     help="Supernet checkpoint (.pt) to initialise subnet weights")
     ap.add_argument("--output-dir", default="./full_dataset_experiment")
-    ap.add_argument("--num-classes", type=int, default=1000)
+    ap.add_argument("--num-classes", type=int, default=None,
+                    help="Number of classes (default: derived from --dataset-name)")
     ap.add_argument("--val-frac", type=float, default=0.2)
     ap.add_argument("--batch-size", type=int, default=650)
     ap.add_argument("--num-workers", type=int, default=6)
@@ -1122,6 +1142,16 @@ signal.signal(signal.SIGTERM, _signal_handler)
 def main() -> None:
     global _STOP_REQUESTED
     args = parse_args()
+
+    # Resolve dataset-specific defaults
+    ds_cfg = _DATASET_CONFIGS[args.dataset_name]
+    if args.num_classes is None:
+        args.num_classes = int(ds_cfg["num_classes"])
+    if args.dataset_path is None:
+        args.dataset_path = str(ds_cfg["dataset_path"])
+    _norm_mean = list(ds_cfg["mean"])
+    _norm_std = list(ds_cfg["std"])
+    args.resolution_candidates = tuple(ds_cfg["resolution_candidates"])
 
     # ── output structure ──────────────────────────────────────────────────────
     out_root   = Path(args.output_dir)
@@ -1189,19 +1219,29 @@ def main() -> None:
             loader_cache[resolution] = build_loaders(
                 effective_dataset_path, train_idx, val_idx,
                 resolution, args.batch_size, args.num_workers,
-                args.randaugment_magnitude)
+                args.randaugment_magnitude,
+                mean=_norm_mean, std=_norm_std)
         return loader_cache[resolution]
 
     # ── load supernet onto CPU (stays there for weight transfer) ──────────────
     logger.info("Loading supernet checkpoint: %s", args.checkpoint)
-    supernet = create_default_supernet(num_classes=args.num_classes)
     ckpt_payload = torch.load(args.checkpoint, map_location="cpu", weights_only=False)
     sd = ckpt_payload.get("model") or ckpt_payload.get("state_dict") or ckpt_payload
+    ckpt_classes = int(sd["classifier.weight"].shape[0]) if "classifier.weight" in sd else args.num_classes
+    # Create supernet with checkpoint's class count to avoid shape mismatch during load
+    supernet = create_default_supernet(num_classes=ckpt_classes, resolution_candidates=args.resolution_candidates)
     missing, unexpected = supernet.load_state_dict(sd, strict=False)
     if missing:
         logger.warning("Supernet missing keys: %d", len(missing))
     if unexpected:
         logger.warning("Supernet unexpected keys: %d", len(unexpected))
+    if ckpt_classes != args.num_classes:
+        supernet.classifier = DynamicLinear(supernet.classifier.max_in_features, args.num_classes)
+        supernet.num_classes = args.num_classes
+        logger.info(
+            "Replaced supernet classifier head: %d → %d classes (random init).",
+            ckpt_classes, args.num_classes,
+        )
     supernet.eval()
     # Supernet remains on CPU throughout; individual subnets are moved to device one at a time.
 

@@ -9,7 +9,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Sequence, Tuple
+from typing import Any, Dict, List, Sequence, Tuple
 
 import numpy as np
 import torch
@@ -52,6 +52,33 @@ while True:
 
 SUPPORTED_IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".bmp", ".webp")
 
+_DATASET_CONFIGS: Dict[str, Dict[str, Any]] = {
+    "cifar10": {
+        "num_classes": 10,
+        "mean": [0.4914, 0.4822, 0.4465],
+        "std": [0.2023, 0.1994, 0.2010],
+        "train_path": "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+        "eval_path": "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+        "calib_path": "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+        "resolution_candidates": (28, 32, 34),
+        "train_batch_size": 256,
+        "eval_batch_size": 200,
+        "images_per_class_eval": 100,
+    },
+    "imagenet": {
+        "num_classes": 1000,
+        "mean": [0.485, 0.456, 0.406],
+        "std": [0.229, 0.224, 0.225],
+        "train_path": "/mnt/matylda5/xmihol00/datasets/imagenet/subset/train",
+        "eval_path": "/mnt/matylda5/xmihol00/datasets/imagenet/subset/val",
+        "calib_path": "/mnt/matylda5/xmihol00/datasets/imagenet/calib",
+        "resolution_candidates": (192, 224, 256, 288),
+        "train_batch_size": 64,
+        "eval_batch_size": 50,
+        "images_per_class_eval": 50,
+    },
+}
+
 
 @dataclass
 class CandidateResult:
@@ -85,8 +112,12 @@ class FolderClassificationDataset(Dataset):
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser("Genetic NAS runner for IMX500 supernet")
 
-    parser.add_argument("--train-dataset", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/subset/train")
-    parser.add_argument("--eval-dataset", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/subset/val")
+    parser.add_argument("--dataset-name", type=str, choices=list(_DATASET_CONFIGS), default="cifar10",
+                        help="Dataset preset; sets normalization, num-classes, and path defaults")
+    parser.add_argument("--train-dataset", type=str, default=None,
+                        help="Training data root (default: derived from --dataset-name)")
+    parser.add_argument("--eval-dataset", type=str, default=None,
+                        help="Evaluation data root (default: derived from --dataset-name)")
     parser.add_argument("--initial-population-json", type=str, default="/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json")
 
     parser.add_argument("--algorithm", type=str, choices=["baseline_sga", "regularized_evolution"], default="regularized_evolution")
@@ -94,30 +125,39 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--population-size", type=int, default=25)
     parser.add_argument("--offspring-per-generation", type=int, default=8)
 
-    parser.add_argument("--epochs-per-candidate", type=int, default=3)
-    parser.add_argument("--train-batch-size", type=int, default=64)
-    parser.add_argument("--eval-batch-size", type=int, default=50)
+    parser.add_argument("--epochs-per-candidate", type=int, default=5)
+    parser.add_argument("--n-folds", type=int, default=5,
+                        help="Number of training folds (one fold used per epoch)")
+    parser.add_argument("--train-fold-fraction", type=float, default=0.1,
+                        help="Fraction of training data in each fold")
+    parser.add_argument("--train-batch-size", type=int, default=None,
+                        help="Training batch size (default: derived from --dataset-name)")
+    parser.add_argument("--eval-batch-size", type=int, default=None,
+                        help="Evaluation batch size (default: derived from --dataset-name)")
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--lr", type=float, default=0.01)
     parser.add_argument("--weight-decay", type=float, default=5e-5)
     parser.add_argument("--momentum", type=float, default=0.9)
     parser.add_argument("--label-smoothing", type=float, default=0.0)
 
-    parser.add_argument("--num-classes", type=int, default=6)
+    parser.add_argument("--num-classes", type=int, default=None,
+                        help="Number of classes (default: derived from --dataset-name)")
     parser.add_argument("--images-per-class-train", type=int, default=0)
-    parser.add_argument("--images-per-class-eval", type=int, default=100)
+    parser.add_argument("--images-per-class-eval", type=int, default=None,
+                        help="Max eval images per class (default: derived from --dataset-name)")
 
     parser.add_argument("--checkpoint", type=str, default="/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt")
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--seed", type=int, default=42)
 
-    parser.add_argument("--calibration-dir", type=str, default=str(Path(__file__).resolve().parent / "calibration"))
-    parser.add_argument("--num-calibration-images", type=int, default=6*12)
+    parser.add_argument("--calibration-dir", type=str, default=None,
+                        help="Calibration image directory (default: derived from --dataset-name)")
+    parser.add_argument("--num-calibration-images", type=int, default=50)
     parser.add_argument("--calibration-batch-size", type=int, default=12)
     parser.add_argument("--tpc-version", type=str, default="1.0")
     parser.add_argument("--opset-version", type=int, default=15)
     parser.add_argument("--compile-timeout-sec", type=int, default=1800)
-    parser.add_argument("--eval-log-every", type=int, default=5)
+    parser.add_argument("--eval-log-every", type=int, default=1)
 
     parser.add_argument("--mutation-rate", type=float, default=0.25)
     parser.add_argument("--tournament-size", type=int, default=3)
@@ -164,15 +204,27 @@ def collect_samples(dataset_root: Path, class_names: Sequence[str], images_per_c
     return samples
 
 
-def create_train_loader(
+def create_fold_loaders(
     dataset_root: Path,
     class_names: Sequence[str],
     images_per_class: int,
     batch_size: int,
     num_workers: int,
     max_resolution: int,
-) -> DataLoader:
-    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    mean=None,
+    std=None,
+    n_folds: int = 5,
+    fold_fraction: float = 0.1,
+    seed: int = 42,
+) -> List[DataLoader]:
+    """Create n_folds DataLoaders, each containing fold_fraction of the training data.
+
+    Folds are non-overlapping, stratified by class, and determined solely by
+    `seed` — so every subnet sees the exact same folds in the same order.
+    """
+    _mean = mean if mean is not None else _DATASET_CONFIGS["cifar10"]["mean"]
+    _std = std if std is not None else _DATASET_CONFIGS["cifar10"]["std"]
+    normalize = transforms.Normalize(mean=_mean, std=_std)
     transform = transforms.Compose(
         [
             transforms.RandomResizedCrop(max_resolution, scale=(0.2, 1.0), interpolation=transforms.InterpolationMode.BILINEAR),
@@ -182,18 +234,43 @@ def create_train_loader(
         ]
     )
 
-    samples = collect_samples(dataset_root, class_names, images_per_class)
-    dataset = FolderClassificationDataset(samples=samples, transform=transform)
+    all_samples = collect_samples(dataset_root, class_names, images_per_class)
 
-    return DataLoader(
-        dataset,
-        batch_size=batch_size,
-        shuffle=True,
-        num_workers=num_workers,
-        pin_memory=True,
-        drop_last=False,
-        persistent_workers=num_workers > 0,
-    )
+    # Stratified split: shuffle within each class with a fixed seed, then
+    # slice non-overlapping folds of size fold_fraction.
+    rng = random.Random(seed)
+    by_class: Dict[int, List[Tuple[str, int]]] = {}
+    for path, label in all_samples:
+        by_class.setdefault(label, []).append((path, label))
+    for cls_samples in by_class.values():
+        rng.shuffle(cls_samples)
+
+    fold_samples: List[List[Tuple[str, int]]] = [[] for _ in range(n_folds)]
+    for cls_samples in by_class.values():
+        fold_size = max(1, int(len(cls_samples) * fold_fraction))
+        n = len(cls_samples)
+        for i in range(n_folds):
+            start = (i * fold_size) % n
+            end = start + fold_size
+            if end <= n:
+                fold_samples[i].extend(cls_samples[start:end])
+            else:
+                fold_samples[i].extend(cls_samples[start:])
+                fold_samples[i].extend(cls_samples[:end - n])
+
+    loaders = []
+    for fsamp in fold_samples:
+        dataset = FolderClassificationDataset(samples=fsamp, transform=transform)
+        loaders.append(DataLoader(
+            dataset,
+            batch_size=batch_size,
+            shuffle=True,
+            num_workers=num_workers,
+            pin_memory=True,
+            drop_last=False,
+            persistent_workers=num_workers > 0,
+        ))
+    return loaders
 
 
 def create_eval_entries(
@@ -239,7 +316,7 @@ def unfreeze_all(model: nn.Module) -> None:
 
 def train_candidate(
     model: nn.Module,
-    train_loader: DataLoader,
+    fold_loaders: List[DataLoader],
     epochs: int,
     freeze_backbone_first_epoch: bool,
     lr: float,
@@ -266,6 +343,9 @@ def train_candidate(
             weight_decay=weight_decay,
             nesterov=True,
         )
+
+        # Rotate through folds: epoch i uses fold i % n_folds
+        train_loader = fold_loaders[epoch % len(fold_loaders)]
 
         model.train()
         epoch_loss = 0.0
@@ -376,12 +456,14 @@ def evaluate_candidate(
     supernet: IMX500ResNetSupernet,
     model_num_classes: int,
     train_num_classes: int,
-    train_loader: DataLoader,
+    fold_loaders: List[DataLoader],
     eval_entries: Sequence[object],
     args: argparse.Namespace,
     device: torch.device,
     run_dir: Path,
     candidate_id: str,
+    norm_mean=None,
+    norm_std=None,
 ) -> CandidateResult:
     sample_dir = run_dir / "candidates" / candidate_id
     sample_dir.mkdir(parents=True, exist_ok=True)
@@ -405,7 +487,7 @@ def evaluate_candidate(
 
     train_history = train_candidate(
         model=model,
-        train_loader=train_loader,
+        fold_loaders=fold_loaders,
         epochs=args.epochs_per_candidate,
         freeze_backbone_first_epoch=freeze_backbone_first_epoch,
         lr=args.lr,
@@ -433,6 +515,8 @@ def evaluate_candidate(
         batch_size=args.calibration_batch_size,
         num_images=args.num_calibration_images,
         device=device,
+        mean=norm_mean,
+        std=norm_std,
     )
 
     quant_info = quantize_and_export_onnx(
@@ -459,6 +543,8 @@ def evaluate_candidate(
                 batch_size=args.eval_batch_size,
                 selected_num_classes=train_num_classes,
                 eval_log_every=args.eval_log_every,
+                mean=norm_mean,
+                std=norm_std,
             )
             evaluated = bool(float(quant_eval.get("evaluated", 1.0)) > 0.0)
             if evaluated:
@@ -558,6 +644,27 @@ def select_top_candidates(all_records: Sequence[Dict[str, object]], top_k: int =
 def main() -> None:
     run_started_at = time.perf_counter()
     args = parse_args()
+
+    # Resolve dataset-specific defaults
+    ds_cfg = _DATASET_CONFIGS[args.dataset_name]
+    if args.num_classes is None:
+        args.num_classes = int(ds_cfg["num_classes"])
+    if args.train_dataset is None:
+        args.train_dataset = str(ds_cfg["train_path"])
+    if args.eval_dataset is None:
+        args.eval_dataset = str(ds_cfg["eval_path"])
+    if args.calibration_dir is None:
+        args.calibration_dir = str(ds_cfg["calib_path"])
+    if args.train_batch_size is None:
+        args.train_batch_size = int(ds_cfg["train_batch_size"])
+    if args.eval_batch_size is None:
+        args.eval_batch_size = int(ds_cfg["eval_batch_size"])
+    if args.images_per_class_eval is None:
+        args.images_per_class_eval = int(ds_cfg["images_per_class_eval"])
+    _norm_mean: List[float] = list(ds_cfg["mean"])
+    _norm_std: List[float] = list(ds_cfg["std"])
+    args.resolution_candidates = tuple(ds_cfg["resolution_candidates"])
+
     set_seed(args.seed)
     rng = random.Random(args.seed)
     np.random.seed(args.seed)
@@ -611,13 +718,18 @@ def main() -> None:
         f"First classes: {common_class_names[:5]}"
     )
 
-    train_loader = create_train_loader(
+    fold_loaders = create_fold_loaders(
         dataset_root=train_root,
         class_names=common_class_names,
         images_per_class=args.images_per_class_train,
         batch_size=args.train_batch_size,
         num_workers=args.num_workers,
         max_resolution=max(supernet.resolution_candidates),
+        mean=_norm_mean,
+        std=_norm_std,
+        n_folds=args.n_folds,
+        fold_fraction=args.train_fold_fraction,
+        seed=args.seed,
     )
     eval_entries = create_eval_entries(
         dataset_root=eval_root,
@@ -625,7 +737,11 @@ def main() -> None:
         images_per_class=args.images_per_class_eval,
     )
 
-    log(f"Train samples: {len(train_loader.dataset)} | Eval images: {len(eval_entries)}")
+    fold_sizes = [len(fl.dataset) for fl in fold_loaders]
+    log(
+        f"Created {len(fold_loaders)} training folds "
+        f"({fold_sizes[0]} samples/fold) | Eval images: {len(eval_entries)}"
+    )
 
     population = load_initial_population(Path(args.initial_population_json), args.population_size)
     log(f"Loaded {len(population)} initial candidates from sampling results.")
@@ -657,12 +773,14 @@ def main() -> None:
             supernet=supernet,
             model_num_classes=model_num_classes,
             train_num_classes=len(common_class_names),
-            train_loader=train_loader,
+            fold_loaders=fold_loaders,
             eval_entries=eval_entries,
             args=args,
             device=device,
             run_dir=run_dir,
             candidate_id=candidate_id,
+            norm_mean=_norm_mean,
+            norm_std=_norm_std,
         )
         individual = {
             "config": result.config,
@@ -727,12 +845,14 @@ def main() -> None:
                 supernet=supernet,
                 model_num_classes=model_num_classes,
                 train_num_classes=len(common_class_names),
-                train_loader=train_loader,
+                fold_loaders=fold_loaders,
                 eval_entries=eval_entries,
                 args=args,
                 device=device,
                 run_dir=run_dir,
                 candidate_id=candidate_id,
+                norm_mean=_norm_mean,
+                norm_std=_norm_std,
             )
             elapsed = time.perf_counter() - start
             log(

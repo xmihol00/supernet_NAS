@@ -25,7 +25,31 @@ SUPERNET_DIR = PROJECT_ROOT / "supernet"
 if str(SUPERNET_DIR) not in sys.path:
 	sys.path.append(str(SUPERNET_DIR))
 
-from imx500_supernet import IMX500ResNetSupernet, SubnetConfig, create_default_supernet
+from imx500_supernet import DynamicLinear, IMX500ResNetSupernet, SubnetConfig, create_default_supernet
+
+_DATASET_CONFIGS = {
+	"cifar10": {
+		"num_classes": 10,
+		"mean": [0.4914, 0.4822, 0.4465],
+		"std": [0.2023, 0.1994, 0.2010],
+		"dataset_path": "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+		"resolution_candidates": (28, 32, 34),
+	},
+	"imagenet": {
+		"num_classes": 1000,
+		"mean": [0.485, 0.456, 0.406],
+		"std": [0.229, 0.224, 0.225],
+		"dataset_path": "/mnt/matylda5/xmihol00/datasets/imagenet/train",
+		"resolution_candidates": (192, 224, 256, 288),
+	},
+}
+
+
+def _infer_checkpoint_num_classes(state_dict):
+	w = state_dict.get("classifier.weight")
+	if w is None or not hasattr(w, "shape") or len(w.shape) != 2:
+		return None
+	return int(w.shape[0])
 
 try:
 	import safe_gpu
@@ -131,9 +155,13 @@ def parse_args() -> argparse.Namespace:
 
 	parser.add_argument("--run-records-json", type=str, default="/mnt/matylda5/xmihol00/EUD/NAS/old_multi_run_parallel/sga_2026-04-05_17-40-43/baseline_sga/run_records.json")
 	parser.add_argument("--top-k", type=int, default=3)
-	parser.add_argument("--num-classes", type=int, default=1000)
+	parser.add_argument("--dataset-name", type=str, choices=list(_DATASET_CONFIGS), default="cifar10",
+						help="Dataset preset; sets normalization, num-classes, and path defaults")
+	parser.add_argument("--num-classes", type=int, default=None,
+						help="Number of classes (default: derived from --dataset-name)")
 
-	parser.add_argument("--dataset-path", type=str, default="/mnt/matylda5/xmihol00/datasets/imagenet/train")
+	parser.add_argument("--dataset-path", type=str, default=None,
+						help="Dataset root directory (default: derived from --dataset-name)")
 	parser.add_argument("--val-split", type=float, default=0.15)
 
 	parser.add_argument("--epochs", type=int, default=120)
@@ -278,8 +306,10 @@ def create_splits(dataset_path: Path, val_split: float, seed: int) -> Tuple[List
 	return train_indices, val_indices
 
 
-def create_loaders(args: argparse.Namespace, max_resolution: int) -> Tuple[DataLoader, DataLoader]:
-	normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+def create_loaders(args: argparse.Namespace, max_resolution: int, mean=None, std=None) -> Tuple[DataLoader, DataLoader]:
+	_mean = mean if mean is not None else _DATASET_CONFIGS["cifar10"]["mean"]
+	_std = std if std is not None else _DATASET_CONFIGS["cifar10"]["std"]
+	normalize = transforms.Normalize(mean=_mean, std=_std)
 
 	train_transform = transforms.Compose(
 		[
@@ -792,16 +822,30 @@ def train_single_architecture(
 	logger.info("Preparing architecture rank=%d from run=%d seed=%d score=%.4f", arch_rank, arch.run_index, arch.seed, arch.score)
 	logger.info("Subnet config: %s", json.dumps(arch.config.to_dict(), sort_keys=True))
 
-	supernet = create_default_supernet(num_classes=args.num_classes)
 	if args.checkpoint:
 		checkpoint_payload = torch.load(args.checkpoint, map_location="cpu")
 		state_dict = _extract_state_dict(checkpoint_payload)
+		ckpt_classes = _infer_checkpoint_num_classes(state_dict)
+		if ckpt_classes is None:
+			ckpt_classes = args.num_classes
+		supernet = create_default_supernet(num_classes=ckpt_classes,
+		                                    resolution_candidates=getattr(args, "resolution_candidates", None))
 		missing, unexpected = supernet.load_state_dict(state_dict, strict=False)
-		logger.info("Loaded checkpoint: %s", args.checkpoint)
+		logger.info("Loaded checkpoint: %s (checkpoint classes=%d)", args.checkpoint, ckpt_classes)
 		if missing:
 			logger.info("Missing keys count while loading checkpoint: %d", len(missing))
 		if unexpected:
 			logger.info("Unexpected keys count while loading checkpoint: %d", len(unexpected))
+		if ckpt_classes != args.num_classes:
+			supernet.classifier = DynamicLinear(supernet.classifier.max_in_features, args.num_classes)
+			supernet.num_classes = args.num_classes
+			logger.info(
+				"Replaced supernet classifier head: %d → %d classes (random init).",
+				ckpt_classes, args.num_classes,
+			)
+	else:
+		supernet = create_default_supernet(num_classes=args.num_classes,
+		                                    resolution_candidates=getattr(args, "resolution_candidates", None))
 
 	model = build_static_subnet_model(supernet, arch.config, args.num_classes, device=device)
 
@@ -938,6 +982,17 @@ def train_single_architecture(
 
 def main() -> None:
 	args = parse_args()
+
+	# Resolve dataset-specific defaults
+	ds_cfg = _DATASET_CONFIGS[args.dataset_name]
+	if args.num_classes is None:
+		args.num_classes = int(ds_cfg["num_classes"])
+	if args.dataset_path is None:
+		args.dataset_path = str(ds_cfg["dataset_path"])
+	_norm_mean = list(ds_cfg["mean"])
+	_norm_std = list(ds_cfg["std"])
+	args.resolution_candidates = tuple(ds_cfg["resolution_candidates"])
+
 	set_seed(args.seed)
 
 	output_root = Path(args.output_dir) / time.strftime("%Y%m%d_%H%M%S")
@@ -962,8 +1017,10 @@ def main() -> None:
 		root_logger.warning("CUDA not available, using CPU. This will be slow.")
 	root_logger.info("Using device: %s", device)
 
-	max_resolution = max(create_default_supernet(num_classes=args.num_classes).resolution_candidates)
-	train_loader, val_loader = create_loaders(args, max_resolution=max_resolution)
+	max_resolution = max(create_default_supernet(
+		num_classes=args.num_classes, resolution_candidates=args.resolution_candidates).resolution_candidates)
+	train_loader, val_loader = create_loaders(args, max_resolution=max_resolution,
+	                                          mean=_norm_mean, std=_norm_std)
 	root_logger.info(
 		"Train samples=%d | Val samples=%d",
 		len(cast(Sized, train_loader.dataset)),

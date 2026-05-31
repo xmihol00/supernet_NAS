@@ -423,5 +423,7 @@ class IMX500ResNetSupernet(nn.Module):
         return json.dumps(config.to_dict(), sort_keys=True)
 
 
-def create_default_supernet(num_classes: int = 1000) -> IMX500ResNetSupernet:
+def create_default_supernet(num_classes: int = 1000, resolution_candidates=None) -> IMX500ResNetSupernet:
+    if resolution_candidates is not None:
+        return IMX500ResNetSupernet(num_classes=num_classes, resolution_candidates=resolution_candidates)
     return IMX500ResNetSupernet(num_classes=num_classes)

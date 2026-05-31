@@ -7,6 +7,11 @@ from typing import List
 
 from imx500_supernet import IMX500ResNetSupernet, SubnetConfig, create_default_supernet
 
+_DATASET_CONFIGS = {
+    "cifar10":  {"num_classes": 10,   "resolution_candidates": (28, 32, 34)},
+    "imagenet": {"num_classes": 1000, "resolution_candidates": (192, 224, 256, 288)},
+}
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser("Sample subnet candidates around IMX500 memory target")
@@ -15,9 +20,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--tolerance-ratio", type=float, default=0.25)
     parser.add_argument("--firmware-bytes", type=int, default=1_572_864)
     parser.add_argument("--working-memory-factor", type=float, default=2.0)
-    parser.add_argument("--num-classes", type=int, default=1000)
+    parser.add_argument("--dataset-name", type=str, choices=list(_DATASET_CONFIGS), default="cifar10",
+                        help="Dataset preset; determines default --num-classes and --resolution-candidates")
+    parser.add_argument("--num-classes", type=int, default=None,
+                        help="Number of classes (default: derived from --dataset-name)")
     parser.add_argument("--output", type=str, default="./imx500_candidate_subnets.json")
-    return parser.parse_args()
+    args = parser.parse_args()
+    ds = _DATASET_CONFIGS[args.dataset_name]
+    if args.num_classes is None:
+        args.num_classes = ds["num_classes"]
+    args.resolution_candidates = tuple(ds["resolution_candidates"])
+    return args
 
 
 def sample_candidates(model: IMX500ResNetSupernet, args: argparse.Namespace) -> List[dict]:
@@ -57,7 +70,7 @@ def sample_candidates(model: IMX500ResNetSupernet, args: argparse.Namespace) -> 
 
 def main() -> None:
     args = parse_args()
-    model = create_default_supernet(num_classes=args.num_classes)
+    model = create_default_supernet(num_classes=args.num_classes, resolution_candidates=args.resolution_candidates)
 
     candidates = sample_candidates(model, args)
     output_path = Path(args.output)
