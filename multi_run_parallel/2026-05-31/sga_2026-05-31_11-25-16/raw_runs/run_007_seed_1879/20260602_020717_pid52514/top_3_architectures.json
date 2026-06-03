@@ -1,0 +1,83 @@
+{
+  "algorithm": "baseline_sga",
+  "seed": 1879,
+  "selection_policy": "top fitness among compiled candidates, fallback to all candidates if none compiled",
+  "top_k": 3,
+  "architectures": [
+    {
+      "fitness": 84.0,
+      "quant_acc1": 84.0,
+      "compiled": true,
+      "birth_id": 187,
+      "source": "generation_16",
+      "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-05-31_11-25-16/raw_runs/run_007_seed_1879/20260602_020717_pid52514/candidates/gen016_child000_000187",
+      "config": {
+        "resolution": 34,
+        "stem_width": 24,
+        "stage_depths": [
+          1,
+          4,
+          5,
+          2
+        ],
+        "stage_widths": [
+          64,
+          96,
+          224,
+          288
+        ]
+      },
+      "candidate_id": "gen016_child000_000187"
+    },
+    {
+      "fitness": 82.25,
+      "quant_acc1": 82.25,
+      "compiled": true,
+      "birth_id": 215,
+      "source": "generation_19",
+      "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-05-31_11-25-16/raw_runs/run_007_seed_1879/20260602_020717_pid52514/candidates/gen019_child004_000215",
+      "config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          4,
+          5,
+          2
+        ],
+        "stage_widths": [
+          64,
+          128,
+          160,
+          224
+        ]
+      },
+      "candidate_id": "gen019_child004_000215"
+    },
+    {
+      "fitness": 82.0,
+      "quant_acc1": 82.0,
+      "compiled": true,
+      "birth_id": 226,
+      "source": "generation_20",
+      "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-05-31_11-25-16/raw_runs/run_007_seed_1879/20260602_020717_pid52514/candidates/gen020_child007_000226",
+      "config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          1,
+          4,
+          5,
+          2
+        ],
+        "stage_widths": [
+          64,
+          128,
+          192,
+          224
+        ]
+      },
+      "candidate_id": "gen020_child007_000226"
+    }
+  ]
+}

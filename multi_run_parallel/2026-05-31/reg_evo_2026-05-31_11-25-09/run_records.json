@@ -1,0 +1,7742 @@
+[
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 0,
+    "seed": 1200,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-05-31T09:25:10Z",
+    "finished_at": "2026-05-31T14:23:12Z",
+    "elapsed_wall_seconds": 17882.11471650703,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1200",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200/20260531_112519_pid26450",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1200,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 81.0,
+      "best_quant_acc1": 81.0,
+      "total_candidates_evaluated": 214,
+      "compiled_candidates": 209,
+      "compile_success_rate": 0.9766355140186916,
+      "elapsed_seconds": 17858.799593698,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 24,
+        "stage_depths": [
+          3,
+          4,
+          3,
+          1
+        ],
+        "stage_widths": [
+          64,
+          128,
+          160,
+          224
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200/20260531_112519_pid26450/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 82.75,
+          "quant_acc1": 82.75,
+          "compiled": true,
+          "birth_id": 110,
+          "source": "generation_6",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200/20260531_112519_pid26450/candidates/gen006_child005_000110",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              3,
+              4,
+              3
+            ],
+            "stage_widths": [
+              64,
+              96,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen006_child005_000110"
+        },
+        {
+          "fitness": 81.75,
+          "quant_acc1": 81.75,
+          "compiled": true,
+          "birth_id": 93,
+          "source": "generation_4",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200/20260531_112519_pid26450/candidates/gen004_child003_000093",
+          "config": {
+            "resolution": 34,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              3,
+              1,
+              3
+            ],
+            "stage_widths": [
+              64,
+              128,
+              224,
+              288
+            ]
+          },
+          "candidate_id": "gen004_child003_000093"
+        },
+        {
+          "fitness": 81.5,
+          "quant_acc1": 81.5,
+          "compiled": true,
+          "birth_id": 142,
+          "source": "generation_11",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200/20260531_112519_pid26450/candidates/gen011_child001_000142",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              2,
+              3,
+              2
+            ],
+            "stage_widths": [
+              64,
+              96,
+              224,
+              256
+            ]
+          },
+          "candidate_id": "gen011_child001_000142"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_000_seed_1200/20260531_112519_pid26450"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 75.0,
+        "best_config": {
+          "resolution": 32,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 40.032,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 1,
+        "best_fitness": 76.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 45.086000000000006,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 54.568000000000005,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 3,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 64.14,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 4,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 77.09,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 78.5,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.7,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 7,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.35,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 8,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.22,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.16,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 10,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.23,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 11,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999929.22,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999928.61,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999929.58,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 14,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.36,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999926.36,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 16,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999929.12,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999930.39,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 18,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 72.56,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 74.06,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999927.78,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.91,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.41,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.67,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999925.72,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 217,
+    "launch_order": 1
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 1,
+    "seed": 1297,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-05-31T14:23:13Z",
+    "finished_at": "2026-05-31T19:24:33Z",
+    "elapsed_wall_seconds": 18080.21485021792,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1297",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297/20260531_162319_pid37181",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1297,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 82.25,
+      "best_quant_acc1": 82.25,
+      "total_candidates_evaluated": 208,
+      "compiled_candidates": 202,
+      "compile_success_rate": 0.9711538461538461,
+      "elapsed_seconds": 18072.526931006927,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          4,
+          4,
+          2
+        ],
+        "stage_widths": [
+          64,
+          96,
+          224,
+          288
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297/20260531_162319_pid37181/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 85.0,
+          "quant_acc1": 85.0,
+          "compiled": true,
+          "birth_id": 99,
+          "source": "generation_5",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297/20260531_162319_pid37181/candidates/gen005_child002_000099",
+          "config": {
+            "resolution": 34,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              4,
+              2,
+              3
+            ],
+            "stage_widths": [
+              64,
+              128,
+              224,
+              224
+            ]
+          },
+          "candidate_id": "gen005_child002_000099"
+        },
+        {
+          "fitness": 83.0,
+          "quant_acc1": 83.0,
+          "compiled": true,
+          "birth_id": 129,
+          "source": "generation_9",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297/20260531_162319_pid37181/candidates/gen009_child004_000129",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              4,
+              4,
+              1
+            ],
+            "stage_widths": [
+              48,
+              128,
+              224,
+              256
+            ]
+          },
+          "candidate_id": "gen009_child004_000129"
+        },
+        {
+          "fitness": 82.5,
+          "quant_acc1": 82.5,
+          "compiled": true,
+          "birth_id": 111,
+          "source": "generation_6",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297/20260531_162319_pid37181/candidates/gen006_child007_000111",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              1,
+              4,
+              4,
+              2
+            ],
+            "stage_widths": [
+              64,
+              128,
+              224,
+              224
+            ]
+          },
+          "candidate_id": "gen006_child007_000111"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_001_seed_1297/20260531_162319_pid37181"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 75.0,
+        "best_config": {
+          "resolution": 32,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999962.2,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 80.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999958.194,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 2,
+        "best_fitness": 80.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999947.53,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 68.08,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 73.16,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 5,
+        "best_fitness": 85.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.29,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 6,
+        "best_fitness": 85.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.69,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 7,
+        "best_fitness": 85.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.95,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 8,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999926.73,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 9,
+        "best_fitness": 83.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999928.88,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 83.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999929.94,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 83.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999925.04,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.61,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 13,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.16,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.45,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.1,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 16,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.75,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.09,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 75.48,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 19,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.64,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 20,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.03,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 21,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.73,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999929.31,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999929.39,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 24,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -119999932.55,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 211,
+    "launch_order": 2
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 2,
+    "seed": 1394,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-05-31T19:24:34Z",
+    "finished_at": "2026-05-31T23:54:35Z",
+    "elapsed_wall_seconds": 16201.250689976034,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1394",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394/20260531_212441_pid51318",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1394,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 81.75,
+      "best_quant_acc1": 81.75,
+      "total_candidates_evaluated": 210,
+      "compiled_candidates": 206,
+      "compile_success_rate": 0.9809523809523809,
+      "elapsed_seconds": 16192.930779125076,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 24,
+        "stage_depths": [
+          3,
+          2,
+          2,
+          2
+        ],
+        "stage_widths": [
+          48,
+          96,
+          224,
+          256
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394/20260531_212441_pid51318/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 83.25,
+          "quant_acc1": 83.25,
+          "compiled": true,
+          "birth_id": 89,
+          "source": "generation_3",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394/20260531_212441_pid51318/candidates/gen003_child006_000089",
+          "config": {
+            "resolution": 34,
+            "stem_width": 24,
+            "stage_depths": [
+              2,
+              2,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              160,
+              256
+            ]
+          },
+          "candidate_id": "gen003_child006_000089"
+        },
+        {
+          "fitness": 82.5,
+          "quant_acc1": 82.5,
+          "compiled": true,
+          "birth_id": 180,
+          "source": "generation_16",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394/20260531_212441_pid51318/candidates/gen016_child003_000180",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              2,
+              4,
+              2,
+              2
+            ],
+            "stage_widths": [
+              64,
+              96,
+              192,
+              256
+            ]
+          },
+          "candidate_id": "gen016_child003_000180"
+        },
+        {
+          "fitness": 82.25,
+          "quant_acc1": 82.25,
+          "compiled": true,
+          "birth_id": 92,
+          "source": "generation_4",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394/20260531_212441_pid51318/candidates/gen004_child002_000092",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              2,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              160,
+              256
+            ]
+          },
+          "candidate_id": "gen004_child002_000092"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_002_seed_1394/20260531_212441_pid51318"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 72.5,
+        "best_config": {
+          "resolution": 28,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            2,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 39.91,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 73.5,
+        "best_config": {
+          "resolution": 32,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 45.326,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            6,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 53.62,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 3,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999939.17,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 4,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999932.95,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.78,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 6,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999929.57,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 7,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            6,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.8,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 8,
+        "best_fitness": 80.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.89,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 80.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.85,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 10,
+        "best_fitness": 79.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.84,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 11,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.97,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999928.2,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.66,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 14,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.01,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 75.81,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 16,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.23,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.29,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.48,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 19,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 74.39,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 20,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 74.62,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 21,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999928.51,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.19,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.46,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.6,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 213,
+    "launch_order": 3
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 3,
+    "seed": 1491,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-05-31T23:54:36Z",
+    "finished_at": "2026-06-01T04:32:18Z",
+    "elapsed_wall_seconds": 16662.106980712968,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1491",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491/20260601_015443_pid44718",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1491,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 82.5,
+      "best_quant_acc1": 82.5,
+      "total_candidates_evaluated": 215,
+      "compiled_candidates": 211,
+      "compile_success_rate": 0.9813953488372092,
+      "elapsed_seconds": 16653.466191437095,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 24,
+        "stage_depths": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "stage_widths": [
+          64,
+          128,
+          160,
+          256
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491/20260601_015443_pid44718/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 83.75,
+          "quant_acc1": 83.75,
+          "compiled": true,
+          "birth_id": 193,
+          "source": "generation_17",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491/20260601_015443_pid44718/candidates/gen017_child003_000193",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              2,
+              4,
+              3,
+              2
+            ],
+            "stage_widths": [
+              64,
+              96,
+              224,
+              256
+            ]
+          },
+          "candidate_id": "gen017_child003_000193"
+        },
+        {
+          "fitness": 83.25,
+          "quant_acc1": 83.25,
+          "compiled": true,
+          "birth_id": 139,
+          "source": "generation_10",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491/20260601_015443_pid44718/candidates/gen010_child002_000139",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              4,
+              4,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              192,
+              256
+            ]
+          },
+          "candidate_id": "gen010_child002_000139"
+        },
+        {
+          "fitness": 82.75,
+          "quant_acc1": 82.75,
+          "compiled": true,
+          "birth_id": 197,
+          "source": "generation_17",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491/20260601_015443_pid44718/candidates/gen017_child007_000197",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              4,
+              2,
+              3
+            ],
+            "stage_widths": [
+              64,
+              128,
+              160,
+              288
+            ]
+          },
+          "candidate_id": "gen017_child007_000197"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_003_seed_1491/20260601_015443_pid44718"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 74.0,
+        "best_config": {
+          "resolution": 32,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 39.202,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 1,
+        "best_fitness": 76.75,
+        "best_config": {
+          "resolution": 32,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 46.43600000000001,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 79.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 55.498000000000005,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 3,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 66.54,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 72.19,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 5,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.66,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 6,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.08,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.91,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.73,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.09,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.53,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999925.7,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.23,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            4,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.91,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 80.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            4,
+            1,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.68,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 15,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 76.02,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 16,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.93,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 17,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 78.17,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999925.77,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 19,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999925.94,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.71,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 21,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.33,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.09,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.21,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 24,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.08,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 218,
+    "launch_order": 4
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 4,
+    "seed": 1588,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-06-01T04:32:19Z",
+    "finished_at": "2026-06-01T09:05:27Z",
+    "elapsed_wall_seconds": 16388.211239506025,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1588",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1588,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 81.5,
+      "best_quant_acc1": 81.5,
+      "total_candidates_evaluated": 216,
+      "compiled_candidates": 204,
+      "compile_success_rate": 0.9444444444444444,
+      "elapsed_seconds": 16379.57816225302,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          2,
+          2,
+          3
+        ],
+        "stage_widths": [
+          64,
+          128,
+          192,
+          224
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 85.5,
+          "quant_acc1": 85.5,
+          "compiled": true,
+          "birth_id": 208,
+          "source": "generation_19",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156/candidates/gen019_child004_000208",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              4,
+              5,
+              1
+            ],
+            "stage_widths": [
+              48,
+              128,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen019_child004_000208"
+        },
+        {
+          "fitness": 83.75,
+          "quant_acc1": 83.75,
+          "compiled": true,
+          "birth_id": 91,
+          "source": "generation_3",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156/candidates/gen003_child006_000091",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              3,
+              3,
+              1
+            ],
+            "stage_widths": [
+              48,
+              128,
+              224,
+              224
+            ]
+          },
+          "candidate_id": "gen003_child006_000091"
+        },
+        {
+          "fitness": 83.0,
+          "quant_acc1": 83.0,
+          "compiled": true,
+          "birth_id": 100,
+          "source": "generation_4",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156/candidates/gen004_child007_000100",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              3,
+              5,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              224,
+              224
+            ]
+          },
+          "candidate_id": "gen004_child007_000100"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 78.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            2,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -119999963.53,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 78.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            1,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -119999957.454,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -119999946.09799999,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 68.98,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.81,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.93,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 6,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999924.74,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 83.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            5,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999928.32,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 8,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999928.75,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 9,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999929.29,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999929.76,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999929.59,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999930.39,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999927.06,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 14,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.48,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 15,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.95,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999928.42,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999929.45,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 18,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999929.71,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 85.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 85.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.89,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 85.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999924.98,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 83.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999925.62,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 23,
+        "best_fitness": 83.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999926.11,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999926.21,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 219,
+    "launch_order": 5
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 5,
+    "seed": 1685,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-06-01T09:05:28Z",
+    "finished_at": "2026-06-01T14:26:46Z",
+    "elapsed_wall_seconds": 19278.08221181901,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1685",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1685,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 82.0,
+      "best_quant_acc1": 82.0,
+      "total_candidates_evaluated": 215,
+      "compiled_candidates": 208,
+      "compile_success_rate": 0.9674418604651163,
+      "elapsed_seconds": 19269.856194198015,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          3,
+          4,
+          2
+        ],
+        "stage_widths": [
+          64,
+          96,
+          224,
+          256
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 84.25,
+          "quant_acc1": 84.25,
+          "compiled": true,
+          "birth_id": 153,
+          "source": "generation_12",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/candidates/gen012_child001_000153",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              4,
+              4,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              224,
+              224
+            ]
+          },
+          "candidate_id": "gen012_child001_000153"
+        },
+        {
+          "fitness": 83.75,
+          "quant_acc1": 83.75,
+          "compiled": true,
+          "birth_id": 169,
+          "source": "generation_14",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/candidates/gen014_child002_000169",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              4,
+              5,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              192,
+              224
+            ]
+          },
+          "candidate_id": "gen014_child002_000169"
+        },
+        {
+          "fitness": 83.25,
+          "quant_acc1": 83.25,
+          "compiled": true,
+          "birth_id": 160,
+          "source": "generation_13",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/candidates/gen013_child000_000160",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              2,
+              4,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen013_child000_000160"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 73.75,
+        "best_config": {
+          "resolution": 32,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 37.309999999999995,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 80.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            1,
+            4,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 39.93599999999999,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 2,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            5,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 50.69,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            5,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999937.29,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            5,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999930.27,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 5,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            5,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999927.36,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 6,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            6,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999929.99,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 7,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.66,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999930.81,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999932.63,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 82.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999932.7,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 80.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999929.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 84.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.16,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 84.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.09,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 84.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.26,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 15,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.39,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.48,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.53,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.78,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 19,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.01,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.45,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 21,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            1,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.05,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999926.44,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 23,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999929.65,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999929.68,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 218,
+    "launch_order": 6
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 6,
+    "seed": 1782,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-06-01T14:26:47Z",
+    "finished_at": "2026-06-01T19:00:24Z",
+    "elapsed_wall_seconds": 16416.702165080933,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1782",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782/20260601_162654_pid62910",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1782,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 81.5,
+      "best_quant_acc1": 81.5,
+      "total_candidates_evaluated": 214,
+      "compiled_candidates": 211,
+      "compile_success_rate": 0.985981308411215,
+      "elapsed_seconds": 16407.676986681065,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          2,
+          2,
+          1,
+          1
+        ],
+        "stage_widths": [
+          48,
+          128,
+          224,
+          288
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782/20260601_162654_pid62910/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 82.5,
+          "quant_acc1": 82.5,
+          "compiled": true,
+          "birth_id": 185,
+          "source": "generation_16",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782/20260601_162654_pid62910/candidates/gen016_child001_000185",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              2,
+              3,
+              1,
+              1
+            ],
+            "stage_widths": [
+              64,
+              96,
+              224,
+              288
+            ]
+          },
+          "candidate_id": "gen016_child001_000185"
+        },
+        {
+          "fitness": 81.75,
+          "quant_acc1": 81.75,
+          "compiled": true,
+          "birth_id": 186,
+          "source": "generation_16",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782/20260601_162654_pid62910/candidates/gen016_child002_000186",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              2,
+              3,
+              2,
+              1
+            ],
+            "stage_widths": [
+              48,
+              96,
+              160,
+              256
+            ]
+          },
+          "candidate_id": "gen016_child002_000186"
+        },
+        {
+          "fitness": 81.5,
+          "quant_acc1": 81.5,
+          "compiled": true,
+          "birth_id": 156,
+          "source": "generation_12",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782/20260601_162654_pid62910/candidates/gen012_child002_000156",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              2,
+              3,
+              3,
+              1
+            ],
+            "stage_widths": [
+              48,
+              128,
+              224,
+              256
+            ]
+          },
+          "candidate_id": "gen012_child002_000156"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_006_seed_1782/20260601_162654_pid62910"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 77.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            1,
+            6,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 40.63,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 78.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 49.066,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 78.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 59.692,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 79.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 67.97,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 4,
+        "best_fitness": 79.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            1,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 73.19,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 80.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            2,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.2,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.0,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 7,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 77.43,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999929.37,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 9,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            2,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999928.35,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999929.87,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 11,
+        "best_fitness": 80.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999927.49,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.31,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.78,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 14,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.6,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.6,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 16,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 78.6,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 77.75,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 18,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 77.58,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 19,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 77.62,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": 78.63,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            1,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.03,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 22,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            6,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.59,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 23,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            3,
+            6,
+            1
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.02,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 24,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            1,
+            1
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.84,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 217,
+    "launch_order": 7
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 7,
+    "seed": 1879,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-06-01T19:00:25Z",
+    "finished_at": "2026-06-02T00:26:58Z",
+    "elapsed_wall_seconds": 19593.042046293034,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1879",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1879,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 82.5,
+      "best_quant_acc1": 82.5,
+      "total_candidates_evaluated": 217,
+      "compiled_candidates": 210,
+      "compile_success_rate": 0.967741935483871,
+      "elapsed_seconds": 19584.952400923008,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          2,
+          3,
+          2
+        ],
+        "stage_widths": [
+          48,
+          128,
+          224,
+          256
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 84.0,
+          "quant_acc1": 84.0,
+          "compiled": true,
+          "birth_id": 114,
+          "source": "generation_7",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen007_child000_000114",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              3,
+              3,
+              3,
+              3
+            ],
+            "stage_widths": [
+              48,
+              128,
+              160,
+              288
+            ]
+          },
+          "candidate_id": "gen007_child000_000114"
+        },
+        {
+          "fitness": 83.75,
+          "quant_acc1": 83.75,
+          "compiled": true,
+          "birth_id": 102,
+          "source": "generation_5",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen005_child003_000102",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              3,
+              2,
+              3
+            ],
+            "stage_widths": [
+              64,
+              128,
+              224,
+              288
+            ]
+          },
+          "candidate_id": "gen005_child003_000102"
+        },
+        {
+          "fitness": 82.5,
+          "quant_acc1": 82.5,
+          "compiled": true,
+          "birth_id": 77,
+          "source": "generation_2",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen002_child000_000077",
+          "config": {
+            "resolution": 34,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              3,
+              2,
+              2
+            ],
+            "stage_widths": [
+              64,
+              128,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen002_child000_000077"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 79.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 38.76,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 39.646,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 49.39,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 3,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999941.73,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999930.03,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 5,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.94,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.12,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 7,
+        "best_fitness": 84.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999928.03,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 8,
+        "best_fitness": 84.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999929.09,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 84.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999928.83,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -119999933.64,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 11,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999930.39,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999927.31,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 13,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.08,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            224
+          ]
+        },
+        "population_mean_fitness": 75.92,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 75.13,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 16,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 75.7,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 76.14,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 75.83,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.84,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.79,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.52,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 22,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            1,
+            4,
+            4,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.85,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 23,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.17,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 24,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            2,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999928.62,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 220,
+    "launch_order": 8
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 8,
+    "seed": 1976,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-06-02T00:26:59Z",
+    "finished_at": "2026-06-02T05:00:31Z",
+    "elapsed_wall_seconds": 16411.531444630004,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "1976",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976/20260602_022705_pid17839",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 1976,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 82.5,
+      "best_quant_acc1": 82.5,
+      "total_candidates_evaluated": 206,
+      "compiled_candidates": 198,
+      "compile_success_rate": 0.9611650485436893,
+      "elapsed_seconds": 16403.161774355918,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          3,
+          3,
+          4,
+          2
+        ],
+        "stage_widths": [
+          64,
+          128,
+          224,
+          256
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976/20260602_022705_pid17839/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 84.25,
+          "quant_acc1": 84.25,
+          "compiled": true,
+          "birth_id": 167,
+          "source": "generation_14",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976/20260602_022705_pid17839/candidates/gen014_child007_000167",
+          "config": {
+            "resolution": 34,
+            "stem_width": 24,
+            "stage_depths": [
+              3,
+              4,
+              5,
+              2
+            ],
+            "stage_widths": [
+              64,
+              96,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen014_child007_000167"
+        },
+        {
+          "fitness": 83.25,
+          "quant_acc1": 83.25,
+          "compiled": true,
+          "birth_id": 101,
+          "source": "generation_5",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976/20260602_022705_pid17839/candidates/gen005_child006_000101",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              3,
+              4,
+              2,
+              3
+            ],
+            "stage_widths": [
+              48,
+              128,
+              192,
+              256
+            ]
+          },
+          "candidate_id": "gen005_child006_000101"
+        },
+        {
+          "fitness": 82.5,
+          "quant_acc1": 82.5,
+          "compiled": true,
+          "birth_id": 144,
+          "source": "generation_11",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976/20260602_022705_pid17839/candidates/gen011_child005_000144",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              1,
+              3,
+              3,
+              3
+            ],
+            "stage_widths": [
+              48,
+              96,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen011_child005_000144"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_008_seed_1976/20260602_022705_pid17839"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999960.628,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 1,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999957.128,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 2,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999947.994,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 3,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -119999940.45,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 4,
+        "best_fitness": 80.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999932.85,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 5,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.71,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.3,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 7,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.27,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 8,
+        "best_fitness": 83.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.68,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            2,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 75.71,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 10,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 75.2,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 11,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 75.7,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.24,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            1,
+            3,
+            3,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.14,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 14,
+        "best_fitness": 84.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999928.16,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 15,
+        "best_fitness": 84.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999928.8,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 16,
+        "best_fitness": 84.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.78,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 84.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            5,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 75.81,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 18,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 74.94,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 19,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            1,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 75.59,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 20,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            5,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": 76.48,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            1,
+            3
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": 77.58,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 22,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999925.14,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 23,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999925.51,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 24,
+        "best_fitness": 82.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            3,
+            3,
+            4,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999928.51,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      }
+    ],
+    "progress_events_count": 209,
+    "launch_order": 9
+  },
+  {
+    "algorithm": "regularized_evolution",
+    "run_index": 9,
+    "seed": 2073,
+    "status": "success",
+    "return_code": 0,
+    "started_at": "2026-06-02T05:00:31Z",
+    "finished_at": "2026-06-02T09:31:31Z",
+    "elapsed_wall_seconds": 16259.202503587003,
+    "command": [
+      "/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/bin/python",
+      "/mnt/matylda5/xmihol00/EUD/NAS/genetic_NAS_runner.py",
+      "--dataset-name",
+      "cifar10",
+      "--algorithm",
+      "regularized_evolution",
+      "--seed",
+      "2073",
+      "--train-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/train",
+      "--eval-dataset",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/val",
+      "--initial-population-json",
+      "/mnt/matylda5/xmihol00/EUD/NAS/space_sampling_runs/sampling_results.json",
+      "--generations",
+      "25",
+      "--population-size",
+      "25",
+      "--offspring-per-generation",
+      "8",
+      "--epochs-per-candidate",
+      "10",
+      "--n-folds",
+      "10",
+      "--train-fold-fraction",
+      "0.1",
+      "--train-batch-size",
+      "256",
+      "--eval-batch-size",
+      "200",
+      "--num-workers",
+      "4",
+      "--lr",
+      "0.01",
+      "--weight-decay",
+      "5e-05",
+      "--momentum",
+      "0.9",
+      "--label-smoothing",
+      "0.0",
+      "--num-classes",
+      "10",
+      "--images-per-class-train",
+      "0",
+      "--images-per-class-eval",
+      "40",
+      "--checkpoint",
+      "/mnt/matylda5/xmihol00/EUD/supernet/runs_imx500_supernet/20260402_200233/best.pt",
+      "--device",
+      "cuda",
+      "--calibration-dir",
+      "/mnt/matylda5/xmihol00/datasets/cifar10/calib",
+      "--num-calibration-images",
+      "50",
+      "--calibration-batch-size",
+      "10",
+      "--tpc-version",
+      "1.0",
+      "--opset-version",
+      "15",
+      "--compile-timeout-sec",
+      "1800",
+      "--eval-log-every",
+      "1",
+      "--mutation-rate",
+      "0.25",
+      "--tournament-size",
+      "3",
+      "--regularized-sample-size",
+      "8",
+      "--output-root",
+      "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073"
+    ],
+    "run_workspace": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073",
+    "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073/20260602_070051_pid5538",
+    "stdout_log": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073/runner_stdout.log",
+    "summary": {
+      "algorithm": "regularized_evolution",
+      "seed": 2073,
+      "generations": 25,
+      "population_size": 25,
+      "offspring_per_generation": 8,
+      "best_fitness": 81.25,
+      "best_quant_acc1": 81.25,
+      "total_candidates_evaluated": 212,
+      "compiled_candidates": 203,
+      "compile_success_rate": 0.9575471698113207,
+      "elapsed_seconds": 16237.991785975988,
+      "best_config": {
+        "resolution": 34,
+        "stem_width": 40,
+        "stage_depths": [
+          2,
+          2,
+          4,
+          1
+        ],
+        "stage_widths": [
+          64,
+          96,
+          192,
+          288
+        ]
+      },
+      "top_3_architectures_file": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073/20260602_070051_pid5538/top_3_architectures.json",
+      "top_3_architectures": [
+        {
+          "fitness": 83.75,
+          "quant_acc1": 83.75,
+          "compiled": true,
+          "birth_id": 150,
+          "source": "generation_11",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073/20260602_070051_pid5538/candidates/gen011_child004_000150",
+          "config": {
+            "resolution": 34,
+            "stem_width": 40,
+            "stage_depths": [
+              2,
+              4,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              96,
+              192,
+              288
+            ]
+          },
+          "candidate_id": "gen011_child004_000150"
+        },
+        {
+          "fitness": 82.25,
+          "quant_acc1": 82.25,
+          "compiled": true,
+          "birth_id": 142,
+          "source": "generation_10",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073/20260602_070051_pid5538/candidates/gen010_child004_000142",
+          "config": {
+            "resolution": 34,
+            "stem_width": 32,
+            "stage_depths": [
+              2,
+              3,
+              2,
+              2
+            ],
+            "stage_widths": [
+              48,
+              128,
+              160,
+              224
+            ]
+          },
+          "candidate_id": "gen010_child004_000142"
+        },
+        {
+          "fitness": 82.0,
+          "quant_acc1": 82.0,
+          "compiled": true,
+          "birth_id": 167,
+          "source": "generation_13",
+          "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073/20260602_070051_pid5538/candidates/gen013_child005_000167",
+          "config": {
+            "resolution": 34,
+            "stem_width": 24,
+            "stage_depths": [
+              2,
+              4,
+              3,
+              2
+            ],
+            "stage_widths": [
+              48,
+              96,
+              224,
+              288
+            ]
+          },
+          "candidate_id": "gen013_child005_000167"
+        }
+      ],
+      "run_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_009_seed_2073/20260602_070051_pid5538"
+    },
+    "history": [
+      {
+        "generation": 0,
+        "best_fitness": 80.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": -39999957.83,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 1,
+        "best_fitness": 80.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999952.634,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 2,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -119999947.448,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 3,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999935.1,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 4,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -79999932.87,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 5,
+        "best_fitness": 81.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999925.95,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 6,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            160,
+            256
+          ]
+        },
+        "population_mean_fitness": -39999926.41,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 7,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            5,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 76.84,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 8,
+        "best_fitness": 81.5,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            3,
+            2,
+            5,
+            2
+          ],
+          "stage_widths": [
+            64,
+            128,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 77.51,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 9,
+        "best_fitness": 81.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            2,
+            3
+          ],
+          "stage_widths": [
+            64,
+            128,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": 78.39,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 10,
+        "best_fitness": 82.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            160,
+            224
+          ]
+        },
+        "population_mean_fitness": 78.56,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 11,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 78.47,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 12,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 78.0,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 13,
+        "best_fitness": 83.75,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": 77.73,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 14,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": 76.92,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 15,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            2,
+            4,
+            3,
+            2
+          ],
+          "stage_widths": [
+            48,
+            96,
+            224,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999925.82,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 16,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            4,
+            2
+          ],
+          "stage_widths": [
+            48,
+            128,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999929.1,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 17,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            4,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999928.38,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 18,
+        "best_fitness": 82.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            4,
+            4,
+            3
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999926.65,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 19,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 24,
+          "stage_depths": [
+            3,
+            4,
+            3,
+            3
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            224
+          ]
+        },
+        "population_mean_fitness": -79999929.98,
+        "population_size": 25,
+        "offspring_evaluated": 7
+      },
+      {
+        "generation": 20,
+        "best_fitness": 80.0,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 32,
+          "stage_depths": [
+            2,
+            4,
+            4,
+            1
+          ],
+          "stage_widths": [
+            48,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -79999930.17,
+        "population_size": 25,
+        "offspring_evaluated": 8
+      },
+      {
+        "generation": 21,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -119999933.21,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 22,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -119999933.01,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 23,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999928.13,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      },
+      {
+        "generation": 24,
+        "best_fitness": 81.25,
+        "best_config": {
+          "resolution": 34,
+          "stem_width": 40,
+          "stage_depths": [
+            2,
+            2,
+            4,
+            1
+          ],
+          "stage_widths": [
+            64,
+            96,
+            192,
+            288
+          ]
+        },
+        "population_mean_fitness": -39999928.41,
+        "population_size": 25,
+        "offspring_evaluated": 6
+      }
+    ],
+    "progress_events_count": 215,
+    "launch_order": 10
+  }
+]

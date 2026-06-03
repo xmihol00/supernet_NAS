@@ -1,0 +1,85 @@
+{
+  "candidate_id": "gen017_child002_000196",
+  "config": {
+    "resolution": 34,
+    "stem_width": 24,
+    "stage_depths": [
+      2,
+      3,
+      5,
+      3
+    ],
+    "stage_widths": [
+      48,
+      96,
+      160,
+      224
+    ]
+  },
+  "compiled": true,
+  "compile_log": "2026-06-01 07:03:03,763 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 07:03:03,763 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-05-31_11-25-16/raw_runs/run_003_seed_1491/20260601_033214_pid34744/candidates/gen017_child002_000196/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 07:03:07,628 INFO : Wrote outputs to /tmp/1352655.1.long.q/tmpq_glc080/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 07:03:07,632 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 07:03:08.223 INFO : CODE: [START] Starting SDSPconv\n2026-06-01 07:03:26.353 INFO : ConvFe conversion finished successfully\n2026-06-01 07:03:27.603 INFO : CBE component - DspConvParser has started conversion.\n2026-06-01 07:03:27.762 INFO : Dsp-Dnn-Parser finished successfully !\n2026-06-01 07:03:31.053 INFO : LogicModel generated successfully ! \n2026-06-01 07:03:31.056 INFO : DspConvParser runs: 3474 [msec]\n2026-06-01 07:03:31.056 INFO : CBE component - DspConvParser finished conversion.\n2026-06-01 07:03:46.656 INFO : Converter Backend successfully completed!\n2026-06-01 07:03:46.657 INFO : Conversion time is 15.4 Seconds\n2026-06-01 07:03:47.385 INFO : packer zip successfully generated under /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-05-31_11-25-16/raw_runs/run_003_seed_1491/20260601_033214_pid34744/candidates/gen017_child002_000196/imx500_output/packerOut.zip\n2026-06-01 07:03:47.517 INFO : CODE: [OUTPUT] Output is in /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-05-31_11-25-16/raw_runs/run_003_seed_1491/20260601_033214_pid34744/candidates/gen017_child002_000196/imx500_output",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7fd6421b7be0>"
+  },
+  "quant_eval": {
+    "acc1": 77.75,
+    "correct": 311.0,
+    "total": 400.0,
+    "evaluated": 1.0,
+    "used_batch_size": 200.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 2.120162533760071,
+      "acc1": 26.44
+    },
+    {
+      "epoch": 2.0,
+      "loss": 1.3172315116882325,
+      "acc1": 53.66
+    },
+    {
+      "epoch": 3.0,
+      "loss": 1.0007207471847535,
+      "acc1": 64.76
+    },
+    {
+      "epoch": 4.0,
+      "loss": 0.8850598136901855,
+      "acc1": 68.66
+    },
+    {
+      "epoch": 5.0,
+      "loss": 0.8414451508522034,
+      "acc1": 70.4
+    },
+    {
+      "epoch": 6.0,
+      "loss": 0.8038866388320923,
+      "acc1": 72.0
+    },
+    {
+      "epoch": 7.0,
+      "loss": 0.7560376808166503,
+      "acc1": 74.2
+    },
+    {
+      "epoch": 8.0,
+      "loss": 0.7266208992958069,
+      "acc1": 74.66
+    },
+    {
+      "epoch": 9.0,
+      "loss": 0.7353087922096252,
+      "acc1": 75.12
+    },
+    {
+      "epoch": 10.0,
+      "loss": 0.7000530185699463,
+      "acc1": 75.64
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-05-31_11-25-16/raw_runs/run_003_seed_1491/20260601_033214_pid34744/candidates/gen017_child002_000196/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/sga_2026-05-31_11-25-16/raw_runs/run_003_seed_1491/20260601_033214_pid34744/candidates/gen017_child002_000196/model_quant.onnx"
+}

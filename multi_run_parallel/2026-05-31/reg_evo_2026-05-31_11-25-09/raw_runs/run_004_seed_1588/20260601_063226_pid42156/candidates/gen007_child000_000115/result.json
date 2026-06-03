@@ -1,0 +1,83 @@
+{
+  "candidate_id": "gen007_child000_000115",
+  "config": {
+    "resolution": 34,
+    "stem_width": 32,
+    "stage_depths": [
+      3,
+      3,
+      5,
+      3
+    ],
+    "stage_widths": [
+      48,
+      96,
+      224,
+      288
+    ]
+  },
+  "compiled": false,
+  "compile_log": "2026-06-01 08:22:38,143 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 08:22:38,143 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156/candidates/gen007_child000_000115/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 08:22:43,623 INFO : Wrote outputs to /tmp/1352654.1.long.q/tmp9tcd10te/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 08:22:43,623 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 08:22:44.211 INFO : CODE: [START] Starting SDSPconv\n2026-06-01 08:23:08.391 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 9.01MB \n2026-06-01 08:23:08.440 INFO : CODE: [IMCF] ConvFe failed with insufficient memory, trying to run Tiling Advisor\n2026-06-01 08:23:08.862 ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 9.01MB \n2026-06-01 08:23:08,892 ERROR : sdspconv exited with error code: 1, uni files can be found in /tmp/1352654.1.long.q/tmp9tcd10te [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/imx500_converter/converter/converter.py:60]\n\nException in thread \"main\" java.lang.IllegalArgumentException: Available memory needs to be greater than 0\n\tat ta.TilingKt.tile(tiling.kt:48)\n\tat ta.TilingAdvisor.runWithLogger(TilingAdvisor.kt:81)\n\tat ta.LoggerCli.run(LoggerCli.kt:98)\n\tat com.github.ajalt.clikt.parsers.Parser.finalizeAndRun(Parser.kt:348)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:218)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:42)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse(CliktCommand.kt:457)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse$default(CliktCommand.kt:454)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:474)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:481)\n\tat MainKt.main(Main.kt:31)\nException in thread \"main\" sdsp.app.logging.FailureInSubRunningHideErrorException: ERROR: CODE: [ISM] ConvFe error (ISM) on 'model_quant': Not enough memory, available: 8.00MB , required: 9.01MB \n\tat sdsp.app.state.machine.TilingAdvisorPhase.nextPhase(TilingAdvisorPhase.kt:55)\n\tat sdsp.app.StateMachine.run(StateMachine.kt:43)\n\tat sdsp.app.ConvMain.run(ConvMain.kt:310)\n\tat com.github.ajalt.clikt.parsers.Parser.finalizeAndRun(Parser.kt:348)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:218)\n\tat com.github.ajalt.clikt.parsers.Parser.parse(Parser.kt:42)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse(CliktCommand.kt:457)\n\tat com.github.ajalt.clikt.core.CliktCommand.parse$default(CliktCommand.kt:454)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:474)\n\tat com.github.ajalt.clikt.core.CliktCommand.main(CliktCommand.kt:481)\n\tat sdsp.app.ConvMain.fixedMain(ConvMain.kt:272)\n\tat sdsp.app.AppKt.main(App.kt:26)",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7f64664a4880>"
+  },
+  "quant_eval": {
+    "acc1": 0.0,
+    "correct": 0.0,
+    "total": 0.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 2.099063680267334,
+      "acc1": 26.72
+    },
+    {
+      "epoch": 2.0,
+      "loss": 1.2455789772987367,
+      "acc1": 55.12
+    },
+    {
+      "epoch": 3.0,
+      "loss": 0.9450330928802491,
+      "acc1": 67.0
+    },
+    {
+      "epoch": 4.0,
+      "loss": 0.8458710435867309,
+      "acc1": 70.7
+    },
+    {
+      "epoch": 5.0,
+      "loss": 0.7993617994308472,
+      "acc1": 71.96
+    },
+    {
+      "epoch": 6.0,
+      "loss": 0.8055573616981506,
+      "acc1": 71.96
+    },
+    {
+      "epoch": 7.0,
+      "loss": 0.7470778349876404,
+      "acc1": 74.16
+    },
+    {
+      "epoch": 8.0,
+      "loss": 0.7480402598381043,
+      "acc1": 72.96
+    },
+    {
+      "epoch": 9.0,
+      "loss": 0.6933463310241699,
+      "acc1": 76.28
+    },
+    {
+      "epoch": 10.0,
+      "loss": 0.6583375122070313,
+      "acc1": 77.58
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156/candidates/gen007_child000_000115/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_004_seed_1588/20260601_063226_pid42156/candidates/gen007_child000_000115/model_quant.onnx"
+}

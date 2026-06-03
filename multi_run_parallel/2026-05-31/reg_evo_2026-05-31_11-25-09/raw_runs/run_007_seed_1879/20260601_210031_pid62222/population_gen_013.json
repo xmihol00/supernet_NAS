@@ -1,0 +1,602 @@
+[
+  {
+    "fitness": 82.5,
+    "quant_acc1": 82.5,
+    "compiled": true,
+    "birth_id": 155,
+    "source": "generation_12",
+    "config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen012_child003_000155"
+  },
+  {
+    "fitness": 81.75,
+    "quant_acc1": 81.75,
+    "compiled": true,
+    "birth_id": 163,
+    "source": "generation_13",
+    "config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen013_child003_000163"
+  },
+  {
+    "fitness": 80.25,
+    "quant_acc1": 80.25,
+    "compiled": true,
+    "birth_id": 152,
+    "source": "generation_11",
+    "config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        1,
+        3,
+        4,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen011_child007_000152"
+  },
+  {
+    "fitness": 79.5,
+    "quant_acc1": 79.5,
+    "compiled": true,
+    "birth_id": 153,
+    "source": "generation_12",
+    "config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen012_child001_000153"
+  },
+  {
+    "fitness": 79.5,
+    "quant_acc1": 79.5,
+    "compiled": true,
+    "birth_id": 165,
+    "source": "generation_13",
+    "config": {
+      "resolution": 34,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        4,
+        3,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        160,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen013_child005_000165"
+  },
+  {
+    "fitness": 79.25,
+    "quant_acc1": 79.25,
+    "compiled": true,
+    "birth_id": 156,
+    "source": "generation_12",
+    "config": {
+      "resolution": 34,
+      "stem_width": 24,
+      "stage_depths": [
+        1,
+        4,
+        3,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        288
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen012_child004_000156"
+  },
+  {
+    "fitness": 79.0,
+    "quant_acc1": 79.0,
+    "compiled": true,
+    "birth_id": 157,
+    "source": "generation_12",
+    "config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        1,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen012_child005_000157"
+  },
+  {
+    "fitness": 78.25,
+    "quant_acc1": 78.25,
+    "compiled": true,
+    "birth_id": 158,
+    "source": "generation_12",
+    "config": {
+      "resolution": 34,
+      "stem_width": 24,
+      "stage_depths": [
+        1,
+        3,
+        6,
+        1
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen012_child006_000158"
+  },
+  {
+    "fitness": 77.75,
+    "quant_acc1": 77.75,
+    "compiled": true,
+    "birth_id": 161,
+    "source": "generation_13",
+    "config": {
+      "resolution": 32,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        288
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen013_child001_000161"
+  },
+  {
+    "fitness": 77.75,
+    "quant_acc1": 77.75,
+    "compiled": true,
+    "birth_id": 167,
+    "source": "generation_13",
+    "config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        1,
+        3,
+        2,
+        3
+      ],
+      "stage_widths": [
+        48,
+        96,
+        224,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen013_child007_000167"
+  },
+  {
+    "fitness": 77.25,
+    "quant_acc1": 77.25,
+    "compiled": true,
+    "birth_id": 143,
+    "source": "generation_10",
+    "config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        3
+      ],
+      "stage_widths": [
+        48,
+        96,
+        192,
+        288
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen010_child006_000143"
+  },
+  {
+    "fitness": 77.25,
+    "quant_acc1": 77.25,
+    "compiled": true,
+    "birth_id": 146,
+    "source": "generation_11",
+    "config": {
+      "resolution": 34,
+      "stem_width": 24,
+      "stage_depths": [
+        2,
+        3,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        160,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen011_child001_000146"
+  },
+  {
+    "fitness": 77.25,
+    "quant_acc1": 77.25,
+    "compiled": true,
+    "birth_id": 150,
+    "source": "generation_11",
+    "config": {
+      "resolution": 34,
+      "stem_width": 24,
+      "stage_depths": [
+        1,
+        4,
+        3,
+        3
+      ],
+      "stage_widths": [
+        48,
+        128,
+        160,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen011_child005_000150"
+  },
+  {
+    "fitness": 77.0,
+    "quant_acc1": 77.0,
+    "compiled": true,
+    "birth_id": 145,
+    "source": "generation_11",
+    "config": {
+      "resolution": 32,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen011_child000_000145"
+  },
+  {
+    "fitness": 77.0,
+    "quant_acc1": 77.0,
+    "compiled": true,
+    "birth_id": 151,
+    "source": "generation_11",
+    "config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        1,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        96,
+        192,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen011_child006_000151"
+  },
+  {
+    "fitness": 76.75,
+    "quant_acc1": 76.75,
+    "compiled": true,
+    "birth_id": 154,
+    "source": "generation_12",
+    "config": {
+      "resolution": 32,
+      "stem_width": 24,
+      "stage_depths": [
+        2,
+        3,
+        4,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen012_child002_000154"
+  },
+  {
+    "fitness": 76.5,
+    "quant_acc1": 76.5,
+    "compiled": true,
+    "birth_id": 147,
+    "source": "generation_11",
+    "config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        1,
+        2,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        96,
+        160,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen011_child002_000147"
+  },
+  {
+    "fitness": 76.25,
+    "quant_acc1": 76.25,
+    "compiled": true,
+    "birth_id": 160,
+    "source": "generation_13",
+    "config": {
+      "resolution": 32,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        3,
+        2,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        224,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen013_child000_000160"
+  },
+  {
+    "fitness": 75.5,
+    "quant_acc1": 75.5,
+    "compiled": true,
+    "birth_id": 149,
+    "source": "generation_11",
+    "config": {
+      "resolution": 32,
+      "stem_width": 32,
+      "stage_depths": [
+        1,
+        3,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        192,
+        288
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen011_child004_000149"
+  },
+  {
+    "fitness": 75.25,
+    "quant_acc1": 75.25,
+    "compiled": true,
+    "birth_id": 166,
+    "source": "generation_13",
+    "config": {
+      "resolution": 32,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        1,
+        5,
+        3
+      ],
+      "stage_widths": [
+        64,
+        96,
+        192,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen013_child006_000166"
+  },
+  {
+    "fitness": 71.25,
+    "quant_acc1": 71.25,
+    "compiled": true,
+    "birth_id": 148,
+    "source": "generation_11",
+    "config": {
+      "resolution": 32,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        1,
+        3,
+        1
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen011_child003_000148"
+  },
+  {
+    "fitness": 71.0,
+    "quant_acc1": 71.0,
+    "compiled": true,
+    "birth_id": 164,
+    "source": "generation_13",
+    "config": {
+      "resolution": 28,
+      "stem_width": 40,
+      "stage_depths": [
+        1,
+        3,
+        4,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen013_child004_000164"
+  },
+  {
+    "fitness": 70.25,
+    "quant_acc1": 70.25,
+    "compiled": true,
+    "birth_id": 162,
+    "source": "generation_13",
+    "config": {
+      "resolution": 32,
+      "stem_width": 40,
+      "stage_depths": [
+        1,
+        1,
+        4,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        224,
+        256
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen013_child002_000162"
+  },
+  {
+    "fitness": 64.75,
+    "quant_acc1": 64.75,
+    "compiled": true,
+    "birth_id": 159,
+    "source": "generation_12",
+    "config": {
+      "resolution": 28,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        1,
+        2,
+        3
+      ],
+      "stage_widths": [
+        48,
+        128,
+        224,
+        224
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen012_child007_000159"
+  },
+  {
+    "fitness": 63.25,
+    "quant_acc1": 63.25,
+    "compiled": true,
+    "birth_id": 144,
+    "source": "generation_10",
+    "config": {
+      "resolution": 28,
+      "stem_width": 40,
+      "stage_depths": [
+        1,
+        3,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        288
+      ]
+    },
+    "sample_dir": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_007_seed_1879/20260601_210031_pid62222/candidates/gen010_child007_000144"
+  }
+]

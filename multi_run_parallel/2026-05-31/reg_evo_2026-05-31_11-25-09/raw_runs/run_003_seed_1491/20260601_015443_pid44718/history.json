@@ -1,0 +1,577 @@
+[
+  {
+    "generation": 0,
+    "best_fitness": 74.0,
+    "best_config": {
+      "resolution": 32,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        224,
+        256
+      ]
+    },
+    "population_mean_fitness": 39.202,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 1,
+    "best_fitness": 76.75,
+    "best_config": {
+      "resolution": 32,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        224,
+        256
+      ]
+    },
+    "population_mean_fitness": 46.43600000000001,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 2,
+    "best_fitness": 79.25,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        192,
+        256
+      ]
+    },
+    "population_mean_fitness": 55.498000000000005,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 3,
+    "best_fitness": 81.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        96,
+        192,
+        256
+      ]
+    },
+    "population_mean_fitness": 66.54,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 4,
+    "best_fitness": 81.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        96,
+        192,
+        256
+      ]
+    },
+    "population_mean_fitness": 72.19,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 5,
+    "best_fitness": 81.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        2
+      ],
+      "stage_widths": [
+        48,
+        96,
+        192,
+        256
+      ]
+    },
+    "population_mean_fitness": 75.66,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 6,
+    "best_fitness": 81.0,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "stage_widths": [
+        48,
+        128,
+        160,
+        256
+      ]
+    },
+    "population_mean_fitness": 76.08,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 7,
+    "best_fitness": 81.0,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "stage_widths": [
+        48,
+        128,
+        160,
+        256
+      ]
+    },
+    "population_mean_fitness": 75.91,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 8,
+    "best_fitness": 81.0,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        4,
+        4,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999927.73,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 9,
+    "best_fitness": 81.0,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        4,
+        4,
+        2
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999927.09,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 10,
+    "best_fitness": 83.25,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        4,
+        4,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        192,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999926.53,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 11,
+    "best_fitness": 83.25,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        4,
+        4,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        192,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999925.7,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 12,
+    "best_fitness": 83.25,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        3,
+        4,
+        4,
+        2
+      ],
+      "stage_widths": [
+        48,
+        128,
+        192,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999926.23,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 13,
+    "best_fitness": 82.5,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        1,
+        4,
+        1,
+        1
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999926.91,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 14,
+    "best_fitness": 80.25,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 32,
+      "stage_depths": [
+        1,
+        4,
+        1,
+        1
+      ],
+      "stage_widths": [
+        48,
+        128,
+        160,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999927.68,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 15,
+    "best_fitness": 80.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        4,
+        2,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        160,
+        288
+      ]
+    },
+    "population_mean_fitness": 76.02,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 16,
+    "best_fitness": 81.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        4,
+        4,
+        2
+      ],
+      "stage_widths": [
+        48,
+        96,
+        224,
+        256
+      ]
+    },
+    "population_mean_fitness": 76.93,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 17,
+    "best_fitness": 83.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        4,
+        3,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        224,
+        256
+      ]
+    },
+    "population_mean_fitness": 78.17,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 18,
+    "best_fitness": 83.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        4,
+        3,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        224,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999925.77,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 19,
+    "best_fitness": 83.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        4,
+        3,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        224,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999925.94,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 20,
+    "best_fitness": 82.75,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        4,
+        2,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        288
+      ]
+    },
+    "population_mean_fitness": -39999925.71,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 21,
+    "best_fitness": 81.5,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 40,
+      "stage_depths": [
+        2,
+        4,
+        4,
+        1
+      ],
+      "stage_widths": [
+        48,
+        96,
+        224,
+        256
+      ]
+    },
+    "population_mean_fitness": 77.33,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 22,
+    "best_fitness": 81.25,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        2,
+        3,
+        2
+      ],
+      "stage_widths": [
+        64,
+        96,
+        224,
+        256
+      ]
+    },
+    "population_mean_fitness": 77.09,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  },
+  {
+    "generation": 23,
+    "best_fitness": 82.5,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        4,
+        2,
+        1
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        256
+      ]
+    },
+    "population_mean_fitness": 76.21,
+    "population_size": 25,
+    "offspring_evaluated": 7
+  },
+  {
+    "generation": 24,
+    "best_fitness": 82.5,
+    "best_config": {
+      "resolution": 34,
+      "stem_width": 24,
+      "stage_depths": [
+        3,
+        4,
+        2,
+        1
+      ],
+      "stage_widths": [
+        64,
+        128,
+        160,
+        256
+      ]
+    },
+    "population_mean_fitness": -39999927.08,
+    "population_size": 25,
+    "offspring_evaluated": 8
+  }
+]

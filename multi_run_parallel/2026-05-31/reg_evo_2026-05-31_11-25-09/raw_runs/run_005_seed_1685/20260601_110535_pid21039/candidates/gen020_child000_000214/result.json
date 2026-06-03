@@ -1,0 +1,85 @@
+{
+  "candidate_id": "gen020_child000_000214",
+  "config": {
+    "resolution": 32,
+    "stem_width": 32,
+    "stage_depths": [
+      2,
+      2,
+      1,
+      1
+    ],
+    "stage_widths": [
+      64,
+      96,
+      160,
+      256
+    ]
+  },
+  "compiled": true,
+  "compile_log": "2026-06-01 15:39:24,898 INFO : Running version 3.17.1 [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 15:39:24,898 INFO : Converting /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/candidates/gen020_child000_000214/model_quant.onnx [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 15:39:27,212 INFO : Wrote outputs to /tmp/1352654.1.long.q/tmp70tfl96x/model_quant.uni-pytorch.um.pb [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 15:39:27,212 INFO : Converted successfully [/mnt/matylda5/xmihol00/miniconda3/envs/cnnSearch/lib/python3.10/site-packages/uni/common/logger.py:179]\n2026-06-01 15:39:27.787 INFO : CODE: [START] Starting SDSPconv\n2026-06-01 15:39:35.438 INFO : ConvFe conversion finished successfully\n2026-06-01 15:39:36.541 INFO : CBE component - DspConvParser has started conversion.\n2026-06-01 15:39:36.695 INFO : Dsp-Dnn-Parser finished successfully !\n2026-06-01 15:39:37.921 INFO : LogicModel generated successfully ! \n2026-06-01 15:39:37.924 INFO : DspConvParser runs: 1406 [msec]\n2026-06-01 15:39:37.925 INFO : CBE component - DspConvParser finished conversion.\n2026-06-01 15:39:39.058 WARN : CODE: [CBE] [ConvQReluQValidation:265] Id = /stages_0_0_downsample_0_bn/layer/Conv: Detect convolution coefficients tensor with suboptimal dynamic range values. ChannelOut = 36 , ML = 1.52587890625E-5 , max(Abs(val)) = 9.5367431640625E-7\n2026-06-01 15:39:44.809 INFO : Converter Backend successfully completed!\n2026-06-01 15:39:44.810 INFO : Conversion time is 6.71 Seconds\n2026-06-01 15:39:45.395 INFO : packer zip successfully generated under /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/candidates/gen020_child000_000214/imx500_output/packerOut.zip\n2026-06-01 15:39:45.468 INFO : CODE: [OUTPUT] Output is in /mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/candidates/gen020_child000_000214/imx500_output",
+  "quantization_info": {
+    "info": "<model_compression_toolkit.core.common.user_info.UserInformation object at 0x7ff5382005b0>"
+  },
+  "quant_eval": {
+    "acc1": 72.0,
+    "correct": 288.0,
+    "total": 400.0,
+    "evaluated": 1.0,
+    "used_batch_size": 200.0
+  },
+  "train_history": [
+    {
+      "epoch": 1.0,
+      "loss": 1.8749250217437745,
+      "acc1": 35.36
+    },
+    {
+      "epoch": 2.0,
+      "loss": 1.1202917037010194,
+      "acc1": 60.5
+    },
+    {
+      "epoch": 3.0,
+      "loss": 0.9539421868324279,
+      "acc1": 67.1
+    },
+    {
+      "epoch": 4.0,
+      "loss": 0.8492663444519043,
+      "acc1": 69.86
+    },
+    {
+      "epoch": 5.0,
+      "loss": 0.8216819353103638,
+      "acc1": 71.38
+    },
+    {
+      "epoch": 6.0,
+      "loss": 0.8034612617492676,
+      "acc1": 72.0
+    },
+    {
+      "epoch": 7.0,
+      "loss": 0.7532055894851685,
+      "acc1": 73.36
+    },
+    {
+      "epoch": 8.0,
+      "loss": 0.7330128454208374,
+      "acc1": 74.32
+    },
+    {
+      "epoch": 9.0,
+      "loss": 0.6989320398330688,
+      "acc1": 75.84
+    },
+    {
+      "epoch": 10.0,
+      "loss": 0.7305042158126831,
+      "acc1": 74.38
+    }
+  ],
+  "float_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/candidates/gen020_child000_000214/model_float.onnx",
+  "quant_onnx": "/mnt/matylda5/xmihol00/EUD/NAS/multi_run_parallel/reg_evo_2026-05-31_11-25-09/raw_runs/run_005_seed_1685/20260601_110535_pid21039/candidates/gen020_child000_000214/model_quant.onnx"
+}
