@@ -150,6 +150,22 @@ def effect_magnitude(d: float, kind: str = "cohens_d") -> str:
         return "large"
 
 
+# ─── Threshold helpers ───────────────────────────────────────────────────────
+
+def _auto_thresholds(records_all: list[dict], n: int = 6) -> list[float]:
+    """Compute n evenly-spaced accuracy thresholds spanning the observed range."""
+    accs = [
+        r.get("best_quant_acc1") for r in records_all
+        if r.get("status") == "success" and r.get("best_quant_acc1") is not None
+    ]
+    if len(accs) < 2:
+        return [80.0, 82.0, 84.0, 86.0, 88.0, 90.0]
+    lo = min(accs) - 0.5
+    hi = max(accs) + 0.25
+    step = (hi - lo) / max(1, n - 1)
+    return [round(lo + i * step, 2) for i in range(n)]
+
+
 # ─── Analysis functions ───────────────────────────────────────────────────────
 
 def compute_convergence_stats(histories: list[list[dict]]) -> dict:
@@ -267,9 +283,12 @@ def savefig(fig, path: str):
 def plot_combined_convergence(conv_stats: dict[str, dict], output_dir: str):
     """Mean best fitness ± 1σ per generation for both algorithms."""
     fig, ax = plt.subplots(figsize=(8, 5))
+    max_gen = 0
     for alg in ALG_NAMES:
         cs = conv_stats[alg]
         gens = sorted(cs.keys())
+        if gens:
+            max_gen = max(max_gen, gens[-1])
         means = [cs[g]["mean"] for g in gens]
         stds = [cs[g]["std"] for g in gens]
         lo = [m - s for m, s in zip(means, stds)]
@@ -282,7 +301,7 @@ def plot_combined_convergence(conv_stats: dict[str, dict], output_dir: str):
     ax.set_ylabel("Best Quantized Accuracy (%)", fontsize=12)
     ax.set_title("Convergence: Best Fitness per Generation\n(Mean ± 1σ across independent runs)", fontsize=12)
     ax.legend(fontsize=11)
-    ax.set_xlim(-0.5, 24.5)
+    ax.set_xlim(-0.5, max_gen + 0.5)
     ax.yaxis.grid(True, alpha=0.3)
     ax.set_axisbelow(True)
     savefig(fig, os.path.join(output_dir, "combined_convergence.png"))
@@ -346,7 +365,8 @@ def plot_pop_mean_evolution(pop_stats: dict[str, dict], conv_stats: dict[str, di
     ax.legend(fontsize=11)
     ax.yaxis.grid(True, alpha=0.3)
     ax.set_axisbelow(True)
-    ax.set_xlim(-0.5, 24.5)
+    _max_gen = max((max(gens_b) if gens_b else 0), (max(gens_s) if gens_s else 0))
+    ax.set_xlim(-0.5, _max_gen + 0.5)
     savefig(fig, os.path.join(output_dir, "sga_population_evolution.png"))
 
 
@@ -381,15 +401,21 @@ def plot_violin_distributions(records_by_alg: dict[str, list[float]],
 
 def plot_generations_to_threshold(data: dict[str, dict[float, list]], output_dir: str):
     """For several thresholds, show fraction of runs reaching them by generation."""
-    thresholds = [87.33, 88.0, 89.33, 90.0, 90.67, 91.33]
+    thresholds = sorted(data[ALG_NAMES[0]].keys())
+    n_gens = max(
+        (len(hits) for alg in ALG_NAMES for hits in data[alg].values()),
+        default=25,
+    )
     fig, axes = plt.subplots(1, len(thresholds), figsize=(3.2 * len(thresholds), 5), sharey=True)
+    if len(thresholds) == 1:
+        axes = [axes]
     for ax, thr in zip(axes, thresholds):
         for alg in ALG_NAMES:
             gen_hits = data[alg][thr]
             n_total = len(gen_hits)
-            hit_counts = [sum(1 for g in gen_hits if g is not None and g <= gen) for gen in range(25)]
+            hit_counts = [sum(1 for g in gen_hits if g is not None and g <= gen) for gen in range(n_gens)]
             fractions = [c / n_total for c in hit_counts]
-            ax.plot(range(25), fractions, color=COLORS[alg], lw=2, label=LABELS[alg])
+            ax.plot(range(n_gens), fractions, color=COLORS[alg], lw=2, label=LABELS[alg])
         ax.set_title(f"≥{thr:.1f}%", fontsize=10)
         ax.set_xlabel("Gen.", fontsize=9)
         ax.set_ylim(-0.05, 1.05)
@@ -730,6 +756,10 @@ def main():
     ap.add_argument("--sga-dir", required=True, help="Path to baseline_sga experiment dir")
     ap.add_argument("--reg-evo-dir", required=True, help="Path to regularized_evolution experiment dir")
     ap.add_argument("--output-dir", required=True, help="Where to write output plots & reports")
+    ap.add_argument(
+        "--thresholds", nargs="+", type=float, default=None,
+        help="Accuracy thresholds for the cumulative-fraction plot (auto-computed from data if omitted)",
+    )
     args = ap.parse_args()
 
     os.makedirs(args.output_dir, exist_ok=True)
@@ -773,7 +803,8 @@ def main():
             aucs.append(compute_auc(best_vals))
         auc_by_alg[alg] = [v for v in aucs if not math.isnan(v)]
 
-    thresholds = [87.33, 88.0, 89.33, 90.0, 90.67, 91.33]
+    thresholds = args.thresholds if args.thresholds else _auto_thresholds(records_all)
+    print(f"  Accuracy thresholds: {thresholds}")
     gtt_data = {alg: {thr: compute_generations_to_threshold(histories_by_alg[alg], thr)
                       for thr in thresholds}
                 for alg in ALG_NAMES}
@@ -821,9 +852,11 @@ def main():
         sig = "yes" if p_holm < 0.05 else "no"
         print(f"{metric:<35} {test_type:<16} {p_raw:>8.4f} {p_holm:>8.4f} {effect:>8.3f} {sig:>5}")
     print("=" * 70)
-    print(f"\nRegularized Evolution: n={len(successful_by_alg['regularized_evolution'])}/10 successful, "
+    n_re_total = len(records_by_alg["regularized_evolution"])
+    n_sga_total = len(records_by_alg["baseline_sga"])
+    print(f"\nRegularized Evolution: n={len(successful_by_alg['regularized_evolution'])}/{n_re_total} successful, "
           f"mean acc = {np.mean([r['best_quant_acc1'] for r in successful_by_alg['regularized_evolution']]):.2f}%")
-    print(f"Baseline SGA:          n={len(successful_by_alg['baseline_sga'])}/10 successful, "
+    print(f"Baseline SGA:          n={len(successful_by_alg['baseline_sga'])}/{n_sga_total} successful, "
           f"mean acc = {np.mean([r['best_quant_acc1'] for r in successful_by_alg['baseline_sga']]):.2f}%")
     print("\nDone.")
 

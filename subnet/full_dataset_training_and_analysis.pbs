@@ -1,20 +1,94 @@
 #!/bin/bash
+#PBS -N full_dataset_cifar10
+#PBS -l walltime=72:00:00
+#PBS -q gpu
+#PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
 
+# ── environment ────────────────────────────────────────────────────────────────
 cd "/homes/eva/xm/xmihol00"
 source setup.sh
 conda activate cnnSearch
-cd "/mnt/matylda5/xmihol00/EUD/subnet"
 
+# ── paths ──────────────────────────────────────────────────────────────────────
+EUD_ROOT="/mnt/matylda5/xmihol00/EUD"
+NAS_DIR="$EUD_ROOT/NAS"
+SUBNET_DIR="$EUD_ROOT/subnet"
+CHECKPOINT="$EUD_ROOT/supernet/runs_imx500_supernet/20260402_200233/best.pt"
+DATASET_TRAIN="/mnt/matylda5/xmihol00/datasets/cifar10/train"
+
+# CIFAR-10 NAS multi-run results (on this server, no date-prefix subdirectory)
+REG_EVO_DIR="$NAS_DIR/multi_run_parallel/reg_evo_2026-05-31_11-25-09"
+SGA_DIR="$NAS_DIR/multi_run_parallel/sga_2026-05-31_11-25-16"
+
+# Output for the full-dataset correlation experiment
+EXPERIMENT_TAG="2026-05-31_cifar10"
+OUTPUT_DIR="$SUBNET_DIR/full_dataset_experiment/$EXPERIMENT_TAG"
+SELECTED_ARCH_JSON="$OUTPUT_DIR/selected_architectures.json"
+
+mkdir -p "$OUTPUT_DIR"
+
+# ── header ─────────────────────────────────────────────────────────────────────
 current_time=$(date +"%Y-%m-%d_%H-%M-%S")
-echo "Full-dataset correlation experiment started at: $current_time"
-echo "Job ID: $PBS_JOBID"
-echo "Node:   $(hostname)"
-echo "GPU:    $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo 'unknown')"
+echo "============================================================"
+echo "Full-dataset NAS correlation experiment (CIFAR-10)"
+echo "Started at : $current_time"
+echo "Job ID     : ${PBS_JOBID:-local}"
+echo "Node       : $(hostname)"
+echo "GPU        : $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo 'unknown')"
+echo "Output dir : $OUTPUT_DIR"
+echo "============================================================"
 
-OUTPUT_DIR="/mnt/matylda5/xmihol00/EUD/subnet/runs_full_dataset_correlation/run_$current_time"
+# ── Step 1: select 15 architectures from the CIFAR-10 NAS results ──────────────
+echo ""
+echo "=== Step 1: Selecting architectures from CIFAR-10 NAS results ==="
 
-python -u full_dataset_training_and_analysis.py 
+if [ -f "$SELECTED_ARCH_JSON" ]; then
+    echo "  selected_architectures.json already exists — skipping selection."
+    echo "  (delete $SELECTED_ARCH_JSON to force re-selection)"
+else
+    cd "$NAS_DIR"
+    python -u select_architectures.py \
+        --sga-dir     "$SGA_DIR" \
+        --reg-evo-dir "$REG_EVO_DIR" \
+        --output      "$SELECTED_ARCH_JSON" \
+        --n 15
+    echo "  Saved: $SELECTED_ARCH_JSON"
+fi
 
-echo "Experiment stopped at: $(date +"%Y-%m-%d_%H-%M-%S")"
-echo "Output directory: $OUTPUT_DIR"
-echo "To resume, resubmit this script with --output-dir pointing to the same directory."
+# ── Step 2: round-robin full-dataset training + NAS correlation analysis ────────
+echo ""
+echo "=== Step 2: Full-dataset training and correlation analysis ==="
+cd "$SUBNET_DIR"
+
+python -u full_dataset_training_and_analysis.py \
+    --architectures-json  "$SELECTED_ARCH_JSON" \
+    --dataset-name        cifar10 \
+    --dataset-path        "$DATASET_TRAIN" \
+    --checkpoint          "$CHECKPOINT" \
+    --output-dir          "$OUTPUT_DIR" \
+    --num-workers         4 \
+    --batch-size          512 \
+    --val-frac            0.15 \
+    --lr                  0.05 \
+    --min-lr              1e-4 \
+    --weight-decay        5e-4 \
+    --warmup-epochs       1 \
+    --lr-restart-period   10 \
+    --freeze-backbone-epochs 1 \
+    --label-smoothing     0.1 \
+    --ema-decay           0.9995 \
+    --mixup-alpha         0.2 \
+    --mixup-prob          0.4 \
+    --cutmix-alpha        1.0 \
+    --cutmix-prob         0.2 \
+    --randaugment-magnitude 6 \
+    --max-cycles          60 \
+    --log-interval        20
+
+# ── footer ─────────────────────────────────────────────────────────────────────
+echo ""
+echo "============================================================"
+echo "Experiment stopped at : $(date +"%Y-%m-%d_%H-%M-%S")"
+echo "Output directory      : $OUTPUT_DIR"
+echo "To resume, re-submit this script (it detects existing checkpoints)."
+echo "============================================================"

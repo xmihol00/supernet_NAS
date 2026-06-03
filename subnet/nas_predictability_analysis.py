@@ -4,13 +4,14 @@ NAS Proxy Predictability Analysis.
 
 Reads results from full_dataset_experiment/ and generates plots and a
 statistical summary examining how well the NAS proxy metric
-(6-class IMX500 quantised accuracy) predicts full-dataset floating-point
-validation accuracy after stand-alone training.
+(IMX500 quantised accuracy on the evaluation subset) predicts full-dataset
+floating-point validation accuracy after stand-alone training.
 
 Usage:
     python subnet/nas_predictability_analysis.py \
-        --experiment-dir ./full_dataset_experiment \
-        --output-dir ./full_dataset_experiment/nas_predictability_analysis
+        --experiment-dir ./full_dataset_experiment/2026-05-31_cifar10 \
+        --output-dir     ./full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis \
+        --dataset-name   cifar10
 """
 
 from __future__ import annotations
@@ -28,6 +29,20 @@ import matplotlib.patches as mpatches
 import numpy as np
 from scipy import stats as scipy_stats
 
+
+# ── dataset-specific labels ──────────────────────────────────────────────────
+_DATASET_LABELS = {
+    "cifar10": {
+        "proxy_xlabel": "NAS proxy score — CIFAR-10 10-class IMX500 quantised top-1 (%)",
+        "full_ylabel":  "Full CIFAR-10 val top-1 accuracy (%)",
+        "proxy_short":  "CIFAR-10 NAS quantised acc (%)",
+    },
+    "imagenet": {
+        "proxy_xlabel": "NAS proxy score — 6-class ImageNet IMX500 quantised top-1 (%)",
+        "full_ylabel":  "Full ImageNet val top-1 accuracy (%)",
+        "proxy_short":  "ImageNet NAS quantised acc (%)",
+    },
+}
 
 # ── colours ──────────────────────────────────────────────────────────────────
 _CMAP = matplotlib.colormaps.get_cmap("tab20").resampled(20)
@@ -84,7 +99,9 @@ def load_data(exp_dir: Path) -> Tuple[List[dict], List[dict], List[dict]]:
 
 # ── plot 1: NAS score vs. best full-dataset accuracy ─────────────────────────
 
-def plot_nas_vs_full_acc(best_summary: List[dict], out_dir: Path) -> None:
+def plot_nas_vs_full_acc(best_summary: List[dict], out_dir: Path,
+                         proxy_xlabel: str = "NAS proxy score (%)",
+                         full_ylabel: str = "Full val top-1 accuracy (%)") -> None:
     nas  = np.array([r["nas_quant_acc1"] for r in best_summary])
     val  = np.array([r["best_val_acc1"]  for r in best_summary])
     ema  = np.array([r["best_ema_acc1"]  for r in best_summary])
@@ -116,8 +133,8 @@ def plot_nas_vs_full_acc(best_summary: List[dict], out_dir: Path) -> None:
             xs = np.linspace(nas.min(), nas.max(), 100)
             ax.plot(xs, m * xs + b, "k--", lw=1.4, alpha=0.55, label="OLS fit")
 
-        ax.set_xlabel("NAS proxy score — 6-class IMX500 quantised top-1 (%)", fontsize=11)
-        ax.set_ylabel("Full ImageNet val top-1 accuracy (%)", fontsize=11)
+        ax.set_xlabel(proxy_xlabel, fontsize=11)
+        ax.set_ylabel(full_ylabel, fontsize=11)
         ax.set_title(
             f"{title}\n"
             f"Spearman ρ={sr:.3f} ({_sig_label(sp)}) | Pearson r={pr:.3f} ({_sig_label(pp_v if ax is axes[0] else pp_e)})\n"
@@ -532,6 +549,8 @@ def parse_args() -> argparse.Namespace:
                     help="Path to full_dataset_experiment directory")
     ap.add_argument("--output-dir", default=None,
                     help="Output directory for plots/summary (default: <experiment-dir>/nas_predictability_analysis)")
+    ap.add_argument("--dataset-name", default="cifar10", choices=list(_DATASET_LABELS),
+                    help="Dataset name — controls axis labels (default: cifar10)")
     return ap.parse_args()
 
 
@@ -541,12 +560,17 @@ def main() -> None:
     out_dir = Path(args.output_dir) if args.output_dir else exp_dir / "nas_predictability_analysis"
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    labels = _DATASET_LABELS[args.dataset_name]
+    proxy_xlabel = labels["proxy_xlabel"]
+    full_ylabel  = labels["full_ylabel"]
+
     print(f"Loading data from {exp_dir}")
     arch_list, best_summary, stats_history = load_data(exp_dir)
     print(f"  {len(best_summary)} architectures, {len(stats_history)} cycles of stats")
 
     print("Generating plots…")
-    plot_nas_vs_full_acc(best_summary, out_dir)
+    plot_nas_vs_full_acc(best_summary, out_dir,
+                         proxy_xlabel=proxy_xlabel, full_ylabel=full_ylabel)
     print("  ✓ nas_vs_full_acc.png")
     plot_rank_comparison(best_summary, out_dir)
     print("  ✓ rank_comparison.png")

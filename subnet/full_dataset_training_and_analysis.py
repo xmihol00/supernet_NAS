@@ -3,16 +3,16 @@
 Full-dataset correlation experiment.
 
 Trains NAS-selected subnet architectures (initially from the supernet checkpoint)
-on the full ImageNet training set in a round-robin fashion — 1 epoch per architecture
-per cycle — and tests whether the 6-class NAS quantised accuracy (nas_quant_acc1)
-correlates with the 1000-class floating-point validation accuracy.
+on the full training dataset in a round-robin fashion — 1 epoch per architecture
+per cycle — and tests whether the NAS proxy accuracy (nas_quant_acc1) correlates
+with the floating-point validation accuracy on the full dataset.
 
-Usage:
+Usage (CIFAR-10 example):
     python full_dataset_training_and_analysis.py \\
         --architectures-json selected_architectures.json \\
-        --dataset-path /path/to/imagenet/train \\
-        --checkpoint /path/to/supernet/best.pt \\
-        --output-dir ./full_dataset_experiment
+        --dataset-name       cifar10 \\
+        --checkpoint         /path/to/supernet/best.pt \\
+        --output-dir         ./full_dataset_experiment/2026-05-31_cifar10
 
 Resume: re-run the exact same command.  Progress is recovered from per-arch
 checkpoints, cycle_progress.json, and metrics inside output-dir.
@@ -74,6 +74,8 @@ _DATASET_CONFIGS = {
         "std": [0.2023, 0.1994, 0.2010],
         "dataset_path": "/mnt/matylda5/xmihol00/datasets/cifar10/train",
         "resolution_candidates": (28, 32, 34),
+        "proxy_label": "NAS Quantised Accuracy — CIFAR-10 10-class IMX500 (%)",
+        "full_label": "Full CIFAR-10 Val Top-1 Acc (%)",
     },
     "imagenet": {
         "num_classes": 1000,
@@ -81,6 +83,8 @@ _DATASET_CONFIGS = {
         "std": [0.229, 0.224, 0.225],
         "dataset_path": "/mnt/matylda5/xmihol00/datasets/imagenet/train",
         "resolution_candidates": (192, 224, 256, 288),
+        "proxy_label": "NAS Quantised Accuracy — 6-class ImageNet subset (%)",
+        "full_label": "Full ImageNet Val Top-1 Acc (%)",
     },
 }
 
@@ -871,7 +875,9 @@ def _scatter_with_regression(ax, nas: List[float], acc: List[float],
 
 
 def plot_correlation_scatter(stats: CycleStats, arch_records: List[dict],
-                              out_path: Path) -> None:
+                              out_path: Path,
+                              proxy_label: str = "NAS Quantised Accuracy (%)",
+                              full_label: str = "Full Val Top-1 Acc (%)") -> None:
     """Three-panel scatter: val / EMA / best-so-far acc vs NAS acc."""
     nas  = [p["nas_quant_acc1"] for p in stats.per_arch]
     val  = [p["val_acc1"]       for p in stats.per_arch]
@@ -891,8 +897,8 @@ def plot_correlation_scatter(stats: CycleStats, arch_records: List[dict],
     ]:
         _scatter_with_regression(ax, nas, acc, idxs, title)
         ci_lo, ci_hi = ci
-        ax.set_xlabel("NAS Quantised Accuracy — 6-class subset (%)", fontsize=10)
-        ax.set_ylabel("Full ImageNet Val Top-1 Acc (%)", fontsize=10)
+        ax.set_xlabel(proxy_label, fontsize=10)
+        ax.set_ylabel(full_label, fontsize=10)
         ax.set_title(
             f"{title}\nSpearman ρ={sr:.3f} ({_sig_label(sp)}) | Pearson r={pr:.3f}\n"
             f"Bootstrap 95% CI: [{ci_lo:.3f}, {ci_hi:.3f}]",
@@ -1018,7 +1024,9 @@ def plot_accuracy_progress(arch_records: List[dict], all_stats: List[dict],
 
 
 def plot_best_acc_summary(arch_records: List[dict], all_stats: List[dict],
-                           out_path: Path) -> None:
+                           out_path: Path,
+                           proxy_label: str = "NAS Quantised Accuracy (%)",
+                           full_label: str = "Best Full Val Top-1 Acc achieved (%)") -> None:
     """Best val acc achieved per arch vs NAS acc (updated each cycle)."""
     if not all_stats:
         return
@@ -1031,8 +1039,8 @@ def plot_best_acc_summary(arch_records: List[dict], all_stats: List[dict],
     _scatter_with_regression(ax, nas, best, idxs, "best val")
     sr = last.get("spearman_r_best", float("nan"))
     sp = last.get("spearman_p_best", 1.0)
-    ax.set_xlabel("NAS Quantised Accuracy — 6-class subset (%)", fontsize=11)
-    ax.set_ylabel("Best Full ImageNet Val Top-1 Acc achieved (%)", fontsize=11)
+    ax.set_xlabel(proxy_label, fontsize=11)
+    ax.set_ylabel(full_label, fontsize=11)
     ax.set_title(
         f"NAS acc vs. Best val acc after {last['cycle']+1} cycles\n"
         f"Spearman ρ={sr:.3f} ({_sig_label(sp)})",
@@ -1152,6 +1160,8 @@ def main() -> None:
     _norm_mean = list(ds_cfg["mean"])
     _norm_std = list(ds_cfg["std"])
     args.resolution_candidates = tuple(ds_cfg["resolution_candidates"])
+    _proxy_label: str = str(ds_cfg["proxy_label"])
+    _full_label: str = str(ds_cfg["full_label"])
 
     # ── output structure ──────────────────────────────────────────────────────
     out_root   = Path(args.output_dir)
@@ -1192,7 +1202,12 @@ def main() -> None:
     with open(args.architectures_json) as f:
         arch_list: List[dict] = json.load(f)
     logger.info("Loaded %d architectures from %s", len(arch_list), args.architectures_json)
-    shutil.copy2(args.architectures_json, out_root / "selected_architectures.json")
+
+    if args.architectures_json != out_root / "selected_architectures.json":
+        try:
+            shutil.copy2(args.architectures_json, out_root / "selected_architectures.json")
+        except Exception as e:
+            logger.warning("Could not copy architectures JSON to output directory: %s", e)
 
     cfg_path = out_root / "experiment_config.json"
     if not cfg_path.exists():
@@ -1535,7 +1550,8 @@ def main() -> None:
         logger.info("Generating cycle %d plots…", current_cycle)
         try:
             plot_correlation_scatter(cs, stat_arch_records,
-                                     cdir / "correlation_scatter.png")
+                                     cdir / "correlation_scatter.png",
+                                     proxy_label=_proxy_label, full_label=_full_label)
             plot_rank_comparison(cs, cdir / "rank_comparison.png")
             plot_training_curves(stat_arch_records, histories,
                                  cdir / "training_curves.png")
@@ -1549,7 +1565,9 @@ def main() -> None:
             plot_accuracy_progress(stat_arch_records, all_cycle_stats,
                                    out_root / "accuracy_progress.png")
             plot_best_acc_summary(stat_arch_records, all_cycle_stats,
-                                  out_root / "best_acc_summary.png")
+                                  out_root / "best_acc_summary.png",
+                                  proxy_label=_proxy_label,
+                                  full_label=f"Best {_full_label}")
         except Exception as e:
             logger.warning("Rolling plot generation failed: %s", e)
 
