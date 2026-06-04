@@ -6,7 +6,7 @@
 **Platform:** Sony IMX500 edge AI sensor  
 **Repository:** `supernet_NAS`  
 **Analysis script:** [NAS/publication_analysis.py](NAS/publication_analysis.py)  
-**All plots:** [multi_run_parallel/publication_analysis/plots/](multi_run_parallel/publication_analysis/plots/)
+**All plots:** [multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/)
 
 ---
 
@@ -251,7 +251,7 @@ The same maximum accuracy (92.67%) was also reached in RegEvo run seed=1879. Amo
 }
 ```
 
-![Final accuracy distribution violin plots](multi_run_parallel/publication_analysis/plots/violin_best_quant_acc1.png)
+![Final accuracy distribution violin plots](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/violin_best_quant_acc1.png)
 
 ---
 
@@ -299,7 +299,7 @@ SGA:    Finds 91.33% architecture (seed=1394, gen=2)
 
 ### 8.1 Combined Convergence Curves
 
-![Combined convergence curves](multi_run_parallel/publication_analysis/plots/combined_convergence.png)
+![Combined convergence curves](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/combined_convergence.png)
 
 The shaded region shows ±1 standard deviation across independent runs. Key observations:
 
@@ -309,13 +309,13 @@ The shaded region shows ±1 standard deviation across independent runs. Key obse
 
 ### 8.2 Individual Run Trajectories
 
-![Individual run trajectories](multi_run_parallel/publication_analysis/plots/individual_run_trajectories.png)
+![Individual run trajectories](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/individual_run_trajectories.png)
 
 For SGA, convergence is **monotonically non-decreasing** due to elitism — once a better architecture is found, the population best never decreases. For RegEvo, the best-in-population can oscillate as high-fitness individuals age out and the population temporarily regresses.
 
 ### 8.3 SGA Population Mean Fitness Evolution
 
-![SGA population evolution](multi_run_parallel/publication_analysis/plots/sga_population_evolution.png)
+![SGA population evolution](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/sga_population_evolution.png)
 
 SGA's population mean fitness (computed over compiled candidates only) rises steadily from ~50% at generation 0 to ~87.5% by generation 24, reflecting the effect of elitism on the entire population distribution. The gap between population mean and population best narrows over generations, indicating convergence.
 
@@ -336,7 +336,7 @@ The table below shows, for each threshold, what fraction of runs reached it and 
 | ≥92.00% | 0/10 | 2/10 (20%), n/a | 0/9 |
 | ≥92.67% | 0/10 | 2/10 (20%), n/a | 0/9 |
 
-![Generations to threshold](multi_run_parallel/publication_analysis/plots/generations_to_threshold.png)
+![Generations to threshold](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/generations_to_threshold.png)
 
 RegEvo (final-pop) reaches the 90% threshold in all 10 runs but only 50% reach ≥90.67%. When measuring best-ever, RegEvo reaches ≥90.67% and ≥91.33% in all 10 runs (avg gen 7.6), compared to only 44% for SGA at those thresholds.
 
@@ -349,7 +349,7 @@ AUC measures the total accuracy accumulated across all generations (trapezoidal 
 | Baseline SGA | **86.69 ± 0.51%** | — | 85.88% | 87.41% |
 | Regularized Evolution | 85.45 ± 0.46% | — | 84.84% | 86.19% |
 
-![AUC comparison violin](multi_run_parallel/publication_analysis/plots/auc_comparison.png)
+![AUC comparison violin](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/auc_comparison.png)
 
 SGA achieves higher AUC, meaning its population accumulates better-quality solutions earlier in the search. This reflects SGA's elitism: the best solution found in early generations dominates the population for the rest of the search.
 
@@ -381,7 +381,7 @@ All p-values are Holm-Bonferroni corrected for 5 simultaneous comparisons. Effec
 | total_candidates_evaluated | Welch t | <0.0001 | **<0.0001** | d = −3.144 | **large** | ✓ | −9.28 [−11.73, −6.92] |
 | compiled_candidates | Welch t | 0.1063 | 0.2127 | d = −0.794 | medium | ✗ | −5.79 [−12.02, +0.49] |
 
-![Statistical summary plot](multi_run_parallel/publication_analysis/plots/statistical_summary.png)
+![Statistical summary plot](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/statistical_summary.png)
 
 ### 9.3 Key Statistical Interpretations
 
@@ -410,7 +410,7 @@ All runs used a single GPU. Search time is thus directly in GPU-hours.
 | Regularized Evolution | **17.28 ± 0.41** | — | 16.67 | 17.82 |
 | Baseline SGA | 18.93 ± 1.40 | — | 16.78 | 21.25 |
 
-![Search cost violin](multi_run_parallel/publication_analysis/plots/search_cost.png)
+![Search cost violin](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/search_cost.png)
 
 **Total search cost (all runs):** RegEvo 10 × 17.28 h ≈ **172.8 GPU-hours**; SGA 9 × 18.93 h ≈ **170.4 GPU-hours** (9 successful only). Both are within 2 GPU-hours of each other for successful runs.
 
@@ -423,7 +423,7 @@ Efficiency = (best_quant_acc1) / (total_candidates_evaluated) — higher means b
 | Regularized Evolution | 88.73 / 212.5 ≈ **0.418** |
 | Baseline SGA | 90.81 / 221.8 ≈ **0.409** |
 
-![Search efficiency scatter](multi_run_parallel/publication_analysis/plots/search_efficiency.png)
+![Search efficiency scatter](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/search_efficiency.png)
 
 The efficiency values are similar, with RegEvo slightly higher because it reaches 88.73% with fewer candidates. SGA's higher final accuracy is partly offset by evaluating ~4% more candidates per run.
 
@@ -452,11 +452,11 @@ Each candidate costs approximately 4.9–5.1 minutes of GPU time (3 training epo
 
 The difference is **not statistically significant** (Welch t, p=0.360). Both algorithms achieve >86% compile success in all runs, indicating the search space is predominantly IMX500-compatible.
 
-![Compile success rate violin](multi_run_parallel/publication_analysis/plots/violin_compile_success_rate.png)
+![Compile success rate violin](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/violin_compile_success_rate.png)
 
 ### 11.2 Compile Success vs. Accuracy Tradeoff
 
-![Compile vs accuracy scatter](multi_run_parallel/publication_analysis/plots/compile_vs_accuracy_annotated.png)
+![Compile vs accuracy scatter](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/compile_vs_accuracy_annotated.png)
 
 There is no clear correlation between compile success rate and final accuracy within either algorithm (runs with high compile success do not systematically achieve higher accuracy). This suggests the two objectives (hardware compatibility and accuracy) are largely independent in this search space.
 
@@ -466,16 +466,16 @@ There is no clear correlation between compile success rate and final accuracy wi
 
 ### 12.1 Resolution Distribution
 
-![Architecture resolution and stem width](multi_run_parallel/publication_analysis/plots/architecture_resolution_stem.png)
+![Architecture resolution and stem width](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/architecture_resolution_stem.png)
 
 - **SGA best architectures** prefer **256 px input resolution** (4/9 runs) but also use 192, 224, and 288.
 - **RegEvo best architectures** are more distributed across resolutions (288, 256, 224, 192) — consistent with RegEvo's broader exploration.
 
 ### 12.2 Stage Depth & Width Distributions
 
-![Stage depths](multi_run_parallel/publication_analysis/plots/architecture_stage_depths.png)
+![Stage depths](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/architecture_stage_depths.png)
 
-![Stage widths](multi_run_parallel/publication_analysis/plots/architecture_stage_widths.png)
+![Stage widths](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/architecture_stage_widths.png)
 
 **Observations:**
 
@@ -502,7 +502,7 @@ The one failed SGA run (seed=1879) exited with return code −6 (SIGABRT) after 
 
 ### 13.2 Overall Progress Timeline
 
-![Overall progress](multi_run_parallel/reg_evo_2026-04-11_21-26-13/visualizations/overall_progress.png)
+![Overall progress](multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/visualizations/overall_progress.png)
 
 The runs were executed sequentially (one per machine). All RegEvo runs completed successfully; the SGA failed run occurred at run index 7 (seed=1879) but the experiment continued (`--continue-on-failure` flag was set for the SGA run).
 
@@ -577,9 +577,9 @@ This study follows NAS publication conventions:
 
 | Artifact | Path |
 |----------|------|
-| RegEvo experiment | [multi_run_parallel/reg_evo_2026-04-11_21-26-13/](multi_run_parallel/reg_evo_2026-04-11_21-26-13/) |
-| SGA experiment | [multi_run_parallel/sga_2026-04-11_21-26-21/](multi_run_parallel/sga_2026-04-11_21-26-21/) |
-| Publication analysis output | [multi_run_parallel/publication_analysis/](multi_run_parallel/publication_analysis/) |
+| RegEvo experiment | [multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/](multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/) |
+| SGA experiment | [multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/](multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/) |
+| Publication analysis output | [multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/) |
 | Analysis script | [NAS/publication_analysis.py](NAS/publication_analysis.py) |
 
 ### 16.2 Key Reproducibility Files (per experiment)
@@ -622,8 +622,8 @@ Using the same seeds for both algorithms ensures that any run-level differences 
 ## 17. NAS Proxy Predictability — Full-Dataset Validation
 
 **Analysis script:** [subnet/nas_predictability_analysis.py](subnet/nas_predictability_analysis.py)  
-**Raw data:** [full_dataset_experiment/](full_dataset_experiment/)  
-**Plots:** [full_dataset_experiment/nas_predictability_analysis/](full_dataset_experiment/nas_predictability_analysis/)
+**Raw data:** [full_dataset_experiment/2026-04-11_imagenet/](full_dataset_experiment/2026-04-11_imagenet/)  
+**Plots:** [full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/)
 
 ---
 
@@ -677,9 +677,9 @@ The table below shows how each architecture's NAS-proxy rank maps to its full-da
 - **A0 (NAS rank 15, dead last at 59.33%)** achieves 64.08% full-dataset accuracy — comfortably above 6 architectures with higher NAS scores.
 - **A4 and A3** (NAS ranks 11 and 12) collectively hold the top-2 and top-3 full-dataset positions, neither of which the NAS proxy suggested as particularly strong.
 
-![Rank comparison](full_dataset_experiment/nas_predictability_analysis/rank_comparison.png)
+![Rank comparison](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/rank_comparison.png)
 
-![Rank matrix](full_dataset_experiment/nas_predictability_analysis/rank_matrix.png)
+![Rank matrix](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/rank_matrix.png)
 
 ---
 
@@ -712,9 +712,9 @@ The correlation did not improve over the course of training. Spearman ρ on the 
 
 > **Note:** The seemingly high Pearson r at cycle 0 (0.890, p<0.001) was driven by an artefact: Arch 0 had a catastrophically low validation accuracy of 6.18% after its first epoch (the backbone was frozen and only the randomly-initialised classifier was trained for epoch 0). Because Arch 0 also had the lowest NAS score, this single outlier point created a spuriously strong linear trend. Once all architectures had trained for more epochs, the Pearson r dropped to near 0.
 
-![Correlation evolution](full_dataset_experiment/nas_predictability_analysis/correlation_evolution.png)
+![Correlation evolution](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/correlation_evolution.png)
 
-![NAS vs. full accuracy scatter](full_dataset_experiment/nas_predictability_analysis/nas_vs_full_acc.png)
+![NAS vs. full accuracy scatter](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/nas_vs_full_acc.png)
 
 ---
 
@@ -736,7 +736,7 @@ At k=1 through k=3, the NAS proxy performs *below the random baseline*. At large
 
 The true top-3 architectures by full-dataset accuracy are A3 (NAS rank 12), A9 (NAS rank 6), and A4 (NAS rank 11). None of these would have been prioritised by the NAS proxy for dedicated full training.
 
-![Top-K recall](full_dataset_experiment/nas_predictability_analysis/topk_recall.png)
+![Top-K recall](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/topk_recall.png)
 
 ---
 
@@ -757,7 +757,7 @@ Architectures A9 and A10 received identical NAS proxy scores (85.33%), yet their
 
 The NAS score is evaluated on a 600-image, 6-class, INT8-quantised forward pass. Such a coarse signal cannot distinguish between two architectures that happen to produce identical results on this narrow proxy but differ substantially in their capacity to generalise to 1 000 classes with floating-point arithmetic.
 
-![Tied NAS score comparison](full_dataset_experiment/nas_predictability_analysis/tied_nas_score_comparison.png)
+![Tied NAS score comparison](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/tied_nas_score_comparison.png)
 
 ---
 
@@ -834,48 +834,48 @@ The NAS score is evaluated on a 600-image, 6-class, INT8-quantised forward pass.
 
 ## Appendix B: All Plots Index
 
-All plots are in [multi_run_parallel/publication_analysis/plots/](multi_run_parallel/publication_analysis/plots/). Per-algorithm plots from the original orchestrator are in [multi_run_parallel/reg_evo_2026-04-11_21-26-13/visualizations/](multi_run_parallel/reg_evo_2026-04-11_21-26-13/visualizations/) and [multi_run_parallel/sga_2026-04-11_21-26-21/visualizations/](multi_run_parallel/sga_2026-04-11_21-26-21/visualizations/).
+All plots are in [multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/). Per-algorithm plots from the original orchestrator are in [multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/visualizations/](multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/visualizations/) and [multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/visualizations/](multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/visualizations/).
 
 ### Publication Analysis Plots (new, combined)
 
 | Plot | File | Description |
 |------|------|-------------|
-| Combined convergence | [combined_convergence.png](multi_run_parallel/publication_analysis/plots/combined_convergence.png) | Mean ± 1σ best fitness per generation, both algorithms |
-| Individual trajectories | [individual_run_trajectories.png](multi_run_parallel/publication_analysis/plots/individual_run_trajectories.png) | All 10 run trajectories per algorithm + mean |
-| SGA population evolution | [sga_population_evolution.png](multi_run_parallel/publication_analysis/plots/sga_population_evolution.png) | SGA pop mean vs. best fitness per generation |
-| Final accuracy violin | [violin_best_quant_acc1.png](multi_run_parallel/publication_analysis/plots/violin_best_quant_acc1.png) | Distribution of final-population best accuracy |
-| Compile success rate violin | [violin_compile_success_rate.png](multi_run_parallel/publication_analysis/plots/violin_compile_success_rate.png) | Distribution of compile success rate |
-| Search time violin | [violin_elapsed_seconds.png](multi_run_parallel/publication_analysis/plots/violin_elapsed_seconds.png) | Distribution of search wall-clock time |
-| Candidates evaluated violin | [violin_total_candidates_evaluated.png](multi_run_parallel/publication_analysis/plots/violin_total_candidates_evaluated.png) | Distribution of candidates evaluated |
-| Generations to threshold | [generations_to_threshold.png](multi_run_parallel/publication_analysis/plots/generations_to_threshold.png) | Fraction of runs reaching accuracy thresholds |
-| Search efficiency | [search_efficiency.png](multi_run_parallel/publication_analysis/plots/search_efficiency.png) | Accuracy vs. candidates evaluated scatter |
-| AUC comparison | [auc_comparison.png](multi_run_parallel/publication_analysis/plots/auc_comparison.png) | Area under convergence curve comparison |
-| Compile vs accuracy | [compile_vs_accuracy_annotated.png](multi_run_parallel/publication_analysis/plots/compile_vs_accuracy_annotated.png) | Tradeoff scatter with seed labels |
-| Statistical summary | [statistical_summary.png](multi_run_parallel/publication_analysis/plots/statistical_summary.png) | p-values and effect sizes combined |
-| Search cost | [search_cost.png](multi_run_parallel/publication_analysis/plots/search_cost.png) | GPU-hours per run violin |
-| Architecture resolution/stem | [architecture_resolution_stem.png](multi_run_parallel/publication_analysis/plots/architecture_resolution_stem.png) | Best architecture resolution and stem width |
-| Stage depths | [architecture_stage_depths.png](multi_run_parallel/publication_analysis/plots/architecture_stage_depths.png) | Best architecture stage depths per stage |
-| Stage widths | [architecture_stage_widths.png](multi_run_parallel/publication_analysis/plots/architecture_stage_widths.png) | Best architecture stage widths per stage |
+| Combined convergence | [combined_convergence.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/combined_convergence.png) | Mean ± 1σ best fitness per generation, both algorithms |
+| Individual trajectories | [individual_run_trajectories.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/individual_run_trajectories.png) | All 10 run trajectories per algorithm + mean |
+| SGA population evolution | [sga_population_evolution.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/sga_population_evolution.png) | SGA pop mean vs. best fitness per generation |
+| Final accuracy violin | [violin_best_quant_acc1.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/violin_best_quant_acc1.png) | Distribution of final-population best accuracy |
+| Compile success rate violin | [violin_compile_success_rate.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/violin_compile_success_rate.png) | Distribution of compile success rate |
+| Search time violin | [violin_elapsed_seconds.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/violin_elapsed_seconds.png) | Distribution of search wall-clock time |
+| Candidates evaluated violin | [violin_total_candidates_evaluated.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/violin_total_candidates_evaluated.png) | Distribution of candidates evaluated |
+| Generations to threshold | [generations_to_threshold.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/generations_to_threshold.png) | Fraction of runs reaching accuracy thresholds |
+| Search efficiency | [search_efficiency.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/search_efficiency.png) | Accuracy vs. candidates evaluated scatter |
+| AUC comparison | [auc_comparison.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/auc_comparison.png) | Area under convergence curve comparison |
+| Compile vs accuracy | [compile_vs_accuracy_annotated.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/compile_vs_accuracy_annotated.png) | Tradeoff scatter with seed labels |
+| Statistical summary | [statistical_summary.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/statistical_summary.png) | p-values and effect sizes combined |
+| Search cost | [search_cost.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/search_cost.png) | GPU-hours per run violin |
+| Architecture resolution/stem | [architecture_resolution_stem.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/architecture_resolution_stem.png) | Best architecture resolution and stem width |
+| Stage depths | [architecture_stage_depths.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/architecture_stage_depths.png) | Best architecture stage depths per stage |
+| Stage widths | [architecture_stage_widths.png](multi_run_parallel/2026-04-11_imagenet/publication_analysis_2026-04-11/plots/architecture_stage_widths.png) | Best architecture stage widths per stage |
 
 ### Per-Algorithm Orchestrator Plots (RegEvo)
 
 | Plot | File |
 |------|------|
-| Convergence (RegEvo only) | [reg_evo_2026-04-11_21-26-13/visualizations/convergence_best_fitness.png](multi_run_parallel/reg_evo_2026-04-11_21-26-13/visualizations/convergence_best_fitness.png) |
-| Accuracy distribution | [reg_evo_2026-04-11_21-26-13/visualizations/distribution_best_quant_acc1.png](multi_run_parallel/reg_evo_2026-04-11_21-26-13/visualizations/distribution_best_quant_acc1.png) |
-| Compile success dist. | [reg_evo_2026-04-11_21-26-13/visualizations/distribution_compile_success_rate.png](multi_run_parallel/reg_evo_2026-04-11_21-26-13/visualizations/distribution_compile_success_rate.png) |
-| Run tradeoff scatter | [reg_evo_2026-04-11_21-26-13/visualizations/run_tradeoff_scatter.png](multi_run_parallel/reg_evo_2026-04-11_21-26-13/visualizations/run_tradeoff_scatter.png) |
-| Per-run live progress | [reg_evo_2026-04-11_21-26-13/visualizations/live/](multi_run_parallel/reg_evo_2026-04-11_21-26-13/visualizations/live/) |
+| Convergence (RegEvo only) | [reg_evo_2026-04-11_21-26-13/visualizations/convergence_best_fitness.png](multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/visualizations/convergence_best_fitness.png) |
+| Accuracy distribution | [reg_evo_2026-04-11_21-26-13/visualizations/distribution_best_quant_acc1.png](multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/visualizations/distribution_best_quant_acc1.png) |
+| Compile success dist. | [reg_evo_2026-04-11_21-26-13/visualizations/distribution_compile_success_rate.png](multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/visualizations/distribution_compile_success_rate.png) |
+| Run tradeoff scatter | [reg_evo_2026-04-11_21-26-13/visualizations/run_tradeoff_scatter.png](multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/visualizations/run_tradeoff_scatter.png) |
+| Per-run live progress | [reg_evo_2026-04-11_21-26-13/visualizations/live/](multi_run_parallel/2026-04-11_imagenet/reg_evo_2026-04-11_21-26-13/visualizations/live/) |
 
 ### Per-Algorithm Orchestrator Plots (SGA)
 
 | Plot | File |
 |------|------|
-| Convergence (SGA only) | [sga_2026-04-11_21-26-21/visualizations/convergence_best_fitness.png](multi_run_parallel/sga_2026-04-11_21-26-21/visualizations/convergence_best_fitness.png) |
-| Accuracy distribution | [sga_2026-04-11_21-26-21/visualizations/distribution_best_quant_acc1.png](multi_run_parallel/sga_2026-04-11_21-26-21/visualizations/distribution_best_quant_acc1.png) |
-| Compile success dist. | [sga_2026-04-11_21-26-21/visualizations/distribution_compile_success_rate.png](multi_run_parallel/sga_2026-04-11_21-26-21/visualizations/distribution_compile_success_rate.png) |
-| Run tradeoff scatter | [sga_2026-04-11_21-26-21/visualizations/run_tradeoff_scatter.png](multi_run_parallel/sga_2026-04-11_21-26-21/visualizations/run_tradeoff_scatter.png) |
-| Per-run live progress | [sga_2026-04-11_21-26-21/visualizations/live/](multi_run_parallel/sga_2026-04-11_21-26-21/visualizations/live/) |
+| Convergence (SGA only) | [sga_2026-04-11_21-26-21/visualizations/convergence_best_fitness.png](multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/visualizations/convergence_best_fitness.png) |
+| Accuracy distribution | [sga_2026-04-11_21-26-21/visualizations/distribution_best_quant_acc1.png](multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/visualizations/distribution_best_quant_acc1.png) |
+| Compile success dist. | [sga_2026-04-11_21-26-21/visualizations/distribution_compile_success_rate.png](multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/visualizations/distribution_compile_success_rate.png) |
+| Run tradeoff scatter | [sga_2026-04-11_21-26-21/visualizations/run_tradeoff_scatter.png](multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/visualizations/run_tradeoff_scatter.png) |
+| Per-run live progress | [sga_2026-04-11_21-26-21/visualizations/live/](multi_run_parallel/2026-04-11_imagenet/sga_2026-04-11_21-26-21/visualizations/live/) |
 
 ---
 
@@ -883,14 +883,14 @@ All plots are in [multi_run_parallel/publication_analysis/plots/](multi_run_para
 
 | Plot | File | Description |
 |------|------|-------------|
-| NAS vs. full accuracy | [nas_predictability_analysis/nas_vs_full_acc.png](full_dataset_experiment/nas_predictability_analysis/nas_vs_full_acc.png) | Scatter of NAS proxy score vs. best full-dataset val / EMA accuracy with OLS fit |
-| Rank comparison | [nas_predictability_analysis/rank_comparison.png](full_dataset_experiment/nas_predictability_analysis/rank_comparison.png) | Side-by-side bar chart: NAS rank vs. full-dataset rank per architecture |
-| Rank matrix | [nas_predictability_analysis/rank_matrix.png](full_dataset_experiment/nas_predictability_analysis/rank_matrix.png) | Scatter of NAS rank vs. full-dataset rank — points on diagonal = perfect prediction |
-| Correlation evolution | [nas_predictability_analysis/correlation_evolution.png](full_dataset_experiment/nas_predictability_analysis/correlation_evolution.png) | Spearman/Pearson/p-value/CI over training cycles |
-| Top-K recall | [nas_predictability_analysis/topk_recall.png](full_dataset_experiment/nas_predictability_analysis/topk_recall.png) | Fraction of true top-k architectures captured by NAS top-k selection |
-| Tied NAS score | [nas_predictability_analysis/tied_nas_score_comparison.png](full_dataset_experiment/nas_predictability_analysis/tied_nas_score_comparison.png) | A9 vs. A10: identical NAS score, 9 pp full-accuracy gap |
-| Text summary | [nas_predictability_analysis/summary.txt](full_dataset_experiment/nas_predictability_analysis/summary.txt) | Full numerical summary of all metrics |
+| NAS vs. full accuracy | [nas_predictability_analysis/nas_vs_full_acc.png](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/nas_vs_full_acc.png) | Scatter of NAS proxy score vs. best full-dataset val / EMA accuracy with OLS fit |
+| Rank comparison | [nas_predictability_analysis/rank_comparison.png](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/rank_comparison.png) | Side-by-side bar chart: NAS rank vs. full-dataset rank per architecture |
+| Rank matrix | [nas_predictability_analysis/rank_matrix.png](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/rank_matrix.png) | Scatter of NAS rank vs. full-dataset rank — points on diagonal = perfect prediction |
+| Correlation evolution | [nas_predictability_analysis/correlation_evolution.png](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/correlation_evolution.png) | Spearman/Pearson/p-value/CI over training cycles |
+| Top-K recall | [nas_predictability_analysis/topk_recall.png](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/topk_recall.png) | Fraction of true top-k architectures captured by NAS top-k selection |
+| Tied NAS score | [nas_predictability_analysis/tied_nas_score_comparison.png](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/tied_nas_score_comparison.png) | A9 vs. A10: identical NAS score, 9 pp full-accuracy gap |
+| Text summary | [nas_predictability_analysis/summary.txt](full_dataset_experiment/2026-04-11_imagenet/nas_predictability_analysis/summary.txt) | Full numerical summary of all metrics |
 
 ---
 
-*Generated: 2026-04-20 (NAS search) / 2026-04-26 (Section 17 full-dataset analysis) | Analysis: NAS/publication_analysis.py, subnet/nas_predictability_analysis.py | Raw data: multi_run_parallel/, full_dataset_experiment/*
+*Generated: 2026-04-20 (NAS search) / 2026-04-26 (Section 17 full-dataset analysis) | Analysis: NAS/publication_analysis.py, subnet/nas_predictability_analysis.py | Raw data: multi_run_parallel/2026-04-11_imagenet/, full_dataset_experiment/2026-04-11_imagenet/*
