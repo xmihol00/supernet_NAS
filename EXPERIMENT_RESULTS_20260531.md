@@ -28,8 +28,9 @@
 14. [Comparison with ImageNet Experiment & NAS Literature](#14-comparison-with-imagenet-experiment--nas-literature)
 15. [Conclusions](#15-conclusions)
 16. [Reproducibility & Artifacts](#16-reproducibility--artifacts)
-17. [Appendix A: Per-Run Results Table](#appendix-a-per-run-results-table)
-18. [Appendix B: All Plots Index](#appendix-b-all-plots-index)
+17. [NAS Proxy Predictability — Full-Dataset Validation](#17-nas-proxy-predictability--full-dataset-validation)
+18. [Appendix A: Per-Run Results Table](#appendix-a-per-run-results-table)
+19. [Appendix B: All Plots Index](#appendix-b-all-plots-index)
 
 ---
 
@@ -682,6 +683,213 @@ Using the same seeds for both algorithms ensures that any run-level differences 
 
 ---
 
+## 17. NAS Proxy Predictability — Full-Dataset Validation
+
+**Analysis script:** [subnet/nas_predictability_analysis.py](subnet/nas_predictability_analysis.py)  
+**Raw data:** [full_dataset_experiment/2026-05-31_cifar10/](full_dataset_experiment/2026-05-31_cifar10/)  
+**Plots:** [full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/)
+
+---
+
+### 17.1 Experimental Setup
+
+To assess whether the CIFAR-10 NAS proxy metric predicts full-dataset classification performance, 15 representative architectures spanning the NAS score distribution (NAS scores 10.00%–85.50%) were selected and trained independently on the full CIFAR-10 training set.
+
+| Parameter | Value |
+|-----------|-------|
+| Architectures evaluated | 15 (NAS scores 10.00%–85.50%) |
+| Training dataset | CIFAR-10 (full training set) |
+| Train / val split | 85% / 15% (random, reproducible, seed=1) |
+| Epochs per architecture | 160 |
+| Batch size | 512 |
+| Optimiser | SGD (lr=0.05, momentum=0.9, cosine restart, warmup 1 epoch) |
+| LR schedule | Cosine annealing with warm restarts (period=10 epochs) |
+| Augmentation | RandAugment (magnitude=6), Mixup (α=0.2, p=0.4), CutMix (α=1.0, p=0.2) |
+| EMA decay | 0.9995 |
+| Backbone freeze | 1 epoch (classifier head pre-training) |
+| Gradient clip | 1.0 |
+| AMP | True (mixed precision) |
+| Script | [subnet/full_dataset_training_and_analysis.py](subnet/full_dataset_training_and_analysis.py) |
+
+**Note on training depth:** 160 epochs per architecture is substantially more thorough than the ImageNet experiment (5 epochs). This enables more reliable final performance estimates but means early-epoch correlations are less informative.
+
+---
+
+### 17.2 Critical Outlier: Architecture A0
+
+Architecture **A0** is the dominant feature of this analysis and must be understood first:
+
+| Property | A0 | Typical NAS-space arch |
+|----------|----|-----------------------|
+| NAS proxy score | **10.00%** (random chance) | 63–85% |
+| Full-dataset val accuracy (160 ep) | **95.80%** (best of all 15) | 92–94% |
+| Resolution | **256 px** | 28–34 px |
+| Stem / depths / widths | 32, [2,2,4,2], [64,128,224,224] | various |
+
+A0 has resolution=256 — **outside the CIFAR-10 NAS search space** (candidates: 28, 32, 34). It was included as an out-of-distribution comparison point (likely the best architecture from the ImageNet NAS search). Its NAS proxy score of 10% (random chance on 10 classes) reflects a catastrophic evaluation failure:
+
+1. **The supernet's inherited weights were not trained for CIFAR-10 at 256px.** The CIFAR-10 NAS proxy runs 10 epochs of fold-based training with the supernet as initialisation. For resolution=256, the supernet inherited weights are far from optimal for tiny CIFAR-10 images upsampled to 256×256.
+2. **IMX500 PTQ at 256px likely destroyed quantisation accuracy** for CIFAR-10 calibration images (50 images from CIFAR-10 resolution).
+
+After 160 epochs of full stand-alone training with proper augmentation, A0 learns to efficiently classify CIFAR-10 at 256px, achieving 95.80% — the highest of all 15 architectures. This demonstrates that the NAS proxy is **unreliable for OOD architectures** but is not evidence that A0's architecture is inherently poor.
+
+---
+
+### 17.3 Architecture Rankings: NAS vs. Full-Dataset
+
+| Arch | NAS score (%) | NAS rank | Full val (%) | Full rank | Rank shift |
+|------|--------------|----------|-------------|-----------|------------|
+| A14  | 85.50        | 1        | 94.37       | 3         | +2         |
+| A13  | 81.25        | 2        | 94.03       | 11        | +9         |
+| A12  | 80.25        | 3        | 94.04       | 10        | +7         |
+| A11  | 79.75        | 4        | 94.09       | 7         | +3         |
+| A10  | 79.00        | 5        | 94.21       | 5         | 0          |
+| A9   | 78.50        | 6        | 94.43       | **2**     | **−4**     |
+| A8   | 78.00        | 7        | 94.05       | 9         | +2         |
+| A7   | 77.25        | 8        | 94.09       | 8         | 0          |
+| A6   | 76.50        | 9        | 94.12       | 6         | −3         |
+| A5   | 75.50        | 10       | 94.23       | 4         | **−6**     |
+| A4   | 74.00        | 11       | 93.46       | 13        | +2         |
+| A3   | 71.50        | 12       | 93.73       | 12        | 0          |
+| A2   | 68.25        | 13       | 92.79       | 14        | +1         |
+| A1   | 63.50        | 14       | 92.46       | 15        | +1         |
+| A0   | **10.00**    | **15**   | **95.80**   | **1**     | **−14**    |
+
+**Notable observations:**
+
+- **A0 (NAS rank 15, score=10%) achieves the best full-dataset accuracy** at 95.80%, a 1.43 pp margin over the next-best (A9 at 94.43%). Its −14 rank shift is by far the largest in either direction.
+- **A9 (NAS rank 6) outperforms the NAS best (A14) by 0.06 pp** and achieves the second-best full accuracy.
+- **A13 and A12 (NAS ranks 2 and 3) are the most overestimated** by the proxy: both score well in NAS but rank 11th and 10th in full training.
+- **Within the NAS search space (A1–A14, excluding A0):** architectures generally cluster in the 92–94.5% range, with rank shifts mostly ≤±9. The NAS proxy shows moderate monotonic agreement in this subspace (see §17.4).
+
+![Rank comparison](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/rank_comparison.png)
+
+![Rank matrix](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/rank_matrix.png)
+
+---
+
+### 17.4 Correlation Analysis
+
+Spearman rank correlation, Pearson linear correlation, and Kendall τ were computed between the NAS proxy score and the best full-dataset validation accuracy achieved after 160 epochs. Bootstrap confidence intervals (5,000 resamples) were computed for the Spearman ρ.
+
+#### All 15 architectures (including A0)
+
+| Metric | NAS ↔ Best val |
+|--------|---------------|
+| Spearman ρ | 0.268 |
+| Spearman p-value | 0.334 (n.s.) |
+| Pearson r | **−0.435** |
+| Pearson p-value | 0.105 (n.s.) |
+| Kendall τ | 0.181 |
+| Kendall p-value | 0.380 (n.s.) |
+| Bootstrap 95% CI (Spearman) | [−0.424, 0.833] |
+
+**Pearson r is negative** (−0.435) due to A0: the single point with the lowest NAS score (10%) and the highest full accuracy (95.80%) creates a strong negative linear trend that dominates the Pearson statistic. All correlation metrics are non-significant, and the bootstrap CI spans nearly the entire [−1, +1] range, indicating near-complete uncertainty.
+
+#### 14 in-distribution architectures (excluding A0)
+
+| Metric | NAS ↔ Best val |
+|--------|---------------|
+| Spearman ρ | **0.560** |
+| Spearman p-value | **0.037 (\*)** |
+| Pearson r | **0.885** |
+| Pearson p-value | **<0.001 (\*\*\*)** |
+
+When A0 is excluded, the picture changes dramatically. The Spearman rank correlation becomes statistically significant (p=0.037) and the Pearson correlation is very strong (r=0.885, p<0.001). This indicates that **within the CIFAR-10 NAS search space (resolutions 28–34 px), the NAS proxy is a meaningful predictor of full-dataset performance** — a qualitatively different finding from the ImageNet experiment, where the in-distribution proxy remained non-significant.
+
+This contrast between the two experiments likely reflects:
+1. **More training epochs (160 vs 5):** Longer training resolves the noise in early-epoch architecture rankings that dominated the ImageNet correlation analysis.
+2. **More architectures per evaluation step:** CIFAR-10's broader score spread (63–85% for in-distribution architectures) provides better dynamic range for the proxy metric to discriminate.
+3. **CIFAR-10's simpler visual statistics** may make the supernet-weighted NAS evaluation a more consistent predictor.
+
+![NAS vs. full accuracy scatter](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/nas_vs_full_acc.png)
+
+---
+
+### 17.5 Correlation Evolution Over Training
+
+Correlations were tracked at every epoch from 1 to 160. The best-val Spearman ρ (cumulative best accuracy) fluctuates between 0.18 and 0.45 for most of the training, with occasional peaks above 0.5. It never reaches significance except transiently.
+
+| Cycle | Spearman ρ (current val) | p | Spearman ρ (best val) | p |
+|-------|--------------------------|---|----------------------|---|
+| 0     | −0.082 | 0.771 | −0.082 | 0.771 |
+| 10    | 0.311 | 0.260 | 0.311 | 0.260 |
+| 30    | 0.289 | 0.296 | 0.289 | 0.296 |
+| 60    | 0.275 | 0.321 | 0.275 | 0.321 |
+| 100   | 0.375 | 0.168 | 0.389 | 0.152 |
+| 159   | 0.343 | 0.211 | 0.268 | 0.334 |
+
+**EMA correlation at cycle 0:** Spearman ρ = 0.889 (p < 0.001). This spuriously high early EMA correlation is driven by A0 having random EMA accuracy (~12%) at epoch 1 while also having the lowest NAS score — creating an artificial positive linear trend in EMA space that collapses as training progresses. This is the same artefact observed in the ImageNet experiment.
+
+![Correlation evolution](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/correlation_evolution.png)
+
+---
+
+### 17.6 Top-K Selection Fidelity
+
+| k | Top-k recall | Random baseline | Architectures captured |
+|---|-------------|-----------------|------------------------|
+| 1 | **0%**  | 6.7%  | 0/1 — NAS best (A14) is not the full-dataset best (A0) |
+| 2 | **0%**  | 13.3% | 0/2 |
+| 3 | **33%** | 20.0% | 1/3 — A14 is in the NAS top-3 and the full-dataset top-3 |
+| 4 | **25%** | 26.7% | 1/4 |
+| 5 | **40%** | 33.3% | 2/5 |
+| 6 | **50%** | 40.0% | 3/6 |
+| 7 | **57%** | 46.7% | 4/7 |
+
+At k=1 and k=2, the NAS proxy performs below random. A14 (the NAS top-ranked architecture) finishes 3rd overall in full training — it is a strong architecture, but it is beaten by both A0 (OOD) and A9. If A0 is treated as a special case (OOD architecture, not a fair comparison), then NAS top-1 recall among the 14 in-distribution architectures is 0/1 (A9 wins, NAS rank 6).
+
+![Top-K recall](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/topk_recall.png)
+
+---
+
+### 17.7 Discussion
+
+**Why does the proxy partially work within the search space?**
+
+1. **Adequate training signal.** CIFAR-10 NAS evaluation uses 10 epochs × 10% data. Although short, this is sufficient to rank architectures that differ by 5–25% NAS score. The proxy discriminates well between low-end (63–71%) and high-end (79–85%) architectures.
+
+2. **Consistent evaluation conditions.** All 14 in-distribution architectures use the same CIFAR-10 resolution candidates (28, 32, 34). The PTQ calibration images and supernet weights are well-adapted to this input domain.
+
+3. **Sufficient accuracy range.** The 22% NAS score spread (63–85%) across 14 architectures provides enough dynamic range for Spearman rank correlation to emerge.
+
+**Why does the proxy fail for A0?**
+
+A0 has resolution=256, which is 7–9× the CIFAR-10 native resolution (32px). The supernet was pre-trained on ImageNet-scale inputs; its weights at resolution=256 are reasonable for ImageNet but poorly suited for tiny 32×32 images upsampled to 256px. The 10-epoch fold-based NAS training cannot overcome this initialisation mismatch in the time available. After 160 epochs of stand-alone training with proper augmentation, the model learns CIFAR-10 features effectively at 256px — but the NAS proxy never had a chance to capture this potential.
+
+**Practical implications:**
+
+- The NAS proxy is a **useful ranking signal within the intended search space** (resolutions 28–34). Selecting the top-k% architectures by NAS score and doing short full-training validation is a reasonable screening strategy.
+- **OOD architectures with very different resolutions should not be evaluated using the same NAS proxy.** Their proxy score is not comparable and will be systematically underestimated.
+- Even within the search space, the proxy does not identify the top-1 architecture with certainty. A9 (NAS rank 6) outperforms A14 (NAS rank 1) after full training. A multi-stage strategy (NAS screening → short full-training of top candidates) is recommended.
+
+---
+
+### 17.8 Comparison with ImageNet Proxy Predictability
+
+| Property | ImageNet 6-class | CIFAR-10 |
+|----------|-----------------|---------|
+| In-distribution Spearman ρ | 0.084 (n.s.) | **0.560 (p=0.037)** |
+| In-distribution Pearson r | 0.095 (n.s.) | **0.885 (p<0.001)** |
+| Full-training epochs per arch | 5 | **160** |
+| NAS score range | 59–93% | 63–85% (excl. A0) |
+| OOD outlier | none | A0 (resolution=256, NAS=10%) |
+| NAS top-1 identifies best arch | No (A14 rank 7) | No (A14 rank 3, beaten by A0) |
+| NAS top-1 within search space | No (A14 rank 7) | No (A14 rank 2 beaten by A9) |
+
+The most important difference: **the CIFAR-10 proxy is significantly predictive within its search space, while the ImageNet proxy is not.** The 160-epoch full training in the CIFAR-10 experiment resolves true architecture quality differences that the 5-epoch ImageNet training could not. Both experiments agree that a single NAS top-1 selection strategy is unreliable, and that a screening-plus-validation pipeline is preferable.
+
+---
+
+### 17.9 Limitations
+
+- The validation set is a random 15% split of the CIFAR-10 *training* directory, not the official CIFAR-10 test set (10,000 images). Absolute accuracy numbers are not comparable to published benchmarks.
+- With N=15 architectures, all correlation estimates carry wide uncertainty (the bootstrap 95% CI for Spearman ρ spans from −0.42 to +0.83 for the full 15-architecture analysis).
+- A0 is a single OOD architecture. Its high accuracy after 160 epochs could reflect characteristics of that specific architecture (e.g., larger receptive field, more parameters) or of the training procedure (longer training with aggressive augmentation). More OOD architectures would be needed to generalise the OOD failure mode.
+- The in-distribution correlation (ρ=0.56, p=0.037) is marginal with N=14. It would require more architectures to be confirmed at high confidence.
+
+---
+
 ## Appendix A: Per-Run Results Table
 
 ### Regularized Evolution (all 10 runs)
@@ -767,6 +975,17 @@ All plots are in [multi_run_parallel/2026-05-31_cifar10/publication_analysis_202
 | Run tradeoff scatter | [sga_2026-05-31_11-25-16/visualizations/run_tradeoff_scatter.png](multi_run_parallel/2026-05-31_cifar10/sga_2026-05-31_11-25-16/visualizations/run_tradeoff_scatter.png) |
 | Per-run live progress | [sga_2026-05-31_11-25-16/visualizations/live/](multi_run_parallel/2026-05-31_cifar10/sga_2026-05-31_11-25-16/visualizations/live/) |
 
+### NAS Proxy Predictability Plots (Section 17)
+
+| Plot | File | Description |
+|------|------|-------------|
+| NAS vs. full accuracy | [nas_vs_full_acc.png](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/nas_vs_full_acc.png) | Scatter of NAS proxy score vs. best full-dataset val / EMA accuracy with OLS fit |
+| Rank comparison | [rank_comparison.png](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/rank_comparison.png) | Side-by-side bar chart: NAS rank vs. full-dataset rank per architecture |
+| Rank matrix | [rank_matrix.png](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/rank_matrix.png) | Scatter of NAS rank vs. full-dataset rank — points on diagonal = perfect prediction |
+| Correlation evolution | [correlation_evolution.png](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/correlation_evolution.png) | Spearman/Pearson/p-value/CI over 160 training epochs |
+| Top-K recall | [topk_recall.png](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/topk_recall.png) | Fraction of true top-k architectures captured by NAS top-k selection |
+| Text summary | [summary.txt](full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis/summary.txt) | Full numerical summary of all metrics |
+
 ---
 
-*Generated: 2026-06-04 | Analysis: NAS/publication_analysis.py | Raw data: multi_run_parallel/2026-05-31_cifar10/*
+*Generated: 2026-06-04 (NAS search) / 2026-06-04 (Section 17 full-dataset analysis) | Analysis: NAS/publication_analysis.py, subnet/nas_predictability_analysis.py | Raw data: multi_run_parallel/2026-05-31_cifar10/, full_dataset_experiment/2026-05-31_cifar10/*
