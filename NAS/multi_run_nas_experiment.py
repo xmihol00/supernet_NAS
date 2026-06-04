@@ -34,8 +34,8 @@ _DATASET_CONFIGS: Dict[str, Dict[str, Any]] = {
         "train_batch_size": 256,
         "eval_batch_size": 200,
         "images_per_class_eval": 40,
-        "epochs_per_candidate": 10,
-        "n_folds": 10,
+        "epochs_per_candidate": 50,
+        "n_folds": 50,
         "train_fold_fraction": 0.1,
     },
     "imagenet": {

@@ -213,14 +213,22 @@ def create_fold_loaders(
     max_resolution: int,
     mean=None,
     std=None,
-    n_folds: int = 5,
+    n_folds: int = 50,
     fold_fraction: float = 0.1,
     seed: int = 42,
 ) -> List[DataLoader]:
     """Create n_folds DataLoaders, each containing fold_fraction of the training data.
 
-    Folds are non-overlapping, stratified by class, and determined solely by
-    `seed` — so every subnet sees the exact same folds in the same order.
+    For each class the samples are tiled using independently-shuffled repetitions
+    (each repetition's seed is derived from ``seed``, the class index, and the
+    repetition counter).  Fold i takes items ``[i*fold_size : (i+1)*fold_size]``
+    from the tiled sequence, guaranteeing:
+
+    * **All data is used**: every sample appears in at least one fold when
+      ``n_folds * fold_fraction >= 1``.
+    * **No two folds are identical**: independently-shuffled repetitions ensure
+      each fold's sample set is unique.
+    * **Deterministic**: the same ``seed`` always produces the same folds.
     """
     _mean = mean if mean is not None else _DATASET_CONFIGS["cifar10"]["mean"]
     _std = std if std is not None else _DATASET_CONFIGS["cifar10"]["std"]
@@ -236,27 +244,25 @@ def create_fold_loaders(
 
     all_samples = collect_samples(dataset_root, class_names, images_per_class)
 
-    # Stratified split: shuffle within each class with a fixed seed, then
-    # slice non-overlapping folds of size fold_fraction.
-    rng = random.Random(seed)
     by_class: Dict[int, List[Tuple[str, int]]] = {}
     for path, label in all_samples:
         by_class.setdefault(label, []).append((path, label))
-    for cls_samples in by_class.values():
-        rng.shuffle(cls_samples)
 
     fold_samples: List[List[Tuple[str, int]]] = [[] for _ in range(n_folds)]
-    for cls_samples in by_class.values():
+    for cls_idx, cls_samples in enumerate(by_class.values()):
         fold_size = max(1, int(len(cls_samples) * fold_fraction))
-        n = len(cls_samples)
+        total_needed = n_folds * fold_size
+
+        tiled: List[Tuple[str, int]] = []
+        rep = 0
+        while len(tiled) < total_needed:
+            copy = list(cls_samples)
+            random.Random(seed + cls_idx + rep * 100003).shuffle(copy)
+            tiled.extend(copy)
+            rep += 1
+
         for i in range(n_folds):
-            start = (i * fold_size) % n
-            end = start + fold_size
-            if end <= n:
-                fold_samples[i].extend(cls_samples[start:end])
-            else:
-                fold_samples[i].extend(cls_samples[start:])
-                fold_samples[i].extend(cls_samples[:end - n])
+            fold_samples[i].extend(tiled[i * fold_size : (i + 1) * fold_size])
 
     loaders = []
     for fsamp in fold_samples:
@@ -268,7 +274,7 @@ def create_fold_loaders(
             num_workers=num_workers,
             pin_memory=True,
             drop_last=False,
-            persistent_workers=num_workers > 0,
+            persistent_workers=False,
         ))
     return loaders
 

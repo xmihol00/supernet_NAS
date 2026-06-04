@@ -1,6 +1,6 @@
 # IMX500-Oriented Supernet for Image Classification
 
-This directory contains a **single-GPU**, easy-to-read implementation of a dynamic supernet inspired by AlphaNet/AttentiveNAS ideas, but tailored for your thesis objective:
+This directory contains a **single-GPU**, easy-to-read implementation of a dynamic supernet inspired by AlphaNet/AttentiveNAS ideas, tailored to the following objective:
 
 - search candidate subnets around the **IMX500 memory envelope** (about **8,388,480 B total**),
 - train one shared supernet once,

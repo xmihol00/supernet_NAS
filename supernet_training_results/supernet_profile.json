@@ -1,0 +1,111 @@
+{
+  "max_subnet": {
+    "config": {
+      "resolution": 256,
+      "stem_width": 40,
+      "stage_depths": [
+        3,
+        4,
+        5,
+        3
+      ],
+      "stage_widths": [
+        64,
+        128,
+        224,
+        288
+      ]
+    },
+    "resource_estimate": {
+      "params": 10354928,
+      "weights_bytes": 10354928,
+      "peak_activation_bytes": 1048576,
+      "working_memory_bytes": 2097152,
+      "firmware_bytes": 1572864,
+      "total_estimated_bytes": 14024944
+    }
+  },
+  "min_subnet": {
+    "config": {
+      "resolution": 192,
+      "stem_width": 24,
+      "stage_depths": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "stage_widths": [
+        48,
+        96,
+        160,
+        224
+      ]
+    },
+    "resource_estimate": {
+      "params": 1584128,
+      "weights_bytes": 1584128,
+      "peak_activation_bytes": 442368,
+      "working_memory_bytes": 884736,
+      "firmware_bytes": 1572864,
+      "total_estimated_bytes": 4041728
+    }
+  },
+  "candidates": {
+    "resolution": [
+      192,
+      224,
+      256
+    ],
+    "stem_width": [
+      24,
+      32,
+      40
+    ],
+    "stage_depths": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        1,
+        2,
+        3,
+        4
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      [
+        1,
+        2,
+        3
+      ]
+    ],
+    "stage_widths": [
+      [
+        48,
+        64
+      ],
+      [
+        96,
+        128
+      ],
+      [
+        160,
+        192,
+        224
+      ],
+      [
+        224,
+        256,
+        288
+      ]
+    ]
+  }
+}

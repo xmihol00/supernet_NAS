@@ -1,0 +1,273 @@
+2026-04-02 20:03:01,139 | INFO | Training configuration: {"amp": true, "batch_size": 96, "dataset_path": "/mnt/matylda5/xmihol00/datasets/imagenet/train", "device": "cuda", "epochs": 120, "firmware_bytes": 1572864, "grad_clip": 1.0, "inplace_distill": true, "label_smoothing": 0.1, "lr": 0.1, "momentum": 0.9, "num_arch_training": 3, "num_classes": 1000, "num_workers": 8, "output_dir": "./runs_imx500_supernet", "sandwich_rule": true, "save_every": 25, "seed": 42, "target_tolerance_ratio": 0.25, "target_total_bytes": 8388480, "val_split": 0.15, "warmup_epochs": 5, "weight_decay": 5e-05, "working_memory_factor": 2.0}
+2026-04-02 20:03:01,140 | INFO | Using device: cuda
+2026-04-02 20:03:01,140 | INFO | Train samples=1131492 | Val samples=199675
+2026-04-02 20:03:01,225 | INFO | Wrote supernet profile: runs_imx500_supernet/20260402_200233/supernet_profile.json
+2026-04-02 22:00:38,011 | INFO | epoch=0 train loss=6.23520 acc1=4.395 acc5=12.753
+2026-04-02 22:24:35,832 | INFO | epoch=0 val mode=max loss=11.55581 acc1=0.904 acc5=3.087 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-02 22:46:35,799 | INFO | epoch=0 val mode=min loss=6.99447 acc1=0.320 acc5=1.030 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-02 22:46:36,723 | INFO | Saved new best checkpoint (acc1=0.904)
+2026-04-03 00:43:20,069 | INFO | epoch=1 train loss=4.96161 acc1=18.624 acc5=40.568
+2026-04-03 01:05:37,187 | INFO | epoch=1 val mode=max loss=8.98041 acc1=3.363 acc5=11.981 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 01:27:21,030 | INFO | epoch=1 val mode=min loss=7.29246 acc1=0.215 acc5=0.857 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 01:27:21,529 | INFO | Saved new best checkpoint (acc1=3.363)
+2026-04-03 03:21:23,760 | INFO | epoch=2 train loss=4.34080 acc1=29.619 acc5=55.215
+2026-04-03 03:43:16,647 | INFO | epoch=2 val mode=max loss=5.72740 acc1=9.385 acc5=24.135 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 04:05:05,651 | INFO | epoch=2 val mode=min loss=6.90538 acc1=0.412 acc5=2.023 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 04:05:06,360 | INFO | Saved new best checkpoint (acc1=9.385)
+2026-04-03 05:55:05,681 | INFO | epoch=3 train loss=4.05020 acc1=37.007 acc5=63.291
+2026-04-03 06:17:00,968 | INFO | epoch=3 val mode=max loss=4.05178 acc1=30.267 acc5=56.708 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 06:38:45,083 | INFO | epoch=3 val mode=min loss=5.56371 acc1=7.526 acc5=21.320 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 06:38:45,456 | INFO | Saved new best checkpoint (acc1=30.267)
+2026-04-03 08:27:52,172 | INFO | epoch=4 train loss=3.90751 acc1=40.857 acc5=67.096
+2026-04-03 08:49:45,073 | INFO | epoch=4 val mode=max loss=3.50453 acc1=39.780 acc5=66.844 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 09:11:32,416 | INFO | epoch=4 val mode=min loss=4.54237 acc1=19.830 acc5=43.404 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 09:11:32,880 | INFO | Saved new best checkpoint (acc1=39.780)
+2026-04-03 11:00:43,530 | INFO | epoch=5 train loss=3.81711 acc1=43.290 acc5=69.366
+2026-04-03 11:22:30,987 | INFO | epoch=5 val mode=max loss=3.43401 acc1=42.483 acc5=69.263 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 11:44:20,957 | INFO | epoch=5 val mode=min loss=4.48875 acc1=21.605 acc5=45.372 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 11:44:21,327 | INFO | Saved new best checkpoint (acc1=42.483)
+2026-04-03 13:33:24,580 | INFO | epoch=6 train loss=3.74007 acc1=45.444 acc5=71.273
+2026-04-03 13:55:16,366 | INFO | epoch=6 val mode=max loss=3.57328 acc1=39.661 acc5=66.308 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 14:17:02,490 | INFO | epoch=6 val mode=min loss=4.03180 acc1=30.299 acc5=55.861 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 16:06:06,915 | INFO | epoch=7 train loss=3.69797 acc1=46.693 acc5=72.395
+2026-04-03 16:28:00,896 | INFO | epoch=7 val mode=max loss=3.33892 acc1=44.153 acc5=70.810 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 16:49:56,086 | INFO | epoch=7 val mode=min loss=4.14174 acc1=28.152 acc5=53.414 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 16:49:56,699 | INFO | Saved new best checkpoint (acc1=44.153)
+2026-04-03 18:39:26,976 | INFO | epoch=8 train loss=3.67224 acc1=47.556 acc5=73.147
+2026-04-03 19:01:15,559 | INFO | epoch=8 val mode=max loss=3.27428 acc1=45.486 acc5=72.174 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 19:22:54,324 | INFO | epoch=8 val mode=min loss=4.17825 acc1=27.699 acc5=53.073 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 19:22:54,693 | INFO | Saved new best checkpoint (acc1=45.486)
+2026-04-03 21:12:48,944 | INFO | epoch=9 train loss=3.65126 acc1=48.241 acc5=73.731
+2026-04-03 21:34:52,256 | INFO | epoch=9 val mode=max loss=3.26282 acc1=45.829 acc5=71.975 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-03 21:56:43,658 | INFO | epoch=9 val mode=min loss=4.31691 acc1=25.782 acc5=49.876 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-03 21:56:44,249 | INFO | Saved new best checkpoint (acc1=45.829)
+2026-04-03 23:51:35,047 | INFO | epoch=10 train loss=3.63805 acc1=48.642 acc5=74.117
+2026-04-04 00:13:47,815 | INFO | epoch=10 val mode=max loss=3.32252 acc1=44.394 acc5=70.967 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 00:35:39,215 | INFO | epoch=10 val mode=min loss=4.02858 acc1=30.009 acc5=55.915 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 02:31:03,832 | INFO | epoch=11 train loss=3.62567 acc1=49.134 acc5=74.480
+2026-04-04 02:53:34,268 | INFO | epoch=11 val mode=max loss=3.25749 acc1=45.790 acc5=72.289 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 03:15:25,285 | INFO | epoch=11 val mode=min loss=3.92769 acc1=31.754 acc5=57.982 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 05:10:41,479 | INFO | epoch=12 train loss=3.61466 acc1=49.395 acc5=74.730
+2026-04-04 05:33:12,004 | INFO | epoch=12 val mode=max loss=3.11439 acc1=49.106 acc5=75.159 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 05:55:03,730 | INFO | epoch=12 val mode=min loss=4.04379 acc1=29.666 acc5=55.471 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 05:55:06,027 | INFO | Saved new best checkpoint (acc1=49.106)
+2026-04-04 07:49:19,632 | INFO | epoch=13 train loss=3.60760 acc1=49.701 acc5=74.946
+2026-04-04 08:11:40,084 | INFO | epoch=13 val mode=max loss=3.21995 acc1=46.575 acc5=72.827 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 08:33:31,328 | INFO | epoch=13 val mode=min loss=4.08513 acc1=29.596 acc5=54.284 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 10:27:14,925 | INFO | epoch=14 train loss=3.59971 acc1=49.987 acc5=75.166
+2026-04-04 10:49:53,181 | INFO | epoch=14 val mode=max loss=3.33425 acc1=44.449 acc5=70.836 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 11:11:42,731 | INFO | epoch=14 val mode=min loss=3.95375 acc1=31.605 acc5=57.590 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 13:05:00,786 | INFO | epoch=15 train loss=3.59290 acc1=50.206 acc5=75.391
+2026-04-04 13:27:23,199 | INFO | epoch=15 val mode=max loss=3.18472 acc1=47.609 acc5=73.523 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 13:49:08,965 | INFO | epoch=15 val mode=min loss=3.91698 acc1=32.480 acc5=58.083 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 15:43:27,112 | INFO | epoch=16 train loss=3.58980 acc1=50.374 acc5=75.494
+2026-04-04 16:05:45,877 | INFO | epoch=16 val mode=max loss=3.16815 acc1=48.061 acc5=73.946 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 16:27:36,574 | INFO | epoch=16 val mode=min loss=4.06411 acc1=29.352 acc5=55.017 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 18:21:26,831 | INFO | epoch=17 train loss=3.58336 acc1=50.542 acc5=75.659
+2026-04-04 18:43:54,043 | INFO | epoch=17 val mode=max loss=3.08387 acc1=49.570 acc5=75.412 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 19:05:41,554 | INFO | epoch=17 val mode=min loss=4.05113 acc1=29.834 acc5=55.135 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 19:05:43,127 | INFO | Saved new best checkpoint (acc1=49.570)
+2026-04-04 20:59:14,964 | INFO | epoch=18 train loss=3.57702 acc1=50.801 acc5=75.832
+2026-04-04 21:21:11,173 | INFO | epoch=18 val mode=max loss=3.15922 acc1=48.685 acc5=74.576 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-04 21:42:57,263 | INFO | epoch=18 val mode=min loss=4.00467 acc1=30.267 acc5=56.349 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-04 23:36:25,647 | INFO | epoch=19 train loss=3.57201 acc1=50.945 acc5=75.935
+2026-04-04 23:58:25,369 | INFO | epoch=19 val mode=max loss=3.32897 acc1=44.910 acc5=70.856 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 00:20:21,723 | INFO | epoch=19 val mode=min loss=4.02312 acc1=30.599 acc5=55.785 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-05 02:12:04,036 | INFO | epoch=20 train loss=3.56963 acc1=51.075 acc5=76.028
+2026-04-05 02:33:55,157 | INFO | epoch=20 val mode=max loss=3.29280 acc1=46.016 acc5=71.966 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 02:55:39,401 | INFO | epoch=20 val mode=min loss=3.92339 acc1=32.199 acc5=57.834 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-05 04:46:45,832 | INFO | epoch=21 train loss=3.56334 acc1=51.215 acc5=76.219
+2026-04-05 05:08:43,776 | INFO | epoch=21 val mode=max loss=3.09605 acc1=49.897 acc5=75.202 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 05:30:28,089 | INFO | epoch=21 val mode=min loss=4.01659 acc1=30.770 acc5=56.277 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-05 05:30:29,558 | INFO | Saved new best checkpoint (acc1=49.897)
+2026-04-05 07:19:30,077 | INFO | epoch=22 train loss=3.55891 acc1=51.365 acc5=76.337
+2026-04-05 07:41:19,408 | INFO | epoch=22 val mode=max loss=3.27341 acc1=45.671 acc5=71.967 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 08:03:07,539 | INFO | epoch=22 val mode=min loss=3.99007 acc1=30.975 acc5=56.904 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-05 09:52:06,462 | INFO | epoch=23 train loss=3.55649 acc1=51.550 acc5=76.448
+2026-04-05 10:13:58,358 | INFO | epoch=23 val mode=max loss=3.05155 acc1=51.675 acc5=77.348 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 10:35:41,663 | INFO | epoch=23 val mode=min loss=4.15836 acc1=27.437 acc5=52.792 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-05 10:35:42,332 | INFO | Saved new best checkpoint (acc1=51.675)
+2026-04-05 13:24:50,714 | INFO | epoch=24 train loss=3.55382 acc1=51.645 acc5=76.531
+2026-04-05 14:10:01,150 | INFO | epoch=24 val mode=max loss=3.10444 acc1=49.374 acc5=75.343 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 14:35:37,183 | INFO | epoch=24 val mode=min loss=3.92163 acc1=32.660 acc5=58.406 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-05 16:24:29,806 | INFO | epoch=25 train loss=3.54811 acc1=51.759 acc5=76.613
+2026-04-05 16:46:17,477 | INFO | epoch=25 val mode=max loss=3.31419 acc1=45.483 acc5=71.516 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 17:07:56,393 | INFO | epoch=25 val mode=min loss=3.88827 acc1=32.944 acc5=59.010 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-05 18:56:16,863 | INFO | epoch=26 train loss=3.54416 acc1=51.913 acc5=76.670
+2026-04-05 19:17:58,409 | INFO | epoch=26 val mode=max loss=3.15038 acc1=48.845 acc5=74.705 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 19:39:41,992 | INFO | epoch=26 val mode=min loss=3.87886 acc1=33.364 acc5=59.219 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-05 21:32:59,627 | INFO | epoch=27 train loss=3.54110 acc1=52.023 acc5=76.769
+2026-04-05 21:56:42,674 | INFO | epoch=27 val mode=max loss=3.19406 acc1=47.032 acc5=73.352 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-05 22:18:28,248 | INFO | epoch=27 val mode=min loss=3.82125 acc1=33.903 acc5=60.501 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 00:13:52,555 | INFO | epoch=28 train loss=3.53695 acc1=52.191 acc5=76.902
+2026-04-06 00:35:49,833 | INFO | epoch=28 val mode=max loss=3.16880 acc1=48.514 acc5=74.443 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 00:57:32,965 | INFO | epoch=28 val mode=min loss=3.85875 acc1=33.710 acc5=59.731 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 02:50:35,228 | INFO | epoch=29 train loss=3.53177 acc1=52.262 acc5=77.060
+2026-04-06 03:12:46,502 | INFO | epoch=29 val mode=max loss=3.15363 acc1=49.188 acc5=74.900 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 03:34:27,500 | INFO | epoch=29 val mode=min loss=3.96546 acc1=31.571 acc5=57.431 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 05:25:04,032 | INFO | epoch=30 train loss=3.52944 acc1=52.330 acc5=77.100
+2026-04-06 05:46:59,639 | INFO | epoch=30 val mode=max loss=3.01672 acc1=51.431 acc5=76.900 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 06:08:45,099 | INFO | epoch=30 val mode=min loss=4.09144 acc1=28.832 acc5=54.206 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 07:58:38,494 | INFO | epoch=31 train loss=3.52466 acc1=52.536 acc5=77.221
+2026-04-06 08:20:40,131 | INFO | epoch=31 val mode=max loss=3.21426 acc1=47.542 acc5=73.304 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 08:42:22,312 | INFO | epoch=31 val mode=min loss=3.95798 acc1=31.622 acc5=57.291 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 10:32:31,063 | INFO | epoch=32 train loss=3.52111 acc1=52.672 acc5=77.294
+2026-04-06 10:54:25,178 | INFO | epoch=32 val mode=max loss=3.17127 acc1=48.117 acc5=74.341 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 11:16:06,853 | INFO | epoch=32 val mode=min loss=3.75465 acc1=35.812 acc5=62.689 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 13:05:28,536 | INFO | epoch=33 train loss=3.51849 acc1=52.759 acc5=77.339
+2026-04-06 13:27:29,771 | INFO | epoch=33 val mode=max loss=3.21466 acc1=48.853 acc5=74.481 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 13:49:15,260 | INFO | epoch=33 val mode=min loss=3.83915 acc1=33.939 acc5=60.078 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 15:38:53,481 | INFO | epoch=34 train loss=3.51410 acc1=52.881 acc5=77.483
+2026-04-06 16:00:55,841 | INFO | epoch=34 val mode=max loss=3.06527 acc1=49.825 acc5=75.581 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 16:22:38,764 | INFO | epoch=34 val mode=min loss=3.86912 acc1=32.986 acc5=59.499 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 18:12:13,949 | INFO | epoch=35 train loss=3.50991 acc1=53.015 acc5=77.578
+2026-04-06 18:34:22,380 | INFO | epoch=35 val mode=max loss=3.02544 acc1=52.063 acc5=77.388 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 18:56:08,845 | INFO | epoch=35 val mode=min loss=3.87285 acc1=33.282 acc5=59.695 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 18:56:09,955 | INFO | Saved new best checkpoint (acc1=52.063)
+2026-04-06 20:45:13,718 | INFO | epoch=36 train loss=3.50710 acc1=53.166 acc5=77.672
+2026-04-06 21:07:12,208 | INFO | epoch=36 val mode=max loss=3.02616 acc1=51.250 acc5=76.734 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-06 21:28:55,546 | INFO | epoch=36 val mode=min loss=3.80205 acc1=34.409 acc5=61.032 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-06 23:18:03,157 | INFO | epoch=37 train loss=3.50376 acc1=53.287 acc5=77.716
+2026-04-06 23:39:49,976 | INFO | epoch=37 val mode=max loss=3.11480 acc1=49.219 acc5=75.068 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 00:01:36,042 | INFO | epoch=37 val mode=min loss=3.89015 acc1=33.341 acc5=58.825 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 01:50:08,096 | INFO | epoch=38 train loss=3.50028 acc1=53.414 acc5=77.836
+2026-04-07 02:11:49,491 | INFO | epoch=38 val mode=max loss=2.99712 acc1=52.574 acc5=77.329 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 02:33:29,993 | INFO | epoch=38 val mode=min loss=3.72761 acc1=36.929 acc5=62.691 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 02:33:30,444 | INFO | Saved new best checkpoint (acc1=52.574)
+2026-04-07 04:22:02,665 | INFO | epoch=39 train loss=3.49674 acc1=53.495 acc5=77.963
+2026-04-07 04:43:51,050 | INFO | epoch=39 val mode=max loss=3.07942 acc1=50.817 acc5=76.279 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 05:05:32,966 | INFO | epoch=39 val mode=min loss=3.80435 acc1=35.080 acc5=60.811 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 06:54:54,523 | INFO | epoch=40 train loss=3.49204 acc1=53.698 acc5=78.077
+2026-04-07 07:16:55,797 | INFO | epoch=40 val mode=max loss=3.21453 acc1=48.422 acc5=73.930 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 07:38:40,906 | INFO | epoch=40 val mode=min loss=3.91914 acc1=32.473 acc5=58.244 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 09:27:31,413 | INFO | epoch=41 train loss=3.48629 acc1=53.807 acc5=78.204
+2026-04-07 09:49:21,011 | INFO | epoch=41 val mode=max loss=3.06012 acc1=50.504 acc5=76.259 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 10:11:49,705 | INFO | epoch=41 val mode=min loss=3.83330 acc1=34.372 acc5=60.328 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 12:05:00,796 | INFO | epoch=42 train loss=3.48408 acc1=53.920 acc5=78.268
+2026-04-07 12:28:16,126 | INFO | epoch=42 val mode=max loss=3.01303 acc1=51.430 acc5=76.774 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 12:50:16,673 | INFO | epoch=42 val mode=min loss=3.83562 acc1=33.906 acc5=60.368 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 14:44:23,028 | INFO | epoch=43 train loss=3.47891 acc1=54.085 acc5=78.419
+2026-04-07 15:06:26,505 | INFO | epoch=43 val mode=max loss=2.93102 acc1=53.373 acc5=78.412 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 15:28:10,686 | INFO | epoch=43 val mode=min loss=3.82282 acc1=35.090 acc5=60.990 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 15:28:11,266 | INFO | Saved new best checkpoint (acc1=53.373)
+2026-04-07 17:20:33,044 | INFO | epoch=44 train loss=3.47606 acc1=54.169 acc5=78.503
+2026-04-07 17:42:37,770 | INFO | epoch=44 val mode=max loss=2.99750 acc1=52.324 acc5=77.373 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 18:04:33,366 | INFO | epoch=44 val mode=min loss=3.89286 acc1=33.422 acc5=58.934 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 19:53:40,824 | INFO | epoch=45 train loss=3.46911 acc1=54.397 acc5=78.661
+2026-04-07 20:15:34,803 | INFO | epoch=45 val mode=max loss=3.06264 acc1=50.072 acc5=75.780 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 20:37:28,178 | INFO | epoch=45 val mode=min loss=3.98153 acc1=31.670 acc5=57.050 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-07 22:26:02,010 | INFO | epoch=46 train loss=3.46719 acc1=54.551 acc5=78.718
+2026-04-07 22:47:53,943 | INFO | epoch=46 val mode=max loss=2.98904 acc1=52.490 acc5=77.449 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-07 23:09:39,195 | INFO | epoch=46 val mode=min loss=3.95409 acc1=32.603 acc5=58.026 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 00:58:40,904 | INFO | epoch=47 train loss=3.46138 acc1=54.661 acc5=78.844
+2026-04-08 01:20:34,571 | INFO | epoch=47 val mode=max loss=3.03018 acc1=51.440 acc5=76.659 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 01:42:20,820 | INFO | epoch=47 val mode=min loss=3.79147 acc1=35.155 acc5=61.136 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 03:31:14,780 | INFO | epoch=48 train loss=3.46022 acc1=54.774 acc5=78.944
+2026-04-08 03:53:00,013 | INFO | epoch=48 val mode=max loss=2.93435 acc1=52.810 acc5=78.117 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 04:14:46,463 | INFO | epoch=48 val mode=min loss=3.88835 acc1=33.365 acc5=58.930 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 06:03:32,389 | INFO | epoch=49 train loss=3.45638 acc1=54.933 acc5=79.015
+2026-04-08 06:25:18,157 | INFO | epoch=49 val mode=max loss=3.15209 acc1=49.869 acc5=75.254 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 06:47:06,727 | INFO | epoch=49 val mode=min loss=3.81850 acc1=34.923 acc5=60.695 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 08:35:46,609 | INFO | epoch=50 train loss=3.45123 acc1=55.124 acc5=79.206
+2026-04-08 08:57:34,424 | INFO | epoch=50 val mode=max loss=2.96281 acc1=52.333 acc5=77.866 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 09:19:23,392 | INFO | epoch=50 val mode=min loss=3.90603 acc1=32.934 acc5=58.956 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 11:08:14,592 | INFO | epoch=51 train loss=3.44642 acc1=55.230 acc5=79.336
+2026-04-08 11:30:07,879 | INFO | epoch=51 val mode=max loss=3.04372 acc1=52.046 acc5=77.189 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 11:51:56,110 | INFO | epoch=51 val mode=min loss=3.93668 acc1=32.446 acc5=58.111 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 13:40:46,932 | INFO | epoch=52 train loss=3.44217 acc1=55.430 acc5=79.402
+2026-04-08 14:02:34,719 | INFO | epoch=52 val mode=max loss=3.00184 acc1=51.540 acc5=77.224 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 14:24:12,828 | INFO | epoch=52 val mode=min loss=3.83703 acc1=34.831 acc5=60.421 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 16:12:58,264 | INFO | epoch=53 train loss=3.43708 acc1=55.618 acc5=79.569
+2026-04-08 16:34:49,076 | INFO | epoch=53 val mode=max loss=3.14552 acc1=49.841 acc5=75.273 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 16:56:34,103 | INFO | epoch=53 val mode=min loss=3.83593 acc1=34.271 acc5=60.514 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 18:44:13,258 | INFO | epoch=54 train loss=3.43374 acc1=55.829 acc5=79.638
+2026-04-08 19:05:48,049 | INFO | epoch=54 val mode=max loss=3.03336 acc1=51.444 acc5=76.750 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 19:27:07,226 | INFO | epoch=54 val mode=min loss=3.92635 acc1=32.693 acc5=58.256 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 21:13:57,430 | INFO | epoch=55 train loss=3.42876 acc1=55.987 acc5=79.821
+2026-04-08 21:35:15,807 | INFO | epoch=55 val mode=max loss=3.03209 acc1=51.525 acc5=76.823 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-08 21:56:33,506 | INFO | epoch=55 val mode=min loss=3.89842 acc1=33.651 acc5=59.155 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-08 23:43:10,466 | INFO | epoch=56 train loss=3.42436 acc1=56.168 acc5=79.883
+2026-04-09 00:05:33,476 | INFO | epoch=56 val mode=max loss=2.95200 acc1=52.518 acc5=77.936 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 00:27:08,324 | INFO | epoch=56 val mode=min loss=3.79130 acc1=35.678 acc5=61.870 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 02:20:07,174 | INFO | epoch=57 train loss=3.42074 acc1=56.266 acc5=79.996
+2026-04-09 02:42:08,414 | INFO | epoch=57 val mode=max loss=2.96277 acc1=53.578 acc5=78.506 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 03:03:33,128 | INFO | epoch=57 val mode=min loss=3.92020 acc1=32.650 acc5=58.730 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 03:03:33,753 | INFO | Saved new best checkpoint (acc1=53.578)
+2026-04-09 04:56:45,432 | INFO | epoch=58 train loss=3.41778 acc1=56.507 acc5=80.137
+2026-04-09 05:19:14,263 | INFO | epoch=58 val mode=max loss=3.02508 acc1=52.147 acc5=77.098 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 05:40:39,272 | INFO | epoch=58 val mode=min loss=3.92118 acc1=33.137 acc5=58.572 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 07:33:39,357 | INFO | epoch=59 train loss=3.41204 acc1=56.656 acc5=80.320
+2026-04-09 07:56:54,217 | INFO | epoch=59 val mode=max loss=3.03657 acc1=52.243 acc5=77.372 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 08:18:21,978 | INFO | epoch=59 val mode=min loss=3.88470 acc1=33.212 acc5=59.015 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 10:10:32,727 | INFO | epoch=60 train loss=3.40685 acc1=56.892 acc5=80.407
+2026-04-09 10:32:13,659 | INFO | epoch=60 val mode=max loss=3.09332 acc1=50.071 acc5=75.545 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 10:53:42,991 | INFO | epoch=60 val mode=min loss=3.91600 acc1=32.613 acc5=58.807 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 12:46:27,351 | INFO | epoch=61 train loss=3.40266 acc1=57.003 acc5=80.579
+2026-04-09 13:08:52,284 | INFO | epoch=61 val mode=max loss=2.86918 acc1=54.668 acc5=79.333 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 13:30:23,247 | INFO | epoch=61 val mode=min loss=3.89898 acc1=33.115 acc5=59.229 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 13:30:24,209 | INFO | Saved new best checkpoint (acc1=54.668)
+2026-04-09 15:22:52,921 | INFO | epoch=62 train loss=3.39949 acc1=57.163 acc5=80.690
+2026-04-09 15:45:14,324 | INFO | epoch=62 val mode=max loss=3.11587 acc1=50.305 acc5=75.555 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 16:06:45,174 | INFO | epoch=62 val mode=min loss=3.82956 acc1=35.306 acc5=60.955 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 17:59:18,984 | INFO | epoch=63 train loss=3.39277 acc1=57.377 acc5=80.807
+2026-04-09 18:21:41,705 | INFO | epoch=63 val mode=max loss=2.94386 acc1=53.916 acc5=78.512 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 18:43:11,419 | INFO | epoch=63 val mode=min loss=3.93982 acc1=32.653 acc5=58.340 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 20:35:28,481 | INFO | epoch=64 train loss=3.39082 acc1=57.618 acc5=80.991
+2026-04-09 20:57:53,389 | INFO | epoch=64 val mode=max loss=2.85286 acc1=55.349 acc5=80.126 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 21:19:22,011 | INFO | epoch=64 val mode=min loss=3.90934 acc1=34.003 acc5=59.280 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-09 21:19:22,955 | INFO | Saved new best checkpoint (acc1=55.349)
+2026-04-09 23:11:56,687 | INFO | epoch=65 train loss=3.38406 acc1=57.848 acc5=81.154
+2026-04-09 23:34:02,930 | INFO | epoch=65 val mode=max loss=3.01142 acc1=52.530 acc5=77.178 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-09 23:55:36,981 | INFO | epoch=65 val mode=min loss=3.79025 acc1=36.237 acc5=61.700 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 01:48:11,233 | INFO | epoch=66 train loss=3.38100 acc1=58.000 acc5=81.249
+2026-04-10 02:10:26,357 | INFO | epoch=66 val mode=max loss=3.03648 acc1=52.081 acc5=77.155 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 02:31:56,735 | INFO | epoch=66 val mode=min loss=3.86561 acc1=34.372 acc5=60.116 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 04:24:41,194 | INFO | epoch=67 train loss=3.37598 acc1=58.216 acc5=81.415
+2026-04-10 04:47:16,366 | INFO | epoch=67 val mode=max loss=2.91013 acc1=55.420 acc5=79.536 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 05:08:46,326 | INFO | epoch=67 val mode=min loss=4.14485 acc1=29.616 acc5=53.885 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 05:08:47,011 | INFO | Saved new best checkpoint (acc1=55.420)
+2026-04-10 07:01:34,804 | INFO | epoch=68 train loss=3.37285 acc1=58.410 acc5=81.569
+2026-04-10 07:24:08,576 | INFO | epoch=68 val mode=max loss=2.91759 acc1=54.306 acc5=78.702 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 07:45:34,746 | INFO | epoch=68 val mode=min loss=3.80073 acc1=35.508 acc5=61.315 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 09:37:53,491 | INFO | epoch=69 train loss=3.36809 acc1=58.629 acc5=81.661
+2026-04-10 09:59:56,622 | INFO | epoch=69 val mode=max loss=2.87682 acc1=55.086 acc5=79.353 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 10:21:24,504 | INFO | epoch=69 val mode=min loss=3.91573 acc1=33.234 acc5=58.515 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 12:14:06,073 | INFO | epoch=70 train loss=3.36389 acc1=58.822 acc5=81.864
+2026-04-10 12:36:08,230 | INFO | epoch=70 val mode=max loss=2.98051 acc1=53.009 acc5=77.338 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 12:57:39,821 | INFO | epoch=70 val mode=min loss=3.84857 acc1=34.790 acc5=60.734 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 14:50:12,647 | INFO | epoch=71 train loss=3.35795 acc1=59.060 acc5=81.993
+2026-04-10 15:12:48,230 | INFO | epoch=71 val mode=max loss=2.97505 acc1=53.235 acc5=77.872 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 15:34:16,839 | INFO | epoch=71 val mode=min loss=4.03829 acc1=30.571 acc5=55.407 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 17:26:40,660 | INFO | epoch=72 train loss=3.35349 acc1=59.248 acc5=82.157
+2026-04-10 17:48:59,541 | INFO | epoch=72 val mode=max loss=2.84877 acc1=56.520 acc5=80.820 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 18:10:26,719 | INFO | epoch=72 val mode=min loss=4.01500 acc1=30.972 acc5=56.361 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 18:10:29,212 | INFO | Saved new best checkpoint (acc1=56.520)
+2026-04-10 20:02:53,486 | INFO | epoch=73 train loss=3.35052 acc1=59.492 acc5=82.337
+2026-04-10 20:25:07,925 | INFO | epoch=73 val mode=max loss=2.90292 acc1=54.783 acc5=79.146 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 20:46:36,140 | INFO | epoch=73 val mode=min loss=3.86411 acc1=34.888 acc5=60.482 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-10 22:38:44,678 | INFO | epoch=74 train loss=3.34597 acc1=59.719 acc5=82.478
+2026-04-10 23:01:17,108 | INFO | epoch=74 val mode=max loss=3.06922 acc1=51.764 acc5=76.501 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-10 23:22:46,513 | INFO | epoch=74 val mode=min loss=3.86551 acc1=34.578 acc5=60.169 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-11 01:15:10,650 | INFO | epoch=75 train loss=3.34046 acc1=59.979 acc5=82.649
+2026-04-11 01:37:14,790 | INFO | epoch=75 val mode=max loss=2.91024 acc1=54.805 acc5=79.165 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-11 01:58:47,721 | INFO | epoch=75 val mode=min loss=3.84009 acc1=34.546 acc5=60.098 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-11 03:51:03,762 | INFO | epoch=76 train loss=3.33441 acc1=60.279 acc5=82.804
+2026-04-11 04:13:23,767 | INFO | epoch=76 val mode=max loss=2.80581 acc1=57.924 acc5=81.548 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-11 04:34:52,209 | INFO | epoch=76 val mode=min loss=3.88640 acc1=34.465 acc5=60.075 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-11 04:34:52,666 | INFO | Saved new best checkpoint (acc1=57.924)
+2026-04-11 06:26:27,685 | INFO | epoch=77 train loss=3.33322 acc1=60.483 acc5=82.957
+2026-04-11 06:48:29,105 | INFO | epoch=77 val mode=max loss=2.93640 acc1=54.181 acc5=78.655 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-11 07:09:54,310 | INFO | epoch=77 val mode=min loss=3.91270 acc1=33.857 acc5=59.494 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-11 09:01:16,305 | INFO | epoch=78 train loss=3.32790 acc1=60.760 acc5=83.142
+2026-04-11 09:23:29,853 | INFO | epoch=78 val mode=max loss=2.97145 acc1=53.383 acc5=77.913 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-11 09:44:57,325 | INFO | epoch=78 val mode=min loss=3.88158 acc1=34.347 acc5=59.725 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-11 11:36:14,199 | INFO | epoch=79 train loss=3.32447 acc1=60.989 acc5=83.314
+2026-04-11 11:58:22,583 | INFO | epoch=79 val mode=max loss=2.85717 acc1=56.989 acc5=80.586 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-11 12:19:48,659 | INFO | epoch=79 val mode=min loss=3.88971 acc1=34.480 acc5=59.242 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-11 14:11:07,776 | INFO | epoch=80 train loss=3.31769 acc1=61.303 acc5=83.560
+2026-04-11 14:33:27,769 | INFO | epoch=80 val mode=max loss=2.79324 acc1=58.010 acc5=81.732 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-11 14:54:56,469 | INFO | epoch=80 val mode=min loss=3.96006 acc1=32.869 acc5=57.983 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
+2026-04-11 14:54:57,303 | INFO | Saved new best checkpoint (acc1=58.010)
+2026-04-11 16:46:18,210 | INFO | epoch=81 train loss=3.31513 acc1=61.469 acc5=83.630
+2026-04-11 17:08:25,590 | INFO | epoch=81 val mode=max loss=3.05395 acc1=53.108 acc5=77.240 total_bytes=14024944 params=10354928 config={"resolution": 256, "stage_depths": [3, 4, 5, 3], "stage_widths": [64, 128, 224, 288], "stem_width": 40}
+2026-04-11 17:29:54,495 | INFO | epoch=81 val mode=min loss=3.78297 acc1=36.316 acc5=61.645 total_bytes=4041728 params=1584128 config={"resolution": 192, "stage_depths": [1, 1, 1, 1], "stage_widths": [48, 96, 160, 224], "stem_width": 24}
