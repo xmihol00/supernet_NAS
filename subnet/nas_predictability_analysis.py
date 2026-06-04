@@ -551,6 +551,9 @@ def parse_args() -> argparse.Namespace:
                     help="Output directory for plots/summary (default: <experiment-dir>/nas_predictability_analysis)")
     ap.add_argument("--dataset-name", default="cifar10", choices=list(_DATASET_LABELS),
                     help="Dataset name — controls axis labels (default: cifar10)")
+    ap.add_argument("--max-cycles", type=int, default=None,
+                    help="Truncate analysis to the first N training cycles. "
+                         "best_acc_summary is derived from cumulative bests at cycle N-1.")
     return ap.parse_args()
 
 
@@ -567,6 +570,22 @@ def main() -> None:
     print(f"Loading data from {exp_dir}")
     arch_list, best_summary, stats_history = load_data(exp_dir)
     print(f"  {len(best_summary)} architectures, {len(stats_history)} cycles of stats")
+
+    if args.max_cycles is not None and args.max_cycles < len(stats_history):
+        stats_history = stats_history[:args.max_cycles]
+        cutoff = stats_history[-1]
+        best_summary = [
+            {
+                "arch_index":     a["arch_index"],
+                "nas_quant_acc1": a["nas_quant_acc1"],
+                "best_val_acc1":  a["best_val_acc1"],
+                "best_ema_acc1":  a["best_ema_acc1"],
+                "epochs_completed": a["epochs_completed"],
+            }
+            for a in cutoff["per_arch"]
+        ]
+        print(f"  Truncated to {args.max_cycles} cycles "
+              f"(best accuracies taken from cycle {cutoff['cycle']})")
 
     print("Generating plots…")
     plot_nas_vs_full_acc(best_summary, out_dir,

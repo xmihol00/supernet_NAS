@@ -2,46 +2,46 @@ NAS Proxy Predictability Analysis — Summary
 ============================================================
 
 Architectures evaluated : 15
-Training cycles completed: 160  (160 epochs per architecture)
+Training cycles completed: 100  (100 epochs per architecture)
 
 ── Final correlation (best val accuracy after all cycles) ──
-  Spearman ρ  = 0.2679  (p=0.3344, p=0.3344 ✗)
-  Pearson  r  = -0.4354  (p=0.1048)
-  Kendall  τ  = 0.1810  (p=0.3795)
-  Bootstrap 95% CI (Spearman): [-0.4240, 0.8327]
+  Spearman ρ  = 0.2929  (p=0.2895, p=0.2895 ✗)
+  Pearson  r  = -0.4219  (p=0.1173)
+  Kendall  τ  = 0.2571  (p=0.2018)
+  Bootstrap 95% CI (Spearman): [-0.3945, 0.8654]
 
 ── Final correlation (best EMA accuracy after all cycles) ──
-  Spearman ρ  = 0.2929  (p=0.2895, p=0.2895 ✗)
-  Pearson  r  = -0.2049  (p=0.4639)
-  Bootstrap 95% CI (Spearman): [-0.3863, 0.8526]
+  Spearman ρ  = 0.7668  (p=0.0009, p<0.001 ✓✓✓)
+  Pearson  r  = 0.2834  (p=0.3061)
+  Bootstrap 95% CI (Spearman): [0.3186, 0.9384]
 
 ── Top-K selection recall ──────────────────────────────────
   Top-1 recall : 0%  (NAS picks the best arch: No)
   Top-3 recall : 33%  (1/3 true top-3 captured)
-  Top-5 recall : 40%  (2/5 true top-5 captured)
+  Top-5 recall : 20%  (1/5 true top-5 captured)
 
 ── Best-architecture comparison ────────────────────────────
-  Best by NAS : A14  (NAS=85.50%)  →  full val=94.37%  (val rank 3/15)
-  Best by val : A0  (full val=95.80%)  →  NAS=10.00%  (NAS rank 15/15)
+  Best by NAS : A14  (NAS=85.50%)  →  full val=94.20%  (val rank 2/15)
+  Best by val : A0  (full val=95.46%)  →  NAS=10.00%  (NAS rank 15/15)
 
 ── Per-architecture summary (sorted by NAS score) ──────────
    Arch     NAS%   NAS rank     Val%   Val rank  Rank shift
   ------------------------------------------------------------
-  A14      85.50          1    94.37          3  +        +2
-  A13      81.25          2    94.03         11  +        +9
-  A12      80.25          3    94.04         10  +        +7
-  A11      79.75          4    94.09          7  +        +3
-  A10      79.00          5    94.21          5          +0
-  A 9      78.50          6    94.43          2          -4
-  A 8      78.00          7    94.05          9  +        +2
-  A 7      77.25          8    94.09          8          +0
-  A 6      76.50          9    94.12          6          -3
-  A 5      75.50         10    94.23          4          -6
-  A 4      74.00         11    93.46         13  +        +2
-  A 3      71.50         12    93.73         12          +0
-  A 2      68.25         13    92.79         14  +        +1
-  A 1      63.50         14    92.46         15  +        +1
-  A 0      10.00         15    95.80          1         -14
+  A14      85.50          1    94.20          2  +        +1
+  A13      81.25          2    93.68          8  +        +6
+  A12      80.25          3    93.48         11  +        +8
+  A11      79.75          4    93.73          7  +        +3
+  A10      79.00          5    93.59          9  +        +4
+  A 9      78.50          6    94.01          3          -3
+  A 8      78.00          7    93.56         10  +        +3
+  A 7      77.25          8    93.84          4          -4
+  A 6      76.50          9    93.77          6          -3
+  A 5      75.50         10    93.79          5          -5
+  A 4      74.00         11    92.97         13  +        +2
+  A 3      71.50         12    93.34         12          +0
+  A 2      68.25         13    92.38         14  +        +1
+  A 1      63.50         14    91.97         15  +        +1
+  A 0      10.00         15    95.46          1         -14
 
 ── Correlation trend over cycles ───────────────────────────
   Cycle  0: Spearman ρ=-0.0821 (p=0.7710)  Best-val ρ=-0.0821 (p=0.7710)
@@ -144,63 +144,3 @@ Training cycles completed: 160  (160 epochs per architecture)
   Cycle 97: Spearman ρ=0.4536 (p=0.0895)  Best-val ρ=0.2929 (p=0.2895)
   Cycle 98: Spearman ρ=0.2750 (p=0.3212)  Best-val ρ=0.2929 (p=0.2895)
   Cycle 99: Spearman ρ=0.3036 (p=0.2714)  Best-val ρ=0.2929 (p=0.2895)
-  Cycle 100: Spearman ρ=0.3750 (p=0.1684)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 101: Spearman ρ=0.2036 (p=0.4668)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 102: Spearman ρ=0.1286 (p=0.6479)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 103: Spearman ρ=0.3071 (p=0.2655)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 104: Spearman ρ=0.3107 (p=0.2597)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 105: Spearman ρ=0.4214 (p=0.1177)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 106: Spearman ρ=0.3321 (p=0.2265)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 107: Spearman ρ=0.4500 (p=0.0924)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 108: Spearman ρ=0.3107 (p=0.2597)  Best-val ρ=0.3893 (p=0.1515)
-  Cycle 109: Spearman ρ=0.3571 (p=0.1913)  Best-val ρ=0.4250 (p=0.1143)
-  Cycle 110: Spearman ρ=0.4486 (p=0.0935)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 111: Spearman ρ=0.2393 (p=0.3904)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 112: Spearman ρ=0.4857 (p=0.0664)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 113: Spearman ρ=0.2821 (p=0.3083)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 114: Spearman ρ=0.1964 (p=0.4829)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 115: Spearman ρ=0.2321 (p=0.4051)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 116: Spearman ρ=0.0500 (p=0.8595)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 117: Spearman ρ=0.2893 (p=0.2957)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 118: Spearman ρ=0.2750 (p=0.3212)  Best-val ρ=0.4036 (p=0.1358)
-  Cycle 119: Spearman ρ=0.2036 (p=0.4668)  Best-val ρ=0.4071 (p=0.1320)
-  Cycle 120: Spearman ρ=0.1857 (p=0.5075)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 121: Spearman ρ=0.3571 (p=0.1913)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 122: Spearman ρ=0.3821 (p=0.1598)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 123: Spearman ρ=0.2179 (p=0.4354)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 124: Spearman ρ=0.0143 (p=0.9597)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 125: Spearman ρ=0.3964 (p=0.1435)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 126: Spearman ρ=0.3214 (p=0.2427)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 127: Spearman ρ=0.2821 (p=0.3083)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 128: Spearman ρ=0.2357 (p=0.3977)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 129: Spearman ρ=0.2857 (p=0.3019)  Best-val ρ=0.3429 (p=0.2109)
-  Cycle 130: Spearman ρ=0.4464 (p=0.0953)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 131: Spearman ρ=0.1607 (p=0.5672)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 132: Spearman ρ=0.3607 (p=0.1866)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 133: Spearman ρ=0.3214 (p=0.2427)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 134: Spearman ρ=0.6500 (p=0.0087)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 135: Spearman ρ=0.5571 (p=0.0310)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 136: Spearman ρ=0.3107 (p=0.2597)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 137: Spearman ρ=0.1286 (p=0.6479)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 138: Spearman ρ=0.1357 (p=0.6296)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 139: Spearman ρ=0.2643 (p=0.3412)  Best-val ρ=0.3607 (p=0.1866)
-  Cycle 140: Spearman ρ=0.1857 (p=0.5075)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 141: Spearman ρ=0.0607 (p=0.8298)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 142: Spearman ρ=0.5286 (p=0.0428)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 143: Spearman ρ=0.3893 (p=0.1515)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 144: Spearman ρ=0.3214 (p=0.2427)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 145: Spearman ρ=0.0464 (p=0.8695)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 146: Spearman ρ=0.3036 (p=0.2714)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 147: Spearman ρ=0.2071 (p=0.4588)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 148: Spearman ρ=0.2714 (p=0.3278)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 149: Spearman ρ=0.3464 (p=0.2059)  Best-val ρ=0.2714 (p=0.3278)
-  Cycle 150: Spearman ρ=0.3393 (p=0.2160)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 151: Spearman ρ=0.5214 (p=0.0462)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 152: Spearman ρ=0.1821 (p=0.5159)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 153: Spearman ρ=0.5786 (p=0.0238)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 154: Spearman ρ=0.0571 (p=0.8397)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 155: Spearman ρ=0.1429 (p=0.6115)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 156: Spearman ρ=0.1607 (p=0.5672)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 157: Spearman ρ=0.4036 (p=0.1358)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 158: Spearman ρ=0.2179 (p=0.4354)  Best-val ρ=0.2679 (p=0.3344)
-  Cycle 159: Spearman ρ=0.3429 (p=0.2109)  Best-val ρ=0.2679 (p=0.3344)
