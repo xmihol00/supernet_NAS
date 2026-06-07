@@ -12,6 +12,14 @@ Usage:
         --experiment-dir ./full_dataset_experiment/2026-05-31_cifar10 \
         --output-dir     ./full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis \
         --dataset-name   cifar10
+
+    # Exclude OOD architecture A0 from in-distribution analysis:
+    python subnet/nas_predictability_analysis.py \
+        --experiment-dir ./full_dataset_experiment/2026-05-31_cifar10 \
+        --output-dir     ./full_dataset_experiment/2026-05-31_cifar10/nas_predictability_analysis \
+        --dataset-name   cifar10 \
+        --max-cycles     100 \
+        --ood-indices    0
 """
 
 from __future__ import annotations
@@ -20,7 +28,7 @@ import argparse
 import json
 import math
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 import matplotlib
 matplotlib.use("Agg")
@@ -97,16 +105,68 @@ def load_data(exp_dir: Path) -> Tuple[List[dict], List[dict], List[dict]]:
     return arch_list, best_summary, stats_history
 
 
+# ── in-distribution stats recomputation ──────────────────────────────────────
+
+def _compute_indist_stats_history(
+    stats_history: List[dict], ood_set: Set[int]
+) -> List[dict]:
+    """Recompute correlation stats from per_arch data, excluding OOD architectures."""
+    result = []
+    for entry in stats_history:
+        in_dist = [a for a in entry["per_arch"] if a["arch_index"] not in ood_set]
+        n = len(in_dist)
+        if n < 3:
+            continue
+        nas  = np.array([a["nas_quant_acc1"] for a in in_dist])
+        val  = np.array([a["val_acc1"]        for a in in_dist])
+        ema  = np.array([a["ema_acc1"]        for a in in_dist])
+        bval = np.array([a["best_val_acc1"]   for a in in_dist])
+        bema = np.array([a["best_ema_acc1"]   for a in in_dist])
+
+        sr_v,  sp_v  = scipy_stats.spearmanr(nas, val)
+        pr_v,  pp_v  = scipy_stats.pearsonr(nas, val)
+        sr_e,  sp_e  = scipy_stats.spearmanr(nas, ema)
+        pr_e,  pp_e  = scipy_stats.pearsonr(nas, ema)
+        sr_bv, sp_bv = scipy_stats.spearmanr(nas, bval)
+        pr_bv, pp_bv = scipy_stats.pearsonr(nas, bval)
+        sr_be, sp_be = scipy_stats.spearmanr(nas, bema)
+        pr_be, pp_be = scipy_stats.pearsonr(nas, bema)
+
+        ci_v  = _bootstrap_spearman_ci(nas, val)
+        ci_bv = _bootstrap_spearman_ci(nas, bval, seed=43)
+        ci_be = _bootstrap_spearman_ci(nas, bema, seed=44)
+
+        result.append(dict(
+            cycle=entry["cycle"],
+            n_archs=n,
+            spearman_r=float(sr_v),       spearman_p=float(sp_v),
+            pearson_r=float(pr_v),        pearson_p=float(pp_v),
+            spearman_r_ema=float(sr_e),   spearman_p_ema=float(sp_e),
+            pearson_r_ema=float(pr_e),    pearson_p_ema=float(pp_e),
+            spearman_r_best=float(sr_bv), spearman_p_best=float(sp_bv),
+            pearson_r_best=float(pr_bv),  pearson_p_best=float(pp_bv),
+            spearman_r_best_ema=float(sr_be), spearman_p_best_ema=float(sp_be),
+            pearson_r_best_ema=float(pr_be),  pearson_p_best_ema=float(pp_be),
+            bootstrap_ci_spearman=list(ci_v),
+            bootstrap_ci_spearman_best=list(ci_bv),
+            bootstrap_ci_spearman_best_ema=list(ci_be),
+        ))
+    return result
+
+
 # ── plot 1: NAS score vs. best full-dataset accuracy ─────────────────────────
 
 def plot_nas_vs_full_acc(best_summary: List[dict], out_dir: Path,
                          proxy_xlabel: str = "NAS proxy score (%)",
-                         full_ylabel: str = "Full val top-1 accuracy (%)") -> None:
+                         full_ylabel: str = "Full val top-1 accuracy (%)",
+                         suffix: str = "",
+                         ood_set: Optional[Set[int]] = None) -> None:
     nas  = np.array([r["nas_quant_acc1"] for r in best_summary])
     val  = np.array([r["best_val_acc1"]  for r in best_summary])
     ema  = np.array([r["best_ema_acc1"]  for r in best_summary])
     idxs = [r["arch_index"]              for r in best_summary]
     n    = len(best_summary)
+    ood_set = ood_set or set()
 
     sr_v, sp_v = scipy_stats.spearmanr(nas, val)
     pr_v, pp_v = scipy_stats.pearsonr(nas, val)
@@ -117,14 +177,19 @@ def plot_nas_vs_full_acc(best_summary: List[dict], out_dir: Path,
 
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
 
-    for ax, acc, sr, sp, pr, ci, title in [
-        (axes[0], val, sr_v, sp_v, pr_v, ci_v, "Best val accuracy (non-EMA)"),
-        (axes[1], ema, sr_e, sp_e, pr_e, ci_e, "Best EMA val accuracy"),
+    for ax, acc, sr, sp, pr, pp, ci, title in [
+        (axes[0], val, sr_v, sp_v, pr_v, pp_v, ci_v, "Best val accuracy (non-EMA)"),
+        (axes[1], ema, sr_e, sp_e, pr_e, pp_e, ci_e, "Best EMA val accuracy"),
     ]:
         for i, (x, y, ai) in enumerate(zip(nas, acc, idxs)):
-            ax.scatter(x, y, color=_arch_color(i), s=100, zorder=3,
-                       edgecolors="white", lw=0.8)
-            ax.annotate(f"A{ai}", (x, y), textcoords="offset points",
+            is_ood = ai in ood_set
+            marker = "X" if is_ood else "o"
+            edgecol = "red" if is_ood else "white"
+            lw = 1.8 if is_ood else 0.8
+            ax.scatter(x, y, color=_arch_color(i), s=120 if is_ood else 100,
+                       marker=marker, zorder=3, edgecolors=edgecol, lw=lw)
+            ax.annotate(f"A{ai}" + (" (OOD)" if is_ood else ""),
+                        (x, y), textcoords="offset points",
                         xytext=(6, 3), fontsize=8, color=_arch_color(i))
 
         # OLS regression
@@ -137,7 +202,7 @@ def plot_nas_vs_full_acc(best_summary: List[dict], out_dir: Path,
         ax.set_ylabel(full_ylabel, fontsize=11)
         ax.set_title(
             f"{title}\n"
-            f"Spearman ρ={sr:.3f} ({_sig_label(sp)}) | Pearson r={pr:.3f} ({_sig_label(pp_v if ax is axes[0] else pp_e)})\n"
+            f"Spearman ρ={sr:.3f} ({_sig_label(sp)}) | Pearson r={pr:.3f} ({_sig_label(pp)})\n"
             f"Bootstrap 95% CI: [{ci[0]:.3f}, {ci[1]:.3f}]  (N={n})",
             fontsize=9.5,
         )
@@ -145,16 +210,18 @@ def plot_nas_vs_full_acc(best_summary: List[dict], out_dir: Path,
         ax.set_axisbelow(True)
         ax.legend(fontsize=9)
 
-    fig.suptitle("NAS Proxy Accuracy vs. Full-Dataset Stand-Alone Training Accuracy\n"
-                 "(after 5 training epochs per architecture)", fontsize=12, fontweight="bold")
+    ood_note = f" — OOD architectures marked with ×" if ood_set else ""
+    fig.suptitle(f"NAS Proxy Accuracy vs. Full-Dataset Stand-Alone Training Accuracy{ood_note}",
+                 fontsize=12, fontweight="bold")
     fig.tight_layout()
-    fig.savefig(out_dir / "nas_vs_full_acc.png", dpi=140, bbox_inches="tight")
+    fig.savefig(out_dir / f"nas_vs_full_acc{suffix}.png", dpi=140, bbox_inches="tight")
     plt.close(fig)
 
 
 # ── plot 2: rank comparison ───────────────────────────────────────────────────
 
-def plot_rank_comparison(best_summary: List[dict], out_dir: Path) -> None:
+def plot_rank_comparison(best_summary: List[dict], out_dir: Path,
+                         suffix: str = "") -> None:
     n = len(best_summary)
     nas  = np.array([r["nas_quant_acc1"] for r in best_summary])
     val  = np.array([r["best_val_acc1"]  for r in best_summary])
@@ -172,9 +239,9 @@ def plot_rank_comparison(best_summary: List[dict], out_dir: Path) -> None:
 
     x = np.arange(n)
     w = 0.25
-    b0 = axes[0].bar(x - w,    nas_ranks[order], w, label="NAS rank",       color="#0072B2", alpha=0.85)
-    b1 = axes[0].bar(x,        val_ranks[order], w, label="Val rank",        color="#D55E00", alpha=0.85)
-    b2 = axes[0].bar(x + w,    ema_ranks[order], w, label="Best EMA rank",   color="#009E73", alpha=0.85)
+    axes[0].bar(x - w,    nas_ranks[order], w, label="NAS rank",       color="#0072B2", alpha=0.85)
+    axes[0].bar(x,        val_ranks[order], w, label="Val rank",        color="#D55E00", alpha=0.85)
+    axes[0].bar(x + w,    ema_ranks[order], w, label="Best EMA rank",   color="#009E73", alpha=0.85)
     axes[0].set_xticks(x); axes[0].set_xticklabels(ai_labels, fontsize=9)
     axes[0].set_ylabel("Rank  (0 = best)", fontsize=11)
     axes[0].set_title("NAS rank vs. full-dataset ranks\n(architectures sorted by NAS rank, best → worst)",
@@ -201,16 +268,19 @@ def plot_rank_comparison(best_summary: List[dict], out_dir: Path) -> None:
     axes[1].set_axisbelow(True)
     axes[1].legend(fontsize=9)
 
-    fig.suptitle("Architecture Ranking: NAS Proxy vs. Full-Dataset Training", fontsize=12,
-                 fontweight="bold")
+    n_note = f" (N={n})" if suffix else ""
+    fig.suptitle(f"Architecture Ranking: NAS Proxy vs. Full-Dataset Training{n_note}",
+                 fontsize=12, fontweight="bold")
     fig.tight_layout()
-    fig.savefig(out_dir / "rank_comparison.png", dpi=140, bbox_inches="tight")
+    fig.savefig(out_dir / f"rank_comparison{suffix}.png", dpi=140, bbox_inches="tight")
     plt.close(fig)
 
 
 # ── plot 3: correlation evolution over cycles ─────────────────────────────────
 
-def plot_correlation_evolution(stats_history: List[dict], out_dir: Path) -> None:
+def plot_correlation_evolution(stats_history: List[dict], out_dir: Path,
+                                suffix: str = "",
+                                title_note: str = "") -> None:
     if len(stats_history) < 2:
         return
 
@@ -288,17 +358,20 @@ def plot_correlation_evolution(stats_history: List[dict], out_dir: Path) -> None
     ax.set_title("Spearman ρ with bootstrap confidence intervals", fontsize=10)
     ax.legend(fontsize=8); ax.yaxis.grid(True, alpha=0.3)
 
-    fig.suptitle("NAS Proxy–Full-Dataset Correlation over Training\n"
-                 "Cycle = number of full training epochs each architecture has completed",
+    note = f" — {title_note}" if title_note else ""
+    n_archs = stats_history[0].get("n_archs", "?")
+    fig.suptitle(f"NAS Proxy–Full-Dataset Correlation over Training{note}\n"
+                 f"N={n_archs}  |  Cycle = number of full training epochs each architecture has completed",
                  fontsize=12, fontweight="bold")
     fig.tight_layout()
-    fig.savefig(out_dir / "correlation_evolution.png", dpi=140, bbox_inches="tight")
+    fig.savefig(out_dir / f"correlation_evolution{suffix}.png", dpi=140, bbox_inches="tight")
     plt.close(fig)
 
 
 # ── plot 4: top-K recall ──────────────────────────────────────────────────────
 
-def plot_topk_recall(best_summary: List[dict], out_dir: Path) -> None:
+def plot_topk_recall(best_summary: List[dict], out_dir: Path,
+                     suffix: str = "") -> None:
     nas  = np.array([r["nas_quant_acc1"] for r in best_summary])
     val  = np.array([r["best_val_acc1"]  for r in best_summary])
     ema  = np.array([r["best_ema_acc1"]  for r in best_summary])
@@ -325,13 +398,13 @@ def plot_topk_recall(best_summary: List[dict], out_dir: Path) -> None:
     ax.yaxis.grid(True, alpha=0.3)
     ax.set_axisbelow(True)
 
-    # Annotate k=1 and k=3 explicitly
+    # Annotate k=1..5 explicitly
     for k, rv, re in zip(ks[:5], recall_val[:5], recall_ema[:5]):
         ax.annotate(f"{rv:.0%}", (k, rv), textcoords="offset points", xytext=(0, 8),
                     ha="center", fontsize=9, color="#0072B2")
 
     fig.tight_layout()
-    fig.savefig(out_dir / "topk_recall.png", dpi=140, bbox_inches="tight")
+    fig.savefig(out_dir / f"topk_recall{suffix}.png", dpi=140, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -397,7 +470,8 @@ def plot_tied_nas_case(best_summary: List[dict], arch_list: List[dict],
 
 # ── plot 6: per-arch NAS score vs best val — annotated with rank positions ────
 
-def plot_rank_matrix(best_summary: List[dict], out_dir: Path) -> None:
+def plot_rank_matrix(best_summary: List[dict], out_dir: Path,
+                     suffix: str = "") -> None:
     """Heatmap-style rank displacement matrix."""
     n    = len(best_summary)
     nas  = np.array([r["nas_quant_acc1"] for r in best_summary])
@@ -427,7 +501,7 @@ def plot_rank_matrix(best_summary: List[dict], out_dir: Path) -> None:
     ax.set_xlabel("NAS rank  (0 = highest NAS proxy score)", fontsize=12)
     ax.set_ylabel("Full-dataset rank  (0 = highest full val accuracy)", fontsize=12)
     ax.set_title(
-        f"NAS rank vs. full-dataset rank per architecture\n"
+        f"NAS rank vs. full-dataset rank per architecture  (N={n})\n"
         f"Spearman ρ={sr:.3f} ({_sig_label(sp)})  — points on diagonal = perfect prediction",
         fontsize=11,
     )
@@ -438,14 +512,88 @@ def plot_rank_matrix(best_summary: List[dict], out_dir: Path) -> None:
     ax.set_yticks(range(n))
 
     fig.tight_layout()
-    fig.savefig(out_dir / "rank_matrix.png", dpi=140, bbox_inches="tight")
+    fig.savefig(out_dir / f"rank_matrix{suffix}.png", dpi=140, bbox_inches="tight")
+    plt.close(fig)
+
+
+# ── plot 7: OOD impact comparison (all vs in-distribution correlations) ───────
+
+def plot_ood_impact_comparison(
+    all_stats: List[dict],
+    indist_stats: List[dict],
+    out_dir: Path,
+    ood_labels: str = "OOD architectures",
+) -> None:
+    """
+    2×2 panel overlaying all-architectures vs in-distribution-only Spearman/Pearson
+    correlations over training epochs.  Highlights the distortion caused by OOD outliers.
+    """
+    if len(all_stats) < 2 or len(indist_stats) < 2:
+        return
+
+    cycles_all    = [s["cycle"] for s in all_stats]
+    cycles_indist = [s["cycle"] for s in indist_stats]
+    n_all    = all_stats[0].get("n_archs", "?")
+    n_indist = indist_stats[0].get("n_archs", "?")
+
+    fig, axes = plt.subplots(2, 2, figsize=(16, 10))
+
+    panel_specs = [
+        # (key_r_full, key_p_full, key_r_id, key_p_id, ylabel, title)
+        ("spearman_r",      "spearman_p",      "spearman_r",      "spearman_p",
+         "Spearman ρ",  "Current val — Spearman ρ"),
+        ("spearman_r_best", "spearman_p_best", "spearman_r_best", "spearman_p_best",
+         "Spearman ρ",  "Best val — Spearman ρ"),
+        ("spearman_r_ema",  "spearman_p_ema",  "spearman_r_ema",  "spearman_p_ema",
+         "Spearman ρ",  "EMA val — Spearman ρ"),
+        ("pearson_r",       "pearson_p",       "pearson_r",       "pearson_p",
+         "Pearson r",   "Current val — Pearson r"),
+    ]
+
+    for ax, (kr_all, kp_all, kr_id, kp_id, ylabel, title) in zip(axes.flatten(), panel_specs):
+        r_all    = [s.get(kr_all, float("nan")) for s in all_stats]
+        r_indist = [s.get(kr_id,  float("nan")) for s in indist_stats]
+        p_indist = [s.get(kp_id,  1.0)          for s in indist_stats]
+
+        ax.plot(cycles_all,    r_all,    "k--", lw=1.5, alpha=0.55,
+                label=f"All N={n_all} (incl. {ood_labels})")
+        ax.plot(cycles_indist, r_indist, "-",   lw=2.0, color="#0072B2",
+                label=f"In-dist N={n_indist} (excl. {ood_labels})")
+
+        # Gold stars at significant in-dist epochs
+        for c, r, p in zip(cycles_indist, r_indist, p_indist):
+            if p < 0.05:
+                ax.scatter(c, r, s=60, marker="*", color="gold", zorder=4,
+                           edgecolors="black", lw=0.4)
+
+        ax.axhline(0,    color="gray", lw=0.7, linestyle="--")
+        ax.axhline(0.05, color="gray", lw=0.4, linestyle=":")
+        ax.set_ylim(-1.05, 1.05)
+        ax.set_xlabel("Epoch", fontsize=10)
+        ax.set_ylabel(ylabel, fontsize=10)
+        ax.set_title(title + "  (★=p<0.05 in-dist)", fontsize=10)
+        ax.legend(fontsize=9)
+        ax.yaxis.grid(True, alpha=0.3)
+        ax.set_axisbelow(True)
+
+    fig.suptitle(
+        f"Impact of Excluding OOD Architectures ({ood_labels}) on NAS Proxy Correlation\n"
+        f"Dashed black = all N={n_all} architectures  |  "
+        f"Solid blue = in-distribution N={n_indist} only  |  ★ = p<0.05",
+        fontsize=12, fontweight="bold",
+    )
+    fig.tight_layout()
+    fig.savefig(out_dir / "ood_impact_comparison.png", dpi=140, bbox_inches="tight")
     plt.close(fig)
 
 
 # ── text summary ──────────────────────────────────────────────────────────────
 
 def write_text_summary(best_summary: List[dict], arch_list: List[dict],
-                       stats_history: List[dict], out_dir: Path) -> None:
+                       stats_history: List[dict], out_dir: Path,
+                       ood_set: Optional[Set[int]] = None,
+                       indist_best_summary: Optional[List[dict]] = None,
+                       indist_stats_history: Optional[List[dict]] = None) -> None:
     nas  = np.array([r["nas_quant_acc1"] for r in best_summary])
     val  = np.array([r["best_val_acc1"]  for r in best_summary])
     ema  = np.array([r["best_ema_acc1"]  for r in best_summary])
@@ -471,9 +619,12 @@ def write_text_summary(best_summary: List[dict], arch_list: List[dict],
     best_val_ai  = idxs[int(np.argmax(val))]
     best_val_nas = float(nas[np.argmax(val)])
 
-    top1_recall = _top_k_recall(nas, val, 1)
-    top3_recall = _top_k_recall(nas, val, 3)
-    top5_recall = _top_k_recall(nas, val, 5)
+    top1_recall_val = _top_k_recall(nas, val, 1)
+    top3_recall_val = _top_k_recall(nas, val, 3)
+    top5_recall_val = _top_k_recall(nas, val, 5)
+    top1_recall_ema = _top_k_recall(nas, ema, 1)
+    top3_recall_ema = _top_k_recall(nas, ema, 3)
+    top5_recall_ema = _top_k_recall(nas, ema, 5)
 
     last_cycle = stats_history[-1] if stats_history else {}
     n_cycles = len(stats_history)
@@ -497,9 +648,9 @@ def write_text_summary(best_summary: List[dict], arch_list: List[dict],
         f"  Bootstrap 95% CI (Spearman): [{ci_e[0]:.4f}, {ci_e[1]:.4f}]",
         "",
         "── Top-K selection recall ──────────────────────────────────",
-        f"  Top-1 recall : {top1_recall:.0%}  (NAS picks the best arch: {'Yes' if top1_recall==1 else 'No'})",
-        f"  Top-3 recall : {top3_recall:.0%}  ({int(round(top3_recall*3))}/3 true top-3 captured)",
-        f"  Top-5 recall : {top5_recall:.0%}  ({int(round(top5_recall*5))}/5 true top-5 captured)",
+        f"  Top-1 recall (val): {top1_recall_val:.0%}  Top-1 recall (EMA): {top1_recall_ema:.0%}",
+        f"  Top-3 recall (val): {top3_recall_val:.0%}  Top-3 recall (EMA): {top3_recall_ema:.0%}",
+        f"  Top-5 recall (val): {top5_recall_val:.0%}  Top-5 recall (EMA): {top5_recall_ema:.0%}",
         "",
         "── Best-architecture comparison ────────────────────────────",
         f"  Best by NAS : A{best_nas_ai}  (NAS={nas.max():.2f}%)  →  full val={best_nas_val:.2f}%  "
@@ -516,12 +667,13 @@ def write_text_summary(best_summary: List[dict], arch_list: List[dict],
     for pos, i in enumerate(sorted_by_nas):
         shift = int(val_ranks[i]) - int(nas_ranks[i])
         sign  = "+" if shift > 0 else ""
+        ood_tag = " [OOD]" if (ood_set and idxs[i] in ood_set) else ""
         lines.append(
             f"  A{idxs[i]:>2}    {nas[i]:>7.2f}  "
             f"{int(nas_ranks[i])+1:>9}  "
             f"{val[i]:>7.2f}  "
             f"{int(val_ranks[i])+1:>9}  "
-            f"{sign}{shift:>+10}"
+            f"{sign}{shift:>+10}{ood_tag}"
         )
 
     lines += [
@@ -530,11 +682,90 @@ def write_text_summary(best_summary: List[dict], arch_list: List[dict],
     ]
     for s in stats_history:
         lines.append(
-            f"  Cycle {s['cycle']:>2}: Spearman ρ={s.get('spearman_r', float('nan')):.4f} "
+            f"  Cycle {s['cycle']:>3}: Spearman ρ={s.get('spearman_r', float('nan')):.4f} "
             f"(p={s.get('spearman_p', 1.0):.4f})  "
             f"Best-val ρ={s.get('spearman_r_best', float('nan')):.4f} "
             f"(p={s.get('spearman_p_best', 1.0):.4f})"
         )
+
+    # ── In-distribution section ──────────────────────────────────────────────
+    if indist_best_summary is not None and len(indist_best_summary) >= 3:
+        nas_id  = np.array([r["nas_quant_acc1"] for r in indist_best_summary])
+        val_id  = np.array([r["best_val_acc1"]  for r in indist_best_summary])
+        ema_id  = np.array([r["best_ema_acc1"]  for r in indist_best_summary])
+        idxs_id = [r["arch_index"]              for r in indist_best_summary]
+        n_id    = len(indist_best_summary)
+
+        sr_v_id, sp_v_id = scipy_stats.spearmanr(nas_id, val_id)
+        pr_v_id, pp_v_id = scipy_stats.pearsonr(nas_id, val_id)
+        kt_v_id, kp_v_id = scipy_stats.kendalltau(nas_id, val_id)
+        sr_e_id, sp_e_id = scipy_stats.spearmanr(nas_id, ema_id)
+        pr_e_id, pp_e_id = scipy_stats.pearsonr(nas_id, ema_id)
+        ci_v_id = _bootstrap_spearman_ci(nas_id, val_id, seed=50)
+        ci_e_id = _bootstrap_spearman_ci(nas_id, ema_id, seed=51)
+
+        t1v = _top_k_recall(nas_id, val_id, 1)
+        t3v = _top_k_recall(nas_id, val_id, 3)
+        t5v = _top_k_recall(nas_id, val_id, 5)
+        t1e = _top_k_recall(nas_id, ema_id, 1)
+        t3e = _top_k_recall(nas_id, ema_id, 3)
+        t5e = _top_k_recall(nas_id, ema_id, 5)
+
+        nas_rank_id = np.argsort(np.argsort(-nas_id))
+        val_rank_id = np.argsort(np.argsort(-val_id))
+
+        ood_label = ", ".join(f"A{i}" for i in sorted(ood_set)) if ood_set else "none"
+        lines += [
+            "",
+            f"── In-Distribution Analysis  (N={n_id}, excluded OOD: {ood_label}) ──",
+            "",
+            "  Final correlation (best val accuracy) :",
+            f"    Spearman ρ = {sr_v_id:.4f}  (p={sp_v_id:.4f}, {_sig_label(sp_v_id)})",
+            f"    Pearson  r = {pr_v_id:.4f}  (p={pp_v_id:.4f})",
+            f"    Kendall  τ = {kt_v_id:.4f}  (p={kp_v_id:.4f})",
+            f"    Bootstrap 95% CI (Spearman): [{ci_v_id[0]:.4f}, {ci_v_id[1]:.4f}]",
+            "",
+            "  Final correlation (best EMA accuracy) :",
+            f"    Spearman ρ = {sr_e_id:.4f}  (p={sp_e_id:.4f}, {_sig_label(sp_e_id)})",
+            f"    Pearson  r = {pr_e_id:.4f}  (p={pp_e_id:.4f})",
+            f"    Bootstrap 95% CI (Spearman): [{ci_e_id[0]:.4f}, {ci_e_id[1]:.4f}]",
+            "",
+            "  Top-K selection recall (in-distribution) :",
+            f"    Top-1 recall (val): {t1v:.0%}  Top-1 recall (EMA): {t1e:.0%}",
+            f"    Top-3 recall (val): {t3v:.0%}  Top-3 recall (EMA): {t3e:.0%}",
+            f"    Top-5 recall (val): {t5v:.0%}  Top-5 recall (EMA): {t5e:.0%}",
+            "",
+            "  Per-architecture summary — in-distribution (sorted by NAS score) :",
+            f"    {'Arch':>5}  {'NAS%':>7}  {'NAS rank':>9}  {'Val%':>7}  {'Val rank':>9}  {'Shift':>7}",
+            "    " + "-" * 52,
+        ]
+        sorted_id = sorted(range(n_id), key=lambda i: -nas_id[i])
+        for i in sorted_id:
+            shift = int(val_rank_id[i]) - int(nas_rank_id[i])
+            sign  = "+" if shift > 0 else ""
+            lines.append(
+                f"    A{idxs_id[i]:>2}    {nas_id[i]:>7.2f}  "
+                f"{int(nas_rank_id[i])+1:>9}  "
+                f"{val_id[i]:>7.2f}  "
+                f"{int(val_rank_id[i])+1:>9}  "
+                f"{sign}{shift:>+7}"
+            )
+
+        if indist_stats_history:
+            lines += [
+                "",
+                "  In-distribution correlation trend over cycles :",
+            ]
+            for s in indist_stats_history:
+                lines.append(
+                    f"    Cycle {s['cycle']:>3}: "
+                    f"Spearman ρ={s.get('spearman_r', float('nan')):.4f} "
+                    f"(p={s.get('spearman_p', 1.0):.4f})  "
+                    f"Best-val ρ={s.get('spearman_r_best', float('nan')):.4f} "
+                    f"(p={s.get('spearman_p_best', 1.0):.4f})  "
+                    f"Best-EMA ρ={s.get('spearman_r_best_ema', float('nan')):.4f} "
+                    f"(p={s.get('spearman_p_best_ema', 1.0):.4f})"
+                )
 
     summary_text = "\n".join(lines)
     (out_dir / "summary.txt").write_text(summary_text)
@@ -554,6 +785,10 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--max-cycles", type=int, default=None,
                     help="Truncate analysis to the first N training cycles. "
                          "best_acc_summary is derived from cumulative bests at cycle N-1.")
+    ap.add_argument("--ood-indices", default=None,
+                    help="Comma-separated list of arch_index values to treat as out-of-distribution "
+                         "(e.g. '0' to exclude A0). When set, additional in-distribution plots and "
+                         "summary statistics are generated alongside the full-population results.")
     return ap.parse_args()
 
 
@@ -567,9 +802,16 @@ def main() -> None:
     proxy_xlabel = labels["proxy_xlabel"]
     full_ylabel  = labels["full_ylabel"]
 
+    # Parse OOD indices
+    ood_set: Set[int] = set()
+    if args.ood_indices:
+        ood_set = {int(x.strip()) for x in args.ood_indices.split(",")}
+
     print(f"Loading data from {exp_dir}")
     arch_list, best_summary, stats_history = load_data(exp_dir)
     print(f"  {len(best_summary)} architectures, {len(stats_history)} cycles of stats")
+    if ood_set:
+        print(f"  OOD arch indices: {sorted(ood_set)}")
 
     if args.max_cycles is not None and args.max_cycles < len(stats_history):
         stats_history = stats_history[:args.max_cycles]
@@ -587,9 +829,22 @@ def main() -> None:
         print(f"  Truncated to {args.max_cycles} cycles "
               f"(best accuracies taken from cycle {cutoff['cycle']})")
 
-    print("Generating plots…")
+    # ── Build in-distribution subsets ────────────────────────────────────────
+    indist_summary: Optional[List[dict]] = None
+    indist_stats:   Optional[List[dict]] = None
+    if ood_set:
+        indist_summary = [r for r in best_summary if r["arch_index"] not in ood_set]
+        print(f"  In-distribution: {len(indist_summary)} architectures "
+              f"(excluded {len(ood_set)} OOD)")
+        print("  Recomputing in-distribution correlation history…")
+        indist_stats = _compute_indist_stats_history(stats_history, ood_set)
+        print(f"  Done ({len(indist_stats)} cycles)")
+
+    # ── Full-population plots ─────────────────────────────────────────────────
+    print("Generating full-population plots…")
     plot_nas_vs_full_acc(best_summary, out_dir,
-                         proxy_xlabel=proxy_xlabel, full_ylabel=full_ylabel)
+                         proxy_xlabel=proxy_xlabel, full_ylabel=full_ylabel,
+                         ood_set=ood_set)
     print("  ✓ nas_vs_full_acc.png")
     plot_rank_comparison(best_summary, out_dir)
     print("  ✓ rank_comparison.png")
@@ -602,8 +857,38 @@ def main() -> None:
     plot_rank_matrix(best_summary, out_dir)
     print("  ✓ rank_matrix.png")
 
+    # ── In-distribution plots ─────────────────────────────────────────────────
+    if indist_summary is not None and len(indist_summary) >= 3:
+        print("Generating in-distribution plots…")
+        plot_nas_vs_full_acc(indist_summary, out_dir,
+                             proxy_xlabel=proxy_xlabel, full_ylabel=full_ylabel,
+                             suffix="_indist")
+        print("  ✓ nas_vs_full_acc_indist.png")
+        plot_rank_comparison(indist_summary, out_dir, suffix="_indist")
+        print("  ✓ rank_comparison_indist.png")
+        plot_rank_matrix(indist_summary, out_dir, suffix="_indist")
+        print("  ✓ rank_matrix_indist.png")
+        plot_topk_recall(indist_summary, out_dir, suffix="_indist")
+        print("  ✓ topk_recall_indist.png")
+
+        if indist_stats:
+            n_id = indist_summary[0].get("arch_index", None)  # just for label
+            ood_arch_labels = ", ".join(f"A{i}" for i in sorted(ood_set))
+            plot_correlation_evolution(
+                indist_stats, out_dir,
+                suffix="_indist",
+                title_note=f"In-Distribution Only (excluding {ood_arch_labels})",
+            )
+            print("  ✓ correlation_evolution_indist.png")
+            plot_ood_impact_comparison(stats_history, indist_stats, out_dir,
+                                       ood_labels=ood_arch_labels)
+            print("  ✓ ood_impact_comparison.png")
+
     print("\nWriting text summary…")
-    write_text_summary(best_summary, arch_list, stats_history, out_dir)
+    write_text_summary(best_summary, arch_list, stats_history, out_dir,
+                       ood_set=ood_set,
+                       indist_best_summary=indist_summary,
+                       indist_stats_history=indist_stats)
     print(f"\nAll outputs saved to {out_dir}")
 
 
